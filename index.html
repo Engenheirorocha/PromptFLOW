@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PromptFLOW V2 - Campaign Builder</title>
+<title>PromptFLOW V3 - Campaign Builder</title>
 
 <style>
 *{box-sizing:border-box}
@@ -172,6 +172,16 @@ input:focus,textarea:focus,select:focus{
   border:1px solid #292929;
   border-radius:18px;
   padding:12px;
+  transition:.2s;
+}
+
+.model:hover{
+  border-color:#ff8c22;
+}
+
+.model.active{
+  border-color:#ff8c22;
+  box-shadow:0 0 0 3px rgba(255,140,34,.09);
 }
 
 .model-top{
@@ -376,10 +386,10 @@ button.main:hover,button.secondary:hover,button.danger:hover{
 <div class="app">
 
   <div class="header">
-    <div class="badge">PROMPTFLOW V2 · CAMPAIGN BUILDER</div>
+    <div class="badge">PROMPTFLOW V3 · VARIAÇÕES INTELIGENTES</div>
     <h1>Gerador de Campanhas Criativas para Flow</h1>
     <div class="subtitle">
-      Suba imagens do produto, preencha nome e descrição, escolha quantos vídeos quer por modelo criativo e gere um pacote completo de prompts prontos para Flow.
+      Agora cada modelo criativo gera variações diferentes. Se você escolher UGC 3 vezes, o sistema cria 3 ângulos diferentes: descoberta, dor/solução e urgência.
     </div>
   </div>
 
@@ -392,7 +402,7 @@ button.main:hover,button.secondary:hover,button.danger:hover{
       <div class="upload-box">
         <input type="file" id="imageUpload" accept="image/*" multiple />
         <div class="help">
-          Envie até 10 imagens de referência. Nesta versão o app usa o nome do arquivo + título + descrição para identificar o produto.
+          Envie até 10 imagens de referência. O app usa nome do arquivo + título + descrição para reforçar fidelidade do produto.
         </div>
         <div class="preview-grid" id="previewGrid">
           <div class="preview-item">Sem imagem</div>
@@ -451,7 +461,7 @@ button.main:hover,button.secondary:hover,button.danger:hover{
         <div class="chip"><strong>Uso:</strong> aguardando</div>
       </div>
 
-      <div class="sub-title">2. Modelos Criativos</div>
+      <div class="sub-title">2. Modelos Criativos com Quantidade</div>
 
       <div class="model-list" id="modelList"></div>
 
@@ -485,9 +495,7 @@ Preencha o nome do produto, escolha os modelos criativos com + e clique em GERAR
 
       <div class="history">
         <div class="section-title" style="font-size:14px;">Histórico Local</div>
-        <div id="historyList">
-          Nenhuma campanha salva ainda.
-        </div>
+        <div id="historyList">Nenhuma campanha salva ainda.</div>
       </div>
 
     </div>
@@ -503,79 +511,83 @@ let uploadedFileNames = [];
 let selectedModelForSingle = "ugc";
 
 const creativeModels = [
-  {
-    id:"ugc",
-    name:"UGC Pessoa Mostrando",
-    desc:"Pessoa real mostrando o produto como descoberta natural.",
-    scenes:4
-  },
-  {
-    id:"povFabrica",
-    name:"POV Fábrica",
-    desc:"Bastidor de produção, lote, bancada e preço direto.",
-    scenes:5
-  },
-  {
-    id:"comparacao",
-    name:"Comparação de Preço",
-    desc:"Mostra valor percebido, comparação e oportunidade.",
-    scenes:4
-  },
-  {
-    id:"loja",
-    name:"Loja / Varejo Brasileiro",
-    desc:"Produto apresentado como achado em loja popular brasileira.",
-    scenes:5
-  },
-  {
-    id:"bras",
-    name:"Brás / Feira Shop",
-    desc:"Estilo feira shop, achado popular, movimento e urgência.",
-    scenes:5
-  },
-  {
-    id:"povHands",
-    name:"POV Mãos Only",
-    desc:"Somente mãos, produto perto da câmera, sem rosto.",
-    scenes:4
-  },
-  {
-    id:"antesDepois",
-    name:"Antes e Depois",
-    desc:"Transformação visual do ambiente com o produto.",
-    scenes:4
-  },
-  {
-    id:"instalacao",
-    name:"Instalação Rápida",
-    desc:"Quebra objeção mostrando facilidade de uso/instalação.",
-    scenes:4
-  },
-  {
-    id:"embalando",
-    name:"Embalando Pedidos",
-    desc:"Prova social com pedidos saindo e produto embalado.",
-    scenes:4
-  },
-  {
-    id:"premium",
-    name:"Produto Premium",
-    desc:"Close no acabamento, textura, bordas e percepção de valor.",
-    scenes:4
-  },
-  {
-    id:"problemaSolucao",
-    name:"Problema e Solução",
-    desc:"Mostra dor do cliente e o produto resolvendo.",
-    scenes:4
-  },
-  {
-    id:"casaPequena",
-    name:"Casa Pequena",
-    desc:"Foco em pouco espaço, organização e utilidade.",
-    scenes:4
-  }
+  { id:"ugc", name:"UGC Pessoa Mostrando", desc:"Pessoa real mostrando como descoberta natural.", scenes:4 },
+  { id:"povFabrica", name:"POV Fábrica", desc:"Bastidor de produção, lote, bancada e preço direto.", scenes:5 },
+  { id:"comparacao", name:"Comparação de Preço", desc:"Valor percebido, comparação e oportunidade.", scenes:4 },
+  { id:"loja", name:"Loja / Varejo Brasileiro", desc:"Achado em loja popular brasileira.", scenes:5 },
+  { id:"bras", name:"Brás / Feira Shop", desc:"Estilo feira shop, movimento, urgência e achado.", scenes:5 },
+  { id:"povHands", name:"POV Mãos Only", desc:"Somente mãos, produto perto da câmera, sem rosto.", scenes:4 },
+  { id:"antesDepois", name:"Antes e Depois", desc:"Transformação visual do ambiente com o produto.", scenes:4 },
+  { id:"instalacao", name:"Instalação Rápida", desc:"Quebra objeção mostrando facilidade.", scenes:4 },
+  { id:"embalando", name:"Embalando Pedidos", desc:"Prova social com pedidos saindo.", scenes:4 },
+  { id:"premium", name:"Produto Premium", desc:"Close no acabamento, textura, bordas e valor.", scenes:4 },
+  { id:"problemaSolucao", name:"Problema e Solução", desc:"Dor do cliente e produto resolvendo.", scenes:4 },
+  { id:"casaPequena", name:"Casa Pequena", desc:"Pouco espaço, organização e utilidade.", scenes:4 }
 ];
+
+const variationBank = {
+  ugc:[
+    {angle:"Descoberta / Achado", hook:"Eu quase perdi esse {name}! Olha só essa descoberta incrível para organizar a casa.", scene2:"Sabe aquele produto simples que resolve um problema de casa e ainda deixa tudo mais bonito?", scene3:"O {name} aparece bem perto da câmera, com foco no acabamento e na utilidade.", cta:"Se você quiser o seu {name}, clica no carrinho laranja antes que acabe."},
+    {angle:"Dor / Cantinho Bagunçado", hook:"Esse cantinho aqui vivia sem graça até eu testar o {name}.", scene2:"A gente sempre acha que falta espaço, mas às vezes só está usando mal o canto da casa.", scene3:"Com o {name}, o espaço fica organizado, bonito e com cara de casa cuidada.", cta:"Clica no carrinho e garante o seu {name} para transformar esse cantinho também."},
+    {angle:"Urgência / Último Lote", hook:"Eu demorei para comprar o {name} e quase fiquei sem.", scene2:"Quando aparece produto útil assim com preço bom, o lote acaba rápido.", scene3:"O {name} é mostrado como uma compra inteligente para organizar e decorar.", cta:"Corre no carrinho e garante o seu {name} antes que acabe."},
+    {angle:"Presente / Casa Nova", hook:"Se você conhece alguém montando casa, olha esse {name}.", scene2:"É aquele tipo de item útil que combina com vários ambientes.", scene3:"O {name} aparece sendo mostrado com cuidado, destacando acabamento e uso real.", cta:"Clica no carrinho e pega o seu {name} hoje."}
+  ],
+  povFabrica:[
+    {angle:"Direto da Fábrica", hook:"POV: você encontrou o {name} direto da fábrica.", scene2:"Aqui cada peça é separada e conferida antes do envio.", scene3:"O {name} aparece na bancada com acabamento visível e aspecto real de produção.", cta:"Garante o seu {name} antes que esse lote saia todo."},
+    {angle:"Produção Real", hook:"Olha como o {name} é preparado antes de ir para sua casa.", scene2:"Nada de vitrine perfeita: é bastidor real, bancada real e produto sendo conferido.", scene3:"O {name} é manuseado por mãos de trabalhador, com foco na textura e no acabamento.", cta:"Clica no carrinho e garante o seu {name} direto do lote."},
+    {angle:"Lote Acabando", hook:"Esse lote do {name} está saindo rápido demais.", scene2:"As peças aparecem organizadas, prontas para embalagem e envio.", scene3:"O {name} é mostrado perto da câmera para reforçar cor, formato e acabamento.", cta:"Se quiser o seu {name}, aproveita antes que acabe."}
+  ],
+  comparacao:[
+    {angle:"Improviso vs Solução", hook:"Antes de improvisar, olha o que o {name} resolve.", scene2:"Muita gente tenta organizar com qualquer coisa e o ambiente continua bagunçado.", scene3:"O {name} aparece como uma solução pronta, bonita e funcional.", cta:"Clica no carrinho e pega o seu {name}."},
+    {angle:"Valor Percebido", hook:"Parece simples, mas o {name} muda o visual do ambiente.", scene2:"É mais barato resolver bem uma vez do que ficar comprando improviso.", scene3:"O {name} é mostrado em close destacando acabamento, material e utilidade.", cta:"Aproveita e garante o seu {name} antes que acabe."},
+    {angle:"Achado de Preço", hook:"Olha esse achado: {name} com cara de produto caro.", scene2:"O acabamento entrega uma percepção muito melhor para o ambiente.", scene3:"O {name} aparece em comparação visual com canto vazio ou bagunçado.", cta:"Clica no carrinho e garante o seu {name}."}
+  ],
+  loja:[
+    {angle:"Achado de Loja", hook:"Achei o {name} e tive que mostrar.", scene2:"É aquele produto que você olha e já imagina onde vai colocar em casa.", scene3:"O {name} aparece nas mãos, com close no acabamento e na cor.", cta:"Se gostou do {name}, clica no carrinho."},
+    {angle:"Produto Útil", hook:"Esse {name} é o tipo de coisa que a casa sempre precisa.", scene2:"Serve para organizar, decorar e aproveitar melhor espaços pequenos.", scene3:"O {name} é mostrado em ambiente de loja, com aparência real de achado.", cta:"Garante o seu {name} antes que acabe."},
+    {angle:"Compra Inteligente", hook:"Eu compraria esse {name} fácil para organizar a casa.", scene2:"Bonito, útil e combina com vários ambientes.", scene3:"O {name} é mostrado em close e depois no ambiente.", cta:"Clica no carrinho e pega o seu {name}."}
+  ],
+  bras:[
+    {angle:"Achado Popular", hook:"Olha esse achado estilo feira shop: {name}!", scene2:"Produto útil, bonito e com sensação de oportunidade.", scene3:"O {name} aparece perto da câmera, com movimento de feira ao fundo.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Oferta Corrida", hook:"Se piscar, esse {name} some do lote.", scene2:"É aquele produto que vende rápido porque resolve uma dor simples da casa.", scene3:"O {name} é mostrado com energia de venda rápida e visual popular.", cta:"Corre no carrinho e garante o {name}."},
+    {angle:"Vendedor Mostrando", hook:"Chegou o {name} que todo mundo procura para organizar a casa.", scene2:"O vendedor mostra o produto com naturalidade, como em banca popular.", scene3:"O {name} aparece com destaque, ocupando boa parte do frame.", cta:"Clica no carrinho e leva o seu {name}."}
+  ],
+  povHands:[
+    {angle:"Close no Produto", hook:"POV: você encontra o {name} perfeito para esse cantinho.", scene2:"As mãos mostram o produto de perto, com foco em textura, formato e acabamento.", scene3:"O {name} é posicionado no ambiente para mostrar uso real.", cta:"Gostou do {name}? Clica no carrinho."},
+    {angle:"Organizando em Silêncio", hook:"Só de colocar o {name}, o canto já muda.", scene2:"Sem rosto, só mãos organizando e mostrando o antes e depois.", scene3:"O {name} aparece como peça central da organização.", cta:"Garante o seu {name} hoje."},
+    {angle:"Detalhe Satisfatório", hook:"Olha o detalhe desse {name} de perto.", scene2:"Movimentos suaves mostram acabamento, bordas e superfície.", scene3:"O {name} é usado em um cantinho realista da casa.", cta:"Clica no carrinho e pega o seu {name}."}
+  ],
+  antesDepois:[
+    {angle:"Canto Vazio", hook:"Olha como esse canto mudou depois do {name}.", scene2:"Antes era só um espaço vazio e sem graça.", scene3:"Depois do {name}, virou um cantinho organizado e bonito.", cta:"Quer fazer isso também? Garante o seu {name}."},
+    {angle:"Bagunça Resolvida", hook:"Esse canto estava uma bagunça antes do {name}.", scene2:"Objetos espalhados, pouco espaço e visual pesado.", scene3:"Com o {name}, tudo fica mais limpo e funcional.", cta:"Clica no carrinho e pega o seu {name}."},
+    {angle:"Transformação Rápida", hook:"Transformação rápida com o {name}.", scene2:"O vídeo mostra o ambiente antes, simples e sem uso.", scene3:"Depois, o {name} aparece instalado ou posicionado, mudando o espaço.", cta:"Garante o seu {name} antes que acabe."}
+  ],
+  instalacao:[
+    {angle:"Fácil de Instalar", hook:"Você não precisa ser profissional para usar o {name}.", scene2:"A instalação ou posicionamento é simples e rápido.", scene3:"O {name} aparece sendo colocado no local com movimentos naturais.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Sem Complicação", hook:"Olha como é simples colocar o {name} no cantinho.", scene2:"Poucas etapas, visual limpo e resultado imediato.", scene3:"O {name} aparece em close durante o uso.", cta:"Garante o seu {name} hoje."},
+    {angle:"Resultado em Minutos", hook:"Em poucos minutos, o {name} muda esse espaço.", scene2:"O vídeo mostra mãos posicionando e ajustando o produto.", scene3:"O resultado final valoriza o ambiente.", cta:"Clica no carrinho e pega o seu {name}."}
+  ],
+  embalando:[
+    {angle:"Pedidos Saindo", hook:"Olha a quantidade de pedidos saindo hoje do {name}.", scene2:"Muita gente está aproveitando para organizar e decorar a casa.", scene3:"O {name} é conferido e embalado com cuidado.", cta:"Se quiser o seu {name}, clica no carrinho antes que acabe."},
+    {angle:"Prova Social", hook:"Esse {name} está saindo muito aqui na produção.", scene2:"As mãos mostram vários pedidos sendo separados.", scene3:"O {name} aparece antes de ser embalado.", cta:"Garante o seu {name} no carrinho."},
+    {angle:"Últimas Unidades", hook:"Últimas unidades do {name} sendo embaladas.", scene2:"O clima é de lote acabando, com pedidos sobre a bancada.", scene3:"O {name} aparece em destaque antes do envio.", cta:"Corre e garante o seu {name}."}
+  ],
+  premium:[
+    {angle:"Acabamento", hook:"Olha esse acabamento do {name}.", scene2:"Parece detalhe pequeno, mas muda completamente a percepção do ambiente.", scene3:"O {name} aparece em close premium, destacando textura e bordas.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Design Limpo", hook:"O {name} tem aquele visual simples que combina com tudo.", scene2:"Design limpo, útil e bonito para vários ambientes.", scene3:"O {name} é mostrado em ambiente organizado e elegante.", cta:"Garante o seu {name} hoje."},
+    {angle:"Casa Mais Bonita", hook:"Esse {name} deixa a casa com cara de mais organizada.", scene2:"A peça aparece como detalhe de decoração funcional.", scene3:"Close no acabamento e depois plano do ambiente pronto.", cta:"Clica no carrinho e pega o seu {name}."}
+  ],
+  problemaSolucao:[
+    {angle:"Falta de Espaço", hook:"Esse cantinho estava totalmente desperdiçado.", scene2:"Falta de espaço, bagunça e visual sem graça.", scene3:"Com o {name}, o espaço vira uma área útil e bonita.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Ambiente Bagunçado", hook:"Se sua casa vive com coisa espalhada, olha o {name}.", scene2:"O produto entra como solução simples para organizar melhor.", scene3:"O {name} aparece resolvendo a dor de forma visual.", cta:"Garante o seu {name} antes que acabe."},
+    {angle:"Parede Sem Uso", hook:"Essa parede sem uso ganhou função com o {name}.", scene2:"O vídeo mostra a parede vazia e sem vida.", scene3:"O {name} aparece deixando o espaço útil e bonito.", cta:"Clica no carrinho e pega o seu {name}."}
+  ],
+  casaPequena:[
+    {angle:"Pouco Espaço", hook:"Se sua casa é pequena, o {name} pode ajudar muito.", scene2:"Às vezes o espaço existe, só está mal aproveitado.", scene3:"O {name} aparece usando melhor o canto da casa.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Apartamento Pequeno", hook:"Apartamento pequeno precisa de solução inteligente como o {name}.", scene2:"O produto ajuda a organizar sem ocupar espaço no chão.", scene3:"O {name} é mostrado em ambiente compacto e realista.", cta:"Garante o seu {name} hoje."},
+    {angle:"Canto Funcional", hook:"Esse cantinho virou espaço útil com o {name}.", scene2:"O vídeo mostra objetos sendo organizados no espaço pequeno.", scene3:"O {name} aparece como solução principal.", cta:"Clica no carrinho e pega o seu {name}."}
+  ]
+};
 
 const counts = {};
 creativeModels.forEach(m => counts[m.id] = 0);
@@ -587,16 +599,14 @@ function renderModels(){
   creativeModels.forEach(model => {
     const div = document.createElement("div");
     div.className = "model";
-    div.onclick = () => {
-      selectedModelForSingle = model.id;
-      showMessage("Modelo selecionado: " + model.name);
-    };
+    div.id = "model-card-" + model.id;
+    div.onclick = () => selectSingleModel(model.id);
 
     div.innerHTML = `
       <div class="model-top">
         <div class="model-info">
           <div class="model-name">${model.name}</div>
-          <div class="model-desc">${model.desc} · ${model.scenes} cenas</div>
+          <div class="model-desc">${model.desc} · ${model.scenes} cenas · variações internas</div>
         </div>
         <div class="counter" onclick="event.stopPropagation()">
           <button onclick="changeCount('${model.id}', -1)">−</button>
@@ -609,7 +619,21 @@ function renderModels(){
     modelList.appendChild(div);
   });
 
+  selectSingleModel(selectedModelForSingle);
   updateTotal();
+}
+
+function selectSingleModel(id){
+  selectedModelForSingle = id;
+  creativeModels.forEach(m => {
+    const el = document.getElementById("model-card-" + m.id);
+    if(el) el.classList.remove("active");
+  });
+  const active = document.getElementById("model-card-" + id);
+  if(active) active.classList.add("active");
+
+  const model = creativeModels.find(m => m.id === id);
+  if(model) showMessage("Modelo selecionado: " + model.name);
 }
 
 function changeCount(id, delta){
@@ -779,28 +803,47 @@ function productLock(data){
 [REFERENCE IMAGES]: ${data.refImages}`;
 }
 
-function makePrompt(modelId, data, index){
+function fillText(text, data){
+  return text.replaceAll("{name}", data.productName);
+}
+
+function getVariation(modelId, occurrence){
+  const arr = variationBank[modelId] || variationBank.ugc;
+  return arr[(occurrence - 1) % arr.length];
+}
+
+function makePrompt(modelId, data, globalIndex, occurrence){
+  const model = creativeModels.find(m => m.id === modelId) || creativeModels[0];
+  const variation = getVariation(modelId, occurrence);
+
   const name = data.productName;
   const env = data.environment;
   const line = data.productLine;
   const duration = data.duration;
   const negative = commonNegative();
 
-  const templates = {
+  const hook = fillText(variation.hook, data);
+  const scene2 = fillText(variation.scene2, data);
+  const scene3 = fillText(variation.scene3, data);
+  const cta = fillText(variation.cta, data);
+  const angle = variation.angle;
 
-ugc:`━━━━ PROMPT ${index} — MODELO CRIATIVO: UGC PESSOA MOSTRANDO ━━━━
+  const baseHeader = `━━━━ PROMPT ${globalIndex} — ${model.name.toUpperCase()} · VARIAÇÃO ${occurrence}: ${angle.toUpperCase()} ━━━━`;
+
+  if(modelId === "ugc"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Eu quase perdi esse ${name}! Olha só essa descoberta incrível para organizar a casa.
+${hook}
 
-━━━━ CENA 2 — Curiosidade ━━━━
-Chega de cantos sem graça e bagunça. O ${name} transforma qualquer espaço pequeno em algo útil, bonito e bem organizado.
+━━━━ CENA 2 — Curiosidade / Desejo ━━━━
+${scene2}
 
 ━━━━ CENA 3 — Demonstração ━━━━
-Olha o acabamento do ${name}, a estrutura e como ele fica perfeito para decorar e organizar sem ocupar espaço.
+${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
-Não perde tempo. Se você quiser o seu ${name}, clica no carrinho laranja aqui no cantinho da tela antes que acabe.
+${cta}
 
 [SCENE]: ${env}.
 [SUBJECT]: mulher brasileira, aparência natural e realista, pele com poros visíveis, micro textura da pele, imperfeições naturais, cílios realistas, sobrancelhas naturais, reflexos oculares realistas, assimetria facial sutil. Movimentos: piscar natural, micro movimento da cabeça, respiração sutil, gestos naturais das mãos. Vestindo roupa simples estilo UGC.
@@ -810,24 +853,26 @@ Não perde tempo. Se você quiser o seu ${name}, clica no carrinho laranja aqui 
 [STYLE]: UGC autêntico, gravação de smartphone real em ambiente doméstico brasileiro.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}.`,
+[NEGATIVE PROMPT]: ${negative}.`;
+  }
 
-povFabrica:`━━━━ PROMPT ${index} — MODELO CRIATIVO: POV FÁBRICA ━━━━
+  if(modelId === "povFabrica"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-POV: você encontrou o ${name} direto da fábrica antes de acabar o lote.
+${hook}
 
 ━━━━ CENA 2 — Bastidor ━━━━
-Aqui o ${name} é separado, conferido e preparado com cuidado para envio.
+${scene2}
 
-━━━━ CENA 3 — Produção ━━━━
-As peças aparecem sobre a bancada, com textura real, acabamento visível e aspecto de produção brasileira.
+━━━━ CENA 3 — Produção / Conferência ━━━━
+${scene3}
 
 ━━━━ CENA 4 — Produto Pronto ━━━━
 O ${name} sai pronto para deixar a casa mais organizada, bonita e funcional.
 
 ━━━━ CENA 5 — CTA · CTA ━━━━
-Se quiser garantir o seu ${name}, clica no carrinho antes que esse lote acabe.
+${cta}
 
 [SCENE]: pequena fábrica brasileira ou oficina de MDF, bancada de trabalho, peças organizadas, ambiente real de produção.
 [SUBJECT]: mãos de trabalhador brasileiro manuseando o ${name}, movimentos rápidos, naturais e realistas, sem pose artificial.
@@ -837,21 +882,23 @@ Se quiser garantir o seu ${name}, clica no carrinho antes que esse lote acabe.
 [STYLE]: bastidor realista de fábrica, vídeo autêntico de produção, aparência de pequeno negócio brasileiro.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, luxury factory, robotic machines, giant warehouse, unrealistic CNC machine.`,
+[NEGATIVE PROMPT]: ${negative}, luxury factory, robotic machines, giant warehouse, unrealistic CNC machine.`;
+  }
 
-comparacao:`━━━━ PROMPT ${index} — MODELO CRIATIVO: COMPARAÇÃO DE PREÇO ━━━━
+  if(modelId === "comparacao"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Você já viu quanto custa organizar esse cantinho comprando peça por peça?
+${hook}
 
 ━━━━ CENA 2 — Comparação ━━━━
-Muita gente gasta mais tentando improvisar, mas o ${name} já resolve de forma bonita e prática.
+${scene2}
 
 ━━━━ CENA 3 — Valor Percebido ━━━━
-O ${name} entrega acabamento, utilidade e decoração em uma solução só.
+${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
-Aproveita antes que acabe. Clica no carrinho e garante o seu ${name}.
+${cta}
 
 [SCENE]: ${env}, com comparação visual entre canto vazio/desorganizado e o ${name} sendo apresentado como solução.
 [SUBJECT]: mãos brasileiras mostrando o produto e apontando para o espaço que será organizado.
@@ -861,24 +908,26 @@ Aproveita antes que acabe. Clica no carrinho e garante o seu ${name}.
 [STYLE]: anúncio UGC de comparação e oportunidade, realista, direto e comercial.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, fake price tags, unreadable money graphics, exaggerated discount overlay.`,
+[NEGATIVE PROMPT]: ${negative}, fake price tags, unreadable money graphics, exaggerated discount overlay.`;
+  }
 
-loja:`━━━━ PROMPT ${index} — MODELO CRIATIVO: LOJA / VAREJO BRASILEIRO ━━━━
+  if(modelId === "loja"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Achei o ${name} e tive que mostrar para vocês.
+${hook}
 
 ━━━━ CENA 2 — Achado de Loja ━━━━
-É aquele tipo de produto simples que muda o ambiente e ainda ajuda a organizar.
+${scene2}
 
 ━━━━ CENA 3 — Demonstração ━━━━
-O ${name} aparece nas mãos, com acabamento visível, cor fiel e formato bem destacado.
+${scene3}
 
 ━━━━ CENA 4 — Desejo ━━━━
 Dá para usar em cozinha, sala, quarto, banheiro ou qualquer cantinho sem graça.
 
 ━━━━ CENA 5 — CTA · CTA ━━━━
-Se você gostou do ${name}, clica no carrinho e garante o seu.
+${cta}
 
 [SCENE]: loja popular brasileira, prateleiras de produtos ao fundo, iluminação simples, ambiente realista de varejo.
 [SUBJECT]: pessoa brasileira mostrando o ${name} como achado de loja, gestos naturais, fala direta para câmera.
@@ -888,24 +937,26 @@ Se você gostou do ${name}, clica no carrinho e garante o seu.
 [STYLE]: achado de loja, varejo brasileiro, UGC comercial autêntico.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, luxury mall, fake brand logos, fake barcode, unreadable labels.`,
+[NEGATIVE PROMPT]: ${negative}, luxury mall, fake brand logos, fake barcode, unreadable labels.`;
+  }
 
-bras:`━━━━ PROMPT ${index} — MODELO CRIATIVO: BRÁS / FEIRA SHOP ━━━━
+  if(modelId === "bras"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Olha esse achado estilo feira shop: ${name}!
+${hook}
 
-━━━━ CENA 2 — Movimento ━━━━
-Produto bonito, útil e com aquela sensação de oportunidade que acaba rápido.
+━━━━ CENA 2 — Movimento / Oportunidade ━━━━
+${scene2}
 
 ━━━━ CENA 3 — Demonstração ━━━━
-O ${name} é mostrado perto da câmera, destacando formato, cor, acabamento e utilidade.
+${scene3}
 
 ━━━━ CENA 4 — Urgência ━━━━
 Esse tipo de lote some rápido porque serve para organizar e decorar sem gastar muito.
 
 ━━━━ CENA 5 — CTA · CTA ━━━━
-Clica no carrinho agora e garante o seu ${name} antes que acabe.
+${cta}
 
 [SCENE]: feira shop brasileira estilo Brás, bancas de produtos, movimento natural de pessoas ao fundo, ambiente popular realista.
 [SUBJECT]: vendedor ou compradora brasileira segurando o ${name}, fala rápida, energia de achado e promoção.
@@ -915,21 +966,23 @@ Clica no carrinho agora e garante o seu ${name} antes que acabe.
 [STYLE]: vídeo popular brasileiro, achado de feira shop, venda rápida, natural.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, fake crowd, unreadable signs, luxury background, product pile with wrong items.`,
+[NEGATIVE PROMPT]: ${negative}, fake crowd, unreadable signs, luxury background, product pile with wrong items.`;
+  }
 
-povHands:`━━━━ PROMPT ${index} — MODELO CRIATIVO: POV MÃOS ONLY ━━━━
+  if(modelId === "povHands"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-POV: você encontra o ${name} perfeito para esse cantinho.
+${hook}
 
 ━━━━ CENA 2 — Close no Produto ━━━━
-As mãos mostram o ${name} bem perto da câmera, destacando acabamento, textura e formato.
+${scene2}
 
 ━━━━ CENA 3 — Uso Real ━━━━
-O ${name} é posicionado no ambiente e aparece resolvendo organização e decoração.
+${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
-Gostou do ${name}? Clica no carrinho e garante o seu.
+${cta}
 
 [SCENE]: ${env}.
 [SUBJECT]: somente mãos adultas brasileiras, sem mostrar rosto, movimentos naturais, segurando e posicionando o ${name}.
@@ -939,21 +992,23 @@ Gostou do ${name}? Clica no carrinho e garante o seu.
 [STYLE]: vídeo POV hands only, realista, caseiro, foco total no produto.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, face visible, unrealistic fingers, extra hands, product floating.`,
+[NEGATIVE PROMPT]: ${negative}, face visible, unrealistic fingers, extra hands, product floating.`;
+  }
 
-antesDepois:`━━━━ PROMPT ${index} — MODELO CRIATIVO: ANTES E DEPOIS ━━━━
+  if(modelId === "antesDepois"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Olha como esse cantinho mudou depois do ${name}.
+${hook}
 
 ━━━━ CENA 2 — Antes ━━━━
-Antes era só um espaço vazio, bagunçado ou sem graça.
+${scene2}
 
 ━━━━ CENA 3 — Depois ━━━━
-Depois do ${name}, o ambiente ficou mais bonito, organizado e funcional.
+${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
-Quer fazer isso na sua casa também? Clica no carrinho e garante o seu ${name}.
+${cta}
 
 [SCENE]: ${env}, mostrando primeiro um canto vazio ou bagunçado e depois o mesmo canto organizado.
 [SUBJECT]: mãos adultas brasileiras organizando o ambiente e mostrando o resultado final.
@@ -963,21 +1018,23 @@ Quer fazer isso na sua casa também? Clica no carrinho e garante o seu ${name}.
 [STYLE]: transformação caseira, antes e depois, realista, satisfatório e autêntico.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, luxury mansion, unrealistic transformation, floating object without support.`,
+[NEGATIVE PROMPT]: ${negative}, luxury mansion, unrealistic transformation, floating object without support.`;
+  }
 
-instalacao:`━━━━ PROMPT ${index} — MODELO CRIATIVO: INSTALAÇÃO RÁPIDA ━━━━
+  if(modelId === "instalacao"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Você não precisa ser profissional para usar o ${name}.
+${hook}
 
 ━━━━ CENA 2 — Facilidade ━━━━
-A instalação ou posicionamento é simples, rápido e o ${name} já vem pronto para usar.
+${scene2}
 
 ━━━━ CENA 3 — Resultado ━━━━
-Em poucos minutos, aquele canto vazio vira um espaço útil para decorar ou organizar.
+${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
-Clica no carrinho e garante o seu ${name} antes que acabe.
+${cta}
 
 [SCENE]: ${env}, parede simples, ferramentas básicas se necessário, ambiente doméstico brasileiro realista.
 [SUBJECT]: mãos adultas instalando ou posicionando o ${name}, movimentos naturais, simples e seguros.
@@ -987,21 +1044,23 @@ Clica no carrinho e garante o seu ${name} antes que acabe.
 [STYLE]: tutorial rápido caseiro, realista, simples e direto, estilo UGC.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, complex industrial tools, impossible installation, floating product.`,
+[NEGATIVE PROMPT]: ${negative}, complex industrial tools, impossible installation, floating product.`;
+  }
 
-embalando:`━━━━ PROMPT ${index} — MODELO CRIATIVO: EMBALANDO PEDIDOS ━━━━
+  if(modelId === "embalando"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Olha a quantidade de pedidos saindo hoje do ${name}.
+${hook}
 
 ━━━━ CENA 2 — Prova Social ━━━━
-Muita gente está aproveitando o ${name} para organizar e decorar a casa.
+${scene2}
 
-━━━━ CENA 3 — Produto ━━━━
-Cada ${name} é conferido, separado e embalado com cuidado antes do envio.
+━━━━ CENA 3 — Produto / Embalagem ━━━━
+${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
-Se quiser o seu ${name}, clica no carrinho antes que esse lote acabe.
+${cta}
 
 [SCENE]: mesa de embalagem em pequena fábrica brasileira, caixas simples, plástico bolha, etiquetas de envio sem dados legíveis.
 [SUBJECT]: mãos embalando pedidos com movimentos rápidos e naturais, conferindo o ${name} e colocando na embalagem.
@@ -1011,21 +1070,23 @@ Se quiser o seu ${name}, clica no carrinho antes que esse lote acabe.
 [STYLE]: bastidor de loja online, prova social, pedidos sendo preparados.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, readable customer addresses, real private data, huge logistics center.`,
+[NEGATIVE PROMPT]: ${negative}, readable customer addresses, real private data, huge logistics center.`;
+  }
 
-premium:`━━━━ PROMPT ${index} — MODELO CRIATIVO: PRODUTO PREMIUM ━━━━
+  if(modelId === "premium"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Olha esse acabamento do ${name}. Parece detalhe pequeno, mas muda o ambiente.
+${hook}
 
 ━━━━ CENA 2 — Percepção de Valor ━━━━
-O ${name} tem design simples, bonito e combina com vários estilos de casa.
+${scene2}
 
-━━━━ CENA 3 — Demonstração ━━━━
-O ${name} deixa o espaço mais organizado, com visual limpo e bem acabado.
+━━━━ CENA 3 — Demonstração Premium ━━━━
+${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
-Se quiser deixar sua casa mais bonita também, clica no carrinho e garante o seu ${name}.
+${cta}
 
 [SCENE]: ${env}, ambiente limpo, organizado, com visual elegante porém realista de casa brasileira.
 [SUBJECT]: mãos adultas mostrando o ${name} com cuidado, destacando acabamento, bordas e textura.
@@ -1035,21 +1096,23 @@ Se quiser deixar sua casa mais bonita também, clica no carrinho e garante o seu
 [STYLE]: vídeo de produto premium realista, elegante, limpo, mas ainda com aparência de smartphone.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, overly cinematic, glossy fake finish, product redesign.`,
+[NEGATIVE PROMPT]: ${negative}, overly cinematic, glossy fake finish, product redesign.`;
+  }
 
-problemaSolucao:`━━━━ PROMPT ${index} — MODELO CRIATIVO: PROBLEMA E SOLUÇÃO ━━━━
+  if(modelId === "problemaSolucao"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Esse cantinho da casa estava totalmente desperdiçado.
+${hook}
 
 ━━━━ CENA 2 — Problema ━━━━
-Era bagunça, falta de espaço e um visual sem graça no ambiente.
+${scene2}
 
 ━━━━ CENA 3 — Solução ━━━━
-Com o ${name}, o espaço ficou organizado, bonito e muito mais útil.
+${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
-Se você também quer resolver isso na sua casa, clica no carrinho e garante o seu ${name}.
+${cta}
 
 [SCENE]: ${env}, mostrando o problema de organização e depois o ${name} resolvendo a situação.
 [SUBJECT]: pessoa brasileira mostrando o problema com gesto natural das mãos e depois apresentando o ${name} como solução.
@@ -1059,21 +1122,23 @@ Se você também quer resolver isso na sua casa, clica no carrinho e garante o s
 [STYLE]: vídeo UGC problema e solução, direto, realista e comercial.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, exaggerated mess, fake before-after overlay.`,
+[NEGATIVE PROMPT]: ${negative}, exaggerated mess, fake before-after overlay.`;
+  }
 
-casaPequena:`━━━━ PROMPT ${index} — MODELO CRIATIVO: CASA PEQUENA ━━━━
+  if(modelId === "casaPequena"){
+    return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
-Se sua casa é pequena, o ${name} pode transformar esse cantinho.
+${hook}
 
-━━━━ CENA 2 — Problema ━━━━
-Às vezes a gente acha que não tem espaço, mas o canto da parede está sendo desperdiçado.
+━━━━ CENA 2 — Problema de Espaço ━━━━
+${scene2}
 
-━━━━ CENA 3 — Solução ━━━━
-Com o ${name}, dá para organizar melhor e deixar o ambiente mais bonito sem ocupar espaço.
+━━━━ CENA 3 — Solução Compacta ━━━━
+${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
-Clica no carrinho e aproveita enquanto ainda tem o ${name} disponível.
+${cta}
 
 [SCENE]: apartamento brasileiro compacto, cozinha pequena ou sala pequena, canto de parede visível, ambiente realista.
 [SUBJECT]: pessoa brasileira organizando objetos pequenos no ambiente, movimentos naturais, sem pose artificial.
@@ -1083,10 +1148,10 @@ Clica no carrinho e aproveita enquanto ainda tem o ${name} disponível.
 [STYLE]: vídeo realista de organização para casa pequena, UGC doméstico brasileiro.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, huge luxury apartment, unrealistic space, oversized product.`
-  };
+[NEGATIVE PROMPT]: ${negative}, huge luxury apartment, unrealistic space, oversized product.`;
+  }
 
-  return templates[modelId] || templates.ugc;
+  return "";
 }
 
 function generateCampaign(){
@@ -1095,8 +1160,11 @@ function generateCampaign(){
 
   const selected = [];
   creativeModels.forEach(model => {
-    for(let i=0;i<counts[model.id];i++){
-      selected.push(model.id);
+    for(let i=1;i<=counts[model.id];i++){
+      selected.push({
+        modelId:model.id,
+        occurrence:i
+      });
     }
   });
 
@@ -1105,24 +1173,28 @@ function generateCampaign(){
     return;
   }
 
-  let output = `PROMPTFLOW V2 — PACOTE DE CAMPANHA PARA FLOW
+  let output = `PROMPTFLOW V3 — PACOTE DE CAMPANHA COM VARIAÇÕES PARA FLOW
 
 PRODUTO PRINCIPAL: ${data.productName}
 DESCRIÇÃO: ${data.description}
 TOTAL DE PROMPTS: ${selected.length}
+
+LÓGICA DA CAMPANHA:
+Cada modelo criativo pode gerar várias versões diferentes.
+Exemplo: UGC 3x gera Descoberta, Dor/Solução e Urgência, sem repetir o mesmo roteiro.
 
 INSTRUÇÃO GERAL:
 Todos os prompts abaixo devem manter o produto principal fiel ao nome, descrição e imagens de referência. Não trocar, não redesenhar e não inventar variações do produto.
 
 `;
 
-  selected.forEach((modelId, idx) => {
-    output += makePrompt(modelId, data, idx + 1) + "\n\n";
+  selected.forEach((item, idx) => {
+    output += makePrompt(item.modelId, data, idx + 1, item.occurrence) + "\n\n";
   });
 
   document.getElementById("result").textContent = output;
   saveHistory(data.productName, output);
-  showMessage("Campanha gerada com " + selected.length + " prompts!");
+  showMessage("Campanha gerada com " + selected.length + " prompts variados!");
 }
 
 function generateSelectedOnly(){
@@ -1130,25 +1202,31 @@ function generateSelectedOnly(){
   if(!data) return;
 
   const model = creativeModels.find(m => m.id === selectedModelForSingle) || creativeModels[0];
-  const output = `PROMPTFLOW V2 — PROMPT INDIVIDUAL
+
+  let output = `PROMPTFLOW V3 — MODELO INDIVIDUAL COM VARIAÇÕES
 
 PRODUTO PRINCIPAL: ${data.productName}
 MODELO CRIATIVO: ${model.name}
 
-${makePrompt(model.id, data, 1)}
 `;
+
+  const variations = variationBank[model.id] || variationBank.ugc;
+
+  variations.forEach((v, index) => {
+    output += makePrompt(model.id, data, index + 1, index + 1) + "\n\n";
+  });
 
   document.getElementById("result").textContent = output;
   saveHistory(data.productName + " · " + model.name, output);
-  showMessage("Prompt individual gerado: " + model.name);
+  showMessage("Variações individuais geradas: " + model.name);
 }
 
 function setStarterPack(){
   resetCounts(false);
-  counts.ugc = 2;
+  counts.ugc = 3;
   counts.povFabrica = 2;
-  counts.povHands = 1;
-  counts.antesDepois = 1;
+  counts.povHands = 2;
+  counts.antesDepois = 2;
   counts.embalando = 1;
   counts.premium = 1;
 
@@ -1158,7 +1236,7 @@ function setStarterPack(){
   });
 
   updateTotal();
-  showMessage("Pacote teste configurado.");
+  showMessage("Pacote teste com variações configurado.");
 }
 
 function resetCounts(show=true){
@@ -1204,7 +1282,7 @@ function downloadTxt(){
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = safe + "-promptflow.txt";
+  a.download = safe + "-promptflow-v3.txt";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1231,20 +1309,20 @@ function clearAll(){
 }
 
 function saveHistory(title, content){
-  const history = JSON.parse(localStorage.getItem("promptflow_history") || "[]");
+  const history = JSON.parse(localStorage.getItem("promptflow_history_v3") || "[]");
   history.unshift({
     title,
     date:new Date().toLocaleString("pt-BR"),
     content
   });
 
-  localStorage.setItem("promptflow_history", JSON.stringify(history.slice(0,10)));
+  localStorage.setItem("promptflow_history_v3", JSON.stringify(history.slice(0,10)));
   renderHistory();
 }
 
 function renderHistory(){
   const list = document.getElementById("historyList");
-  const history = JSON.parse(localStorage.getItem("promptflow_history") || "[]");
+  const history = JSON.parse(localStorage.getItem("promptflow_history_v3") || "[]");
 
   if(history.length === 0){
     list.textContent = "Nenhuma campanha salva ainda.";
@@ -1252,7 +1330,7 @@ function renderHistory(){
   }
 
   list.innerHTML = "";
-  history.forEach((item,index)=>{
+  history.forEach((item)=>{
     const div = document.createElement("div");
     div.className = "history-item";
     div.innerHTML = `<strong>${item.title}</strong><br>${item.date}`;
