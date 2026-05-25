@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PromptFLOW V3 - Campaign Builder</title>
+<title>PromptFLOW V4 - Categoria Inteligente</title>
 
 <style>
 *{box-sizing:border-box}
@@ -19,7 +19,7 @@ body{
 }
 
 .app{
-  max-width:1350px;
+  max-width:1380px;
   margin:auto;
   padding:18px;
 }
@@ -60,7 +60,7 @@ h1{
 
 .grid{
   display:grid;
-  grid-template-columns:420px 1fr;
+  grid-template-columns:430px 1fr;
   gap:18px;
 }
 
@@ -286,7 +286,7 @@ button.main:hover,button.secondary:hover,button.danger:hover{
 
 .status{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(2,1fr);
   gap:8px;
   margin-top:12px;
 }
@@ -386,10 +386,10 @@ button.main:hover,button.secondary:hover,button.danger:hover{
 <div class="app">
 
   <div class="header">
-    <div class="badge">PROMPTFLOW V3 · VARIAÇÕES INTELIGENTES</div>
+    <div class="badge">PROMPTFLOW V4 · CATEGORIA INTELIGENTE</div>
     <h1>Gerador de Campanhas Criativas para Flow</h1>
     <div class="subtitle">
-      Agora cada modelo criativo gera variações diferentes. Se você escolher UGC 3 vezes, o sistema cria 3 ângulos diferentes: descoberta, dor/solução e urgência.
+      Agora o sistema identifica a categoria do produto. Se for jaqueta, ele cria prompt de moda. Se for prateleira, cria prompt de casa. Se for eletrônico, beleza ou ferramenta, muda automaticamente o roteiro, ambiente e demonstração.
     </div>
   </div>
 
@@ -402,7 +402,7 @@ button.main:hover,button.secondary:hover,button.danger:hover{
       <div class="upload-box">
         <input type="file" id="imageUpload" accept="image/*" multiple />
         <div class="help">
-          Envie até 10 imagens de referência. O app usa nome do arquivo + título + descrição para reforçar fidelidade do produto.
+          Envie até 10 imagens de referência. O app usa imagem, nome do arquivo, título e descrição para reforçar fidelidade do produto.
         </div>
         <div class="preview-grid" id="previewGrid">
           <div class="preview-item">Sem imagem</div>
@@ -410,26 +410,48 @@ button.main:hover,button.secondary:hover,button.danger:hover{
       </div>
 
       <label>Nome do produto obrigatório</label>
-      <input id="productTitle" placeholder="Ex: Kit 3 Prateleiras de Canto Meia Lua em MDF Preto" />
+      <input id="productTitle" placeholder="Ex: Jaqueta Puffer Masculina Bobojaco Com Capuz Frio Intenso Luxo" />
 
       <label>Descrição do produto</label>
-      <textarea id="productDescription" placeholder="Ex: Kit com 3 unidades, MDF, acabamento fosco, fácil instalação, ideal para cozinha, sala, quarto e banheiro."></textarea>
+      <textarea id="productDescription" placeholder="Ex: Jaqueta preta, tecido acolchoado, capuz, zíper frontal, ideal para frio intenso."></textarea>
 
       <div class="two-cols">
         <div>
-          <label>Cor principal</label>
-          <input id="productColor" placeholder="Ex: preta" />
+          <label>Categoria</label>
+          <select id="manualCategory">
+            <option value="auto">Automática</option>
+            <option value="home">Casa / Decoração</option>
+            <option value="fashion">Moda / Vestuário</option>
+            <option value="electronics">Eletrônicos</option>
+            <option value="beauty">Beleza / Cuidados</option>
+            <option value="tools">Ferramentas</option>
+            <option value="kids">Infantil</option>
+            <option value="pets">Pets</option>
+            <option value="autoParts">Automotivo</option>
+            <option value="generic">Produto Geral</option>
+          </select>
         </div>
         <div>
-          <label>Material</label>
-          <input id="productMaterial" placeholder="Ex: MDF" />
+          <label>Cor principal</label>
+          <input id="productColor" placeholder="Ex: preta" />
         </div>
       </div>
 
       <div class="two-cols">
         <div>
-          <label>Acabamento</label>
-          <input id="productFinish" placeholder="Ex: fosco/acetinado" />
+          <label>Material / tecido</label>
+          <input id="productMaterial" placeholder="Ex: tecido acolchoado / MDF / plástico" />
+        </div>
+        <div>
+          <label>Acabamento / detalhe</label>
+          <input id="productFinish" placeholder="Ex: fosco / acolchoado / premium" />
+        </div>
+      </div>
+
+      <div class="two-cols">
+        <div>
+          <label>Ambiente manual opcional</label>
+          <input id="customEnvironment" placeholder="Ex: quarto com espelho, loja de roupas..." />
         </div>
         <div>
           <label>Duração por vídeo</label>
@@ -442,23 +464,11 @@ button.main:hover,button.secondary:hover,button.danger:hover{
         </div>
       </div>
 
-      <label>Ambiente principal</label>
-      <select id="environment">
-        <option value="cozinha doméstica brasileira, bancada simples, luz natural de janela">Cozinha brasileira</option>
-        <option value="sala brasileira pequena, parede clara, decoração simples e realista">Sala pequena</option>
-        <option value="quarto brasileiro simples, parede clara, organização doméstica">Quarto</option>
-        <option value="banheiro brasileiro pequeno, parede clara, ambiente limpo e realista">Banheiro</option>
-        <option value="oficina brasileira de MDF, bancada de trabalho, peças organizadas">Fábrica / Oficina MDF</option>
-        <option value="apartamento brasileiro compacto, canto de parede pequeno e funcional">Apartamento pequeno</option>
-        <option value="loja popular brasileira, prateleiras de produtos, iluminação simples e ambiente realista">Loja / Varejo</option>
-        <option value="feira shop brasileira estilo Brás, bancas de produtos, movimento natural de pessoas ao fundo">Brás / Feira Shop</option>
-      </select>
-
       <div class="status" id="detected">
+        <div class="chip"><strong>Categoria:</strong> aguardando</div>
         <div class="chip"><strong>Produto:</strong> aguardando</div>
-        <div class="chip"><strong>Material:</strong> aguardando</div>
-        <div class="chip"><strong>Formato:</strong> aguardando</div>
-        <div class="chip"><strong>Uso:</strong> aguardando</div>
+        <div class="chip"><strong>Demonstração:</strong> aguardando</div>
+        <div class="chip"><strong>Ambiente:</strong> aguardando</div>
       </div>
 
       <div class="sub-title">2. Modelos Criativos com Quantidade</div>
@@ -511,81 +521,191 @@ let uploadedFileNames = [];
 let selectedModelForSingle = "ugc";
 
 const creativeModels = [
-  { id:"ugc", name:"UGC Pessoa Mostrando", desc:"Pessoa real mostrando como descoberta natural.", scenes:4 },
-  { id:"povFabrica", name:"POV Fábrica", desc:"Bastidor de produção, lote, bancada e preço direto.", scenes:5 },
-  { id:"comparacao", name:"Comparação de Preço", desc:"Valor percebido, comparação e oportunidade.", scenes:4 },
-  { id:"loja", name:"Loja / Varejo Brasileiro", desc:"Achado em loja popular brasileira.", scenes:5 },
+  { id:"ugc", name:"UGC Pessoa Mostrando", desc:"Pessoa real mostrando o produto como descoberta natural.", scenes:4 },
+  { id:"povFabrica", name:"POV Fábrica / Bastidor", desc:"Bastidor, preparo, estoque, embalagem ou produção.", scenes:5 },
+  { id:"comparacao", name:"Comparação de Valor", desc:"Mostra antes/depois, valor percebido e oportunidade.", scenes:4 },
+  { id:"loja", name:"Loja / Varejo Brasileiro", desc:"Produto apresentado como achado em loja popular.", scenes:5 },
   { id:"bras", name:"Brás / Feira Shop", desc:"Estilo feira shop, movimento, urgência e achado.", scenes:5 },
-  { id:"povHands", name:"POV Mãos Only", desc:"Somente mãos, produto perto da câmera, sem rosto.", scenes:4 },
-  { id:"antesDepois", name:"Antes e Depois", desc:"Transformação visual do ambiente com o produto.", scenes:4 },
-  { id:"instalacao", name:"Instalação Rápida", desc:"Quebra objeção mostrando facilidade.", scenes:4 },
+  { id:"povHands", name:"POV Mãos Only", desc:"Somente mãos mostrando detalhes do produto.", scenes:4 },
+  { id:"antesDepois", name:"Antes e Depois", desc:"Transformação visual de uso do produto.", scenes:4 },
+  { id:"demoRapida", name:"Demonstração Rápida", desc:"Mostra como usa, veste, testa, instala ou aplica.", scenes:4 },
   { id:"embalando", name:"Embalando Pedidos", desc:"Prova social com pedidos saindo.", scenes:4 },
-  { id:"premium", name:"Produto Premium", desc:"Close no acabamento, textura, bordas e valor.", scenes:4 },
+  { id:"premium", name:"Produto Premium", desc:"Close em acabamento, textura, detalhe e valor.", scenes:4 },
   { id:"problemaSolucao", name:"Problema e Solução", desc:"Dor do cliente e produto resolvendo.", scenes:4 },
-  { id:"casaPequena", name:"Casa Pequena", desc:"Pouco espaço, organização e utilidade.", scenes:4 }
+  { id:"usoReal", name:"Uso Real no Dia a Dia", desc:"Produto em contexto real de uso.", scenes:4 }
 ];
+
+const categoryProfiles = {
+  home:{
+    label:"Casa / Decoração",
+    productType:"produto de casa, decoração ou organização",
+    scene:"casa brasileira realista, cozinha, sala ou quarto simples, luz natural de janela",
+    subject:"pessoa brasileira adulta usando o produto em casa, movimentos naturais, estilo UGC doméstico",
+    pain:"canto sem graça, bagunça, falta de espaço ou ambiente sem organização",
+    desire:"organizar e decorar a casa de forma prática",
+    demo:"mostrar o produto no ambiente, posicionar no espaço, destacar acabamento, formato e utilidade",
+    details:"acabamento, material, formato, bordas, cor e proporção",
+    camera:"smartphone camera, vertical 9:16, close-up no produto e no ambiente, leve movimento de mão, natural autofocus shift",
+    style:"UGC doméstico brasileiro, realista, caseiro, sem cara de estúdio"
+  },
+  fashion:{
+    label:"Moda / Vestuário",
+    productType:"peça de roupa ou vestuário",
+    scene:"quarto brasileiro com espelho, loja de roupas brasileira ou rua urbana com clima frio, ambiente realista",
+    subject:"homem ou mulher brasileira adulta vestindo a peça, ajustando no corpo, mostrando caimento, textura e detalhes",
+    pain:"frio, roupa sem estilo, peça desconfortável ou falta de uma roupa bonita para sair",
+    desire:"vestir bem, ficar confortável, proteger do frio e melhorar o visual",
+    demo:"vestir o produto, fechar o zíper ou botão, ajustar capuz ou gola, mostrar caimento no corpo, tecido, costura e acabamento",
+    details:"tecido, caimento, costura, zíper, capuz, bolsos, textura, cor e acabamento",
+    camera:"smartphone camera, vertical 9:16, close-up no tecido e plano médio da pessoa vestindo, leve movimento de mão, foco natural",
+    style:"UGC realista de moda, vídeo de compra online, aparência caseira e autêntica"
+  },
+  electronics:{
+    label:"Eletrônicos",
+    productType:"produto eletrônico ou acessório tecnológico",
+    scene:"mesa brasileira simples, quarto ou escritório doméstico, produto sendo testado em ambiente real",
+    subject:"pessoa brasileira adulta segurando, ligando ou testando o eletrônico, movimentos naturais",
+    pain:"produto antigo, falta de praticidade, necessidade de função rápida ou solução tecnológica simples",
+    desire:"ter mais praticidade, testar funções e melhorar o uso no dia a dia",
+    demo:"ligar o produto, mostrar tela, botões, cabos, conexões, funcionamento e detalhes externos",
+    details:"tela, botões, entrada, cabo, acabamento, luzes, conexões e tamanho real",
+    camera:"smartphone camera, vertical 9:16, close-up no eletrônico, foco alternando entre mão, produto e funcionamento",
+    style:"UGC tecnológico realista, teste rápido de produto, ambiente doméstico"
+  },
+  beauty:{
+    label:"Beleza / Cuidados",
+    productType:"produto de beleza, skincare ou cuidado pessoal",
+    scene:"banheiro ou penteadeira brasileira simples, espelho, luz natural suave, ambiente limpo e realista",
+    subject:"pessoa brasileira adulta aplicando ou mostrando o produto com movimentos suaves e naturais",
+    pain:"pele sem cuidado, rotina corrida, falta de praticidade ou desejo de melhorar aparência",
+    desire:"cuidar da aparência, melhorar a rotina e ter sensação de autocuidado",
+    demo:"mostrar embalagem, textura, aplicação, quantidade usada e resultado visual sem exagero",
+    details:"embalagem, textura, tampa, rótulo não legível, cor, consistência e modo de uso",
+    camera:"smartphone camera, vertical 9:16, close-up nas mãos, produto e rosto de forma natural",
+    style:"UGC realista de beleza, rotina caseira, luz natural, sem filtro de beleza"
+  },
+  tools:{
+    label:"Ferramentas",
+    productType:"ferramenta ou item técnico",
+    scene:"bancada de oficina brasileira, garagem ou área de trabalho simples, ambiente realista",
+    subject:"mãos de trabalhador brasileiro usando ou mostrando a ferramenta com segurança",
+    pain:"trabalho difícil, improviso, falta de ferramenta adequada ou perda de tempo",
+    desire:"facilitar o trabalho, ganhar precisão e resolver serviço com mais eficiência",
+    demo:"segurar a ferramenta, mostrar função, material, pegada, encaixe, resistência e uso prático",
+    details:"cabo, ponta, encaixe, corpo, material, função, tamanho e acabamento",
+    camera:"smartphone camera, vertical 9:16, close-up na ferramenta e na mão usando, movimento de bancada",
+    style:"UGC técnico realista, oficina brasileira, demonstração prática"
+  },
+  kids:{
+    label:"Infantil",
+    productType:"produto infantil",
+    scene:"quarto infantil brasileiro, sala de casa ou ambiente familiar seguro e realista",
+    subject:"adulto brasileiro mostrando o produto infantil com cuidado, sem exposição desnecessária de criança",
+    pain:"organização infantil, conforto, praticidade para pais ou rotina com criança",
+    desire:"mais praticidade, conforto, segurança e organização na rotina familiar",
+    demo:"mostrar o produto, detalhes, material, tamanho, função e uso seguro",
+    details:"material, acabamento, tamanho, cor, função e segurança visual",
+    camera:"smartphone camera, vertical 9:16, close-up no produto, movimentos suaves e familiares",
+    style:"UGC familiar realista, ambiente doméstico brasileiro"
+  },
+  pets:{
+    label:"Pets",
+    productType:"produto para pets",
+    scene:"casa brasileira com área de pet, sala ou quintal simples, ambiente realista",
+    subject:"adulto brasileiro mostrando o produto para uso com cachorro ou gato, movimentos naturais",
+    pain:"bagunça, falta de conforto para o pet, rotina difícil ou necessidade de praticidade",
+    desire:"cuidar melhor do pet, organizar rotina e trazer conforto",
+    demo:"mostrar tamanho, material, uso, resistência e interação segura com pet",
+    details:"material, tamanho, textura, resistência, cor e função",
+    camera:"smartphone camera, vertical 9:16, close-up no produto e no uso real com pet",
+    style:"UGC realista de pet, caseiro e natural"
+  },
+  autoParts:{
+    label:"Automotivo",
+    productType:"produto automotivo ou acessório para carro",
+    scene:"garagem brasileira, interior de carro ou área externa simples, ambiente realista",
+    subject:"mãos adultas mostrando o produto no carro, instalando ou testando com cuidado",
+    pain:"carro desorganizado, peça desgastada, falta de praticidade ou necessidade de acessório útil",
+    desire:"melhorar o carro, deixar mais prático, bonito ou funcional",
+    demo:"mostrar encaixe, instalação, acabamento, função e antes/depois no veículo",
+    details:"encaixe, material, formato, acabamento, compatibilidade visual e função",
+    camera:"smartphone camera, vertical 9:16, close-up no produto e no carro, movimento natural",
+    style:"UGC automotivo realista, demonstração prática em carro brasileiro"
+  },
+  generic:{
+    label:"Produto Geral",
+    productType:"produto físico de e-commerce",
+    scene:"ambiente brasileiro realista, mesa simples, luz natural, produto sendo mostrado de perto",
+    subject:"pessoa brasileira adulta mostrando o produto com movimentos naturais",
+    pain:"necessidade prática do dia a dia, falta de solução simples ou compra por oportunidade",
+    desire:"resolver uma necessidade, ter praticidade e aproveitar uma boa compra",
+    demo:"mostrar produto perto da câmera, destacar material, tamanho, função, acabamento e uso real",
+    details:"material, tamanho, cor, formato, acabamento e função",
+    camera:"smartphone camera, vertical 9:16, close-up no produto, leve movimento de mão e foco natural",
+    style:"UGC realista de e-commerce, caseiro e autêntico"
+  }
+};
 
 const variationBank = {
   ugc:[
-    {angle:"Descoberta / Achado", hook:"Eu quase perdi esse {name}! Olha só essa descoberta incrível para organizar a casa.", scene2:"Sabe aquele produto simples que resolve um problema de casa e ainda deixa tudo mais bonito?", scene3:"O {name} aparece bem perto da câmera, com foco no acabamento e na utilidade.", cta:"Se você quiser o seu {name}, clica no carrinho laranja antes que acabe."},
-    {angle:"Dor / Cantinho Bagunçado", hook:"Esse cantinho aqui vivia sem graça até eu testar o {name}.", scene2:"A gente sempre acha que falta espaço, mas às vezes só está usando mal o canto da casa.", scene3:"Com o {name}, o espaço fica organizado, bonito e com cara de casa cuidada.", cta:"Clica no carrinho e garante o seu {name} para transformar esse cantinho também."},
-    {angle:"Urgência / Último Lote", hook:"Eu demorei para comprar o {name} e quase fiquei sem.", scene2:"Quando aparece produto útil assim com preço bom, o lote acaba rápido.", scene3:"O {name} é mostrado como uma compra inteligente para organizar e decorar.", cta:"Corre no carrinho e garante o seu {name} antes que acabe."},
-    {angle:"Presente / Casa Nova", hook:"Se você conhece alguém montando casa, olha esse {name}.", scene2:"É aquele tipo de item útil que combina com vários ambientes.", scene3:"O {name} aparece sendo mostrado com cuidado, destacando acabamento e uso real.", cta:"Clica no carrinho e pega o seu {name} hoje."}
+    {angle:"Descoberta / Achado", hook:"Eu quase perdi esse {name}! Olha só esse achado.", scene2:"Sabe aquele produto que resolve uma dor real e ainda chama atenção?", scene3:"O {name} aparece em uso real, com foco nos detalhes e na utilidade.", cta:"Se você quiser o seu {name}, clica no carrinho antes que acabe."},
+    {angle:"Dor / Desejo", hook:"Eu não sabia que precisava do {name} até ver isso funcionando.", scene2:"Muita gente passa por esse problema: {pain}.", scene3:"O {name} aparece resolvendo isso de forma simples, visual e realista.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Urgência / Último Lote", hook:"Eu demorei para pegar o {name} e quase fiquei sem.", scene2:"Quando aparece produto útil assim, o lote costuma acabar rápido.", scene3:"O {name} é mostrado como uma compra inteligente para {desire}.", cta:"Corre no carrinho e garante o seu {name} antes que acabe."}
   ],
   povFabrica:[
-    {angle:"Direto da Fábrica", hook:"POV: você encontrou o {name} direto da fábrica.", scene2:"Aqui cada peça é separada e conferida antes do envio.", scene3:"O {name} aparece na bancada com acabamento visível e aspecto real de produção.", cta:"Garante o seu {name} antes que esse lote saia todo."},
-    {angle:"Produção Real", hook:"Olha como o {name} é preparado antes de ir para sua casa.", scene2:"Nada de vitrine perfeita: é bastidor real, bancada real e produto sendo conferido.", scene3:"O {name} é manuseado por mãos de trabalhador, com foco na textura e no acabamento.", cta:"Clica no carrinho e garante o seu {name} direto do lote."},
-    {angle:"Lote Acabando", hook:"Esse lote do {name} está saindo rápido demais.", scene2:"As peças aparecem organizadas, prontas para embalagem e envio.", scene3:"O {name} é mostrado perto da câmera para reforçar cor, formato e acabamento.", cta:"Se quiser o seu {name}, aproveita antes que acabe."}
+    {angle:"Bastidor Real", hook:"POV: você vê o {name} sendo preparado antes do envio.", scene2:"Aqui o produto é separado, conferido e mostrado de perto.", scene3:"O {name} aparece em bancada real, com foco em {details}.", cta:"Garante o seu {name} antes que esse lote acabe."},
+    {angle:"Conferência de Produto", hook:"Olha a conferência do {name} antes de sair para entrega.", scene2:"Nada de imagem perfeita demais: é bastidor real de produto.", scene3:"O {name} é manuseado com foco em acabamento, proporção e detalhes reais.", cta:"Clica no carrinho e pega o seu {name}."},
+    {angle:"Lote Saindo", hook:"Esse lote do {name} está saindo rápido.", scene2:"Pedidos sendo separados, produto aparecendo em close e clima de estoque acabando.", scene3:"O {name} é mostrado de perto para reforçar fidelidade visual.", cta:"Se quiser o seu {name}, aproveita agora."}
   ],
   comparacao:[
-    {angle:"Improviso vs Solução", hook:"Antes de improvisar, olha o que o {name} resolve.", scene2:"Muita gente tenta organizar com qualquer coisa e o ambiente continua bagunçado.", scene3:"O {name} aparece como uma solução pronta, bonita e funcional.", cta:"Clica no carrinho e pega o seu {name}."},
-    {angle:"Valor Percebido", hook:"Parece simples, mas o {name} muda o visual do ambiente.", scene2:"É mais barato resolver bem uma vez do que ficar comprando improviso.", scene3:"O {name} é mostrado em close destacando acabamento, material e utilidade.", cta:"Aproveita e garante o seu {name} antes que acabe."},
-    {angle:"Achado de Preço", hook:"Olha esse achado: {name} com cara de produto caro.", scene2:"O acabamento entrega uma percepção muito melhor para o ambiente.", scene3:"O {name} aparece em comparação visual com canto vazio ou bagunçado.", cta:"Clica no carrinho e garante o seu {name}."}
+    {angle:"Antes vs Depois", hook:"Antes de comprar qualquer coisa parecida, olha o {name}.", scene2:"Muita gente improvisa e continua com o mesmo problema: {pain}.", scene3:"O {name} aparece como solução mais bonita, prática e direta.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Valor Percebido", hook:"Parece simples, mas o {name} muda a experiência.", scene2:"O valor está nos detalhes: {details}.", scene3:"O {name} aparece em comparação visual com uma alternativa fraca ou improvisada.", cta:"Aproveita e garante o seu {name}."},
+    {angle:"Achado de Preço", hook:"Olha esse achado: {name} com cara de produto muito mais caro.", scene2:"É o tipo de produto que entrega visual, função e utilidade.", scene3:"O {name} aparece com close nos detalhes principais.", cta:"Clica no carrinho e pega o seu {name}."}
   ],
   loja:[
-    {angle:"Achado de Loja", hook:"Achei o {name} e tive que mostrar.", scene2:"É aquele produto que você olha e já imagina onde vai colocar em casa.", scene3:"O {name} aparece nas mãos, com close no acabamento e na cor.", cta:"Se gostou do {name}, clica no carrinho."},
-    {angle:"Produto Útil", hook:"Esse {name} é o tipo de coisa que a casa sempre precisa.", scene2:"Serve para organizar, decorar e aproveitar melhor espaços pequenos.", scene3:"O {name} é mostrado em ambiente de loja, com aparência real de achado.", cta:"Garante o seu {name} antes que acabe."},
-    {angle:"Compra Inteligente", hook:"Eu compraria esse {name} fácil para organizar a casa.", scene2:"Bonito, útil e combina com vários ambientes.", scene3:"O {name} é mostrado em close e depois no ambiente.", cta:"Clica no carrinho e pega o seu {name}."}
+    {angle:"Achado de Loja", hook:"Achei o {name} e tive que mostrar.", scene2:"É aquele produto que você olha e já imagina usando.", scene3:"O {name} aparece nas mãos, com close em {details}.", cta:"Se gostou do {name}, clica no carrinho."},
+    {angle:"Produto Útil", hook:"Esse {name} é o tipo de produto que faz sentido ter.", scene2:"Ele ajuda a {desire}.", scene3:"O {name} é mostrado como achado de loja, em ambiente realista.", cta:"Garante o seu {name} antes que acabe."},
+    {angle:"Compra Inteligente", hook:"Eu compraria esse {name} fácil.", scene2:"Bonito, útil e com demonstração clara de uso.", scene3:"O {name} é mostrado em close e depois em uso.", cta:"Clica no carrinho e pega o seu {name}."}
   ],
   bras:[
-    {angle:"Achado Popular", hook:"Olha esse achado estilo feira shop: {name}!", scene2:"Produto útil, bonito e com sensação de oportunidade.", scene3:"O {name} aparece perto da câmera, com movimento de feira ao fundo.", cta:"Clica no carrinho e garante o seu {name}."},
-    {angle:"Oferta Corrida", hook:"Se piscar, esse {name} some do lote.", scene2:"É aquele produto que vende rápido porque resolve uma dor simples da casa.", scene3:"O {name} é mostrado com energia de venda rápida e visual popular.", cta:"Corre no carrinho e garante o {name}."},
-    {angle:"Vendedor Mostrando", hook:"Chegou o {name} que todo mundo procura para organizar a casa.", scene2:"O vendedor mostra o produto com naturalidade, como em banca popular.", scene3:"O {name} aparece com destaque, ocupando boa parte do frame.", cta:"Clica no carrinho e leva o seu {name}."}
+    {angle:"Achado Popular", hook:"Olha esse achado estilo feira shop: {name}!", scene2:"Produto útil, bonito e com sensação de oportunidade.", scene3:"O {name} aparece perto da câmera, com movimento realista ao fundo.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Oferta Corrida", hook:"Se piscar, esse {name} some do lote.", scene2:"É aquele produto que vende rápido porque resolve uma dor simples: {pain}.", scene3:"O {name} é mostrado com energia de venda rápida e visual popular.", cta:"Corre no carrinho e garante o {name}."},
+    {angle:"Vendedor Mostrando", hook:"Chegou o {name} que muita gente procura.", scene2:"O vendedor mostra o produto com naturalidade, como em banca popular.", scene3:"O {name} aparece com destaque, ocupando boa parte do frame.", cta:"Clica no carrinho e leva o seu {name}."}
   ],
   povHands:[
-    {angle:"Close no Produto", hook:"POV: você encontra o {name} perfeito para esse cantinho.", scene2:"As mãos mostram o produto de perto, com foco em textura, formato e acabamento.", scene3:"O {name} é posicionado no ambiente para mostrar uso real.", cta:"Gostou do {name}? Clica no carrinho."},
-    {angle:"Organizando em Silêncio", hook:"Só de colocar o {name}, o canto já muda.", scene2:"Sem rosto, só mãos organizando e mostrando o antes e depois.", scene3:"O {name} aparece como peça central da organização.", cta:"Garante o seu {name} hoje."},
-    {angle:"Detalhe Satisfatório", hook:"Olha o detalhe desse {name} de perto.", scene2:"Movimentos suaves mostram acabamento, bordas e superfície.", scene3:"O {name} é usado em um cantinho realista da casa.", cta:"Clica no carrinho e pega o seu {name}."}
+    {angle:"Close no Produto", hook:"POV: você encontra o {name} e vê os detalhes de perto.", scene2:"As mãos mostram o produto com foco em {details}.", scene3:"O {name} é usado ou demonstrado de forma realista.", cta:"Gostou do {name}? Clica no carrinho."},
+    {angle:"Detalhe Satisfatório", hook:"Olha o detalhe desse {name} de perto.", scene2:"Movimentos suaves mostram acabamento, textura e proporção.", scene3:"O {name} aparece em uso real, sem rosto, só mãos e produto.", cta:"Garante o seu {name} hoje."},
+    {angle:"Uso Manual", hook:"Só olhando o {name} de perto já dá para entender o valor.", scene2:"As mãos demonstram função, material e acabamento.", scene3:"O {name} é apresentado como solução prática.", cta:"Clica no carrinho e pega o seu {name}."}
   ],
   antesDepois:[
-    {angle:"Canto Vazio", hook:"Olha como esse canto mudou depois do {name}.", scene2:"Antes era só um espaço vazio e sem graça.", scene3:"Depois do {name}, virou um cantinho organizado e bonito.", cta:"Quer fazer isso também? Garante o seu {name}."},
-    {angle:"Bagunça Resolvida", hook:"Esse canto estava uma bagunça antes do {name}.", scene2:"Objetos espalhados, pouco espaço e visual pesado.", scene3:"Com o {name}, tudo fica mais limpo e funcional.", cta:"Clica no carrinho e pega o seu {name}."},
-    {angle:"Transformação Rápida", hook:"Transformação rápida com o {name}.", scene2:"O vídeo mostra o ambiente antes, simples e sem uso.", scene3:"Depois, o {name} aparece instalado ou posicionado, mudando o espaço.", cta:"Garante o seu {name} antes que acabe."}
+    {angle:"Transformação", hook:"Olha a diferença depois do {name}.", scene2:"Antes tinha esse problema: {pain}.", scene3:"Depois, o {name} aparece resolvendo a situação de forma visual.", cta:"Quer esse resultado também? Garante o seu {name}."},
+    {angle:"Problema Resolvido", hook:"Antes era complicado, depois do {name} ficou simples.", scene2:"A cena mostra o problema antes do produto.", scene3:"O {name} aparece como solução prática e realista.", cta:"Clica no carrinho e pega o seu {name}."},
+    {angle:"Mudança Rápida", hook:"Mudança rápida usando o {name}.", scene2:"O vídeo mostra o antes com aparência comum ou problemática.", scene3:"Depois, o {name} aparece em destaque no uso correto.", cta:"Garante o seu {name} antes que acabe."}
   ],
-  instalacao:[
-    {angle:"Fácil de Instalar", hook:"Você não precisa ser profissional para usar o {name}.", scene2:"A instalação ou posicionamento é simples e rápido.", scene3:"O {name} aparece sendo colocado no local com movimentos naturais.", cta:"Clica no carrinho e garante o seu {name}."},
-    {angle:"Sem Complicação", hook:"Olha como é simples colocar o {name} no cantinho.", scene2:"Poucas etapas, visual limpo e resultado imediato.", scene3:"O {name} aparece em close durante o uso.", cta:"Garante o seu {name} hoje."},
-    {angle:"Resultado em Minutos", hook:"Em poucos minutos, o {name} muda esse espaço.", scene2:"O vídeo mostra mãos posicionando e ajustando o produto.", scene3:"O resultado final valoriza o ambiente.", cta:"Clica no carrinho e pega o seu {name}."}
+  demoRapida:[
+    {angle:"Como Usa", hook:"Olha como é simples usar o {name}.", scene2:"A demonstração mostra o produto funcionando ou sendo usado de verdade.", scene3:"O {name} aparece com foco em {details}.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Teste Rápido", hook:"Teste rápido com o {name}.", scene2:"A cena mostra a função principal sem enrolação.", scene3:"O {name} é demonstrado com movimentos naturais e resultado claro.", cta:"Garante o seu {name} hoje."},
+    {angle:"Passo Simples", hook:"Em poucos segundos dá para entender o {name}.", scene2:"O produto é mostrado em uso, com foco na praticidade.", scene3:"O {name} aparece resolvendo a dor principal.", cta:"Clica no carrinho e pega o seu {name}."}
   ],
   embalando:[
-    {angle:"Pedidos Saindo", hook:"Olha a quantidade de pedidos saindo hoje do {name}.", scene2:"Muita gente está aproveitando para organizar e decorar a casa.", scene3:"O {name} é conferido e embalado com cuidado.", cta:"Se quiser o seu {name}, clica no carrinho antes que acabe."},
-    {angle:"Prova Social", hook:"Esse {name} está saindo muito aqui na produção.", scene2:"As mãos mostram vários pedidos sendo separados.", scene3:"O {name} aparece antes de ser embalado.", cta:"Garante o seu {name} no carrinho."},
+    {angle:"Pedidos Saindo", hook:"Olha a quantidade de pedidos saindo hoje do {name}.", scene2:"Muita gente está aproveitando esse produto.", scene3:"O {name} é conferido e embalado com cuidado.", cta:"Se quiser o seu {name}, clica no carrinho antes que acabe."},
+    {angle:"Prova Social", hook:"Esse {name} está saindo muito.", scene2:"As mãos mostram pedidos sendo separados.", scene3:"O {name} aparece antes de ser embalado.", cta:"Garante o seu {name} no carrinho."},
     {angle:"Últimas Unidades", hook:"Últimas unidades do {name} sendo embaladas.", scene2:"O clima é de lote acabando, com pedidos sobre a bancada.", scene3:"O {name} aparece em destaque antes do envio.", cta:"Corre e garante o seu {name}."}
   ],
   premium:[
-    {angle:"Acabamento", hook:"Olha esse acabamento do {name}.", scene2:"Parece detalhe pequeno, mas muda completamente a percepção do ambiente.", scene3:"O {name} aparece em close premium, destacando textura e bordas.", cta:"Clica no carrinho e garante o seu {name}."},
-    {angle:"Design Limpo", hook:"O {name} tem aquele visual simples que combina com tudo.", scene2:"Design limpo, útil e bonito para vários ambientes.", scene3:"O {name} é mostrado em ambiente organizado e elegante.", cta:"Garante o seu {name} hoje."},
-    {angle:"Casa Mais Bonita", hook:"Esse {name} deixa a casa com cara de mais organizada.", scene2:"A peça aparece como detalhe de decoração funcional.", scene3:"Close no acabamento e depois plano do ambiente pronto.", cta:"Clica no carrinho e pega o seu {name}."}
+    {angle:"Acabamento", hook:"Olha esse acabamento do {name}.", scene2:"Parece detalhe pequeno, mas muda completamente a percepção do produto.", scene3:"O {name} aparece em close premium, destacando {details}.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Design e Detalhe", hook:"O {name} tem aquele visual que chama atenção.", scene2:"Design, textura e acabamento fazem diferença na hora de escolher.", scene3:"O {name} é mostrado com movimento suave e foco nos detalhes.", cta:"Garante o seu {name} hoje."},
+    {angle:"Percepção de Valor", hook:"Esse {name} parece muito mais caro do que é.", scene2:"A câmera mostra o produto com foco em qualidade visual.", scene3:"Close nos detalhes principais e uso real.", cta:"Clica no carrinho e pega o seu {name}."}
   ],
   problemaSolucao:[
-    {angle:"Falta de Espaço", hook:"Esse cantinho estava totalmente desperdiçado.", scene2:"Falta de espaço, bagunça e visual sem graça.", scene3:"Com o {name}, o espaço vira uma área útil e bonita.", cta:"Clica no carrinho e garante o seu {name}."},
-    {angle:"Ambiente Bagunçado", hook:"Se sua casa vive com coisa espalhada, olha o {name}.", scene2:"O produto entra como solução simples para organizar melhor.", scene3:"O {name} aparece resolvendo a dor de forma visual.", cta:"Garante o seu {name} antes que acabe."},
-    {angle:"Parede Sem Uso", hook:"Essa parede sem uso ganhou função com o {name}.", scene2:"O vídeo mostra a parede vazia e sem vida.", scene3:"O {name} aparece deixando o espaço útil e bonito.", cta:"Clica no carrinho e pega o seu {name}."}
+    {angle:"Dor Principal", hook:"Esse problema incomoda muita gente: {pain}.", scene2:"A cena mostra a dor antes do produto entrar.", scene3:"Com o {name}, a solução aparece de forma simples e visual.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Solução Simples", hook:"Se você também passa por isso, olha o {name}.", scene2:"O produto aparece como solução prática para {pain}.", scene3:"O {name} é demonstrado resolvendo o problema.", cta:"Garante o seu {name} antes que acabe."},
+    {angle:"Problema do Dia a Dia", hook:"Isso aqui acontece no dia a dia e o {name} resolve.", scene2:"A cena mostra o problema de forma realista.", scene3:"O {name} aparece em uso e resolve a situação.", cta:"Clica no carrinho e pega o seu {name}."}
   ],
-  casaPequena:[
-    {angle:"Pouco Espaço", hook:"Se sua casa é pequena, o {name} pode ajudar muito.", scene2:"Às vezes o espaço existe, só está mal aproveitado.", scene3:"O {name} aparece usando melhor o canto da casa.", cta:"Clica no carrinho e garante o seu {name}."},
-    {angle:"Apartamento Pequeno", hook:"Apartamento pequeno precisa de solução inteligente como o {name}.", scene2:"O produto ajuda a organizar sem ocupar espaço no chão.", scene3:"O {name} é mostrado em ambiente compacto e realista.", cta:"Garante o seu {name} hoje."},
-    {angle:"Canto Funcional", hook:"Esse cantinho virou espaço útil com o {name}.", scene2:"O vídeo mostra objetos sendo organizados no espaço pequeno.", scene3:"O {name} aparece como solução principal.", cta:"Clica no carrinho e pega o seu {name}."}
+  usoReal:[
+    {angle:"Dia a Dia", hook:"Olha o {name} sendo usado no dia a dia.", scene2:"A cena mostra uma situação real onde o produto faz sentido.", scene3:"O {name} aparece em uso natural, sem pose artificial.", cta:"Clica no carrinho e garante o seu {name}."},
+    {angle:"Rotina Real", hook:"Esse {name} entra fácil na rotina.", scene2:"O vídeo mostra uma pessoa usando o produto naturalmente.", scene3:"O {name} aparece com foco em utilidade e detalhes.", cta:"Garante o seu {name} hoje."},
+    {angle:"Uso Prático", hook:"Na prática, o {name} funciona assim.", scene2:"A demonstração mostra a função principal em poucos segundos.", scene3:"O {name} aparece como solução objetiva.", cta:"Clica no carrinho e pega o seu {name}."}
   ]
 };
 
@@ -606,7 +726,7 @@ function renderModels(){
       <div class="model-top">
         <div class="model-info">
           <div class="model-name">${model.name}</div>
-          <div class="model-desc">${model.desc} · ${model.scenes} cenas · variações internas</div>
+          <div class="model-desc">${model.desc} · ${model.scenes} cenas · adaptável por categoria</div>
         </div>
         <div class="counter" onclick="event.stopPropagation()">
           <button onclick="changeCount('${model.id}', -1)">−</button>
@@ -682,73 +802,95 @@ function normalizeText(text){
     .replace(/[\u0300-\u036f]/g,"");
 }
 
+function detectCategory(full){
+  if(full.match(/jaqueta|casaco|bobojaco|puffer|moletom|camiseta|camisa|calca|calça|bermuda|vestido|blusa|tenis|tênis|sapato|sandalia|sandália|moda|roupa|capuz|gola|ziper|zíper|manga|tamanho/)){
+    return "fashion";
+  }
+
+  if(full.match(/prateleira|nicho|porta chave|porta-chave|peso de porta|mesa|criado|decoracao|decoração|mdf|casa|cozinha|sala|quarto|banheiro|parede|organizador/)){
+    return "home";
+  }
+
+  if(full.match(/fone|carregador|cabo|bluetooth|caixa de som|smartwatch|relogio inteligente|relógio inteligente|teclado|mouse|camera|câmera|led|usb|eletronico|eletrônico|bateria|controle remoto/)){
+    return "electronics";
+  }
+
+  if(full.match(/creme|serum|sérum|shampoo|condicionador|maquiagem|batom|base|hidratante|skincare|pele|cabelo|beleza|perfume|cosmetico|cosmético/)){
+    return "beauty";
+  }
+
+  if(full.match(/ferramenta|parafusadeira|furadeira|alicate|chave de fenda|martelo|serra|broca|multimetro|multímetro|oficina|manual|reparo/)){
+    return "tools";
+  }
+
+  if(full.match(/infantil|bebe|bebê|crianca|criança|brinquedo|maternidade|menino|menina|kids/)){
+    return "kids";
+  }
+
+  if(full.match(/pet|cachorro|gato|coleira|comedouro|bebedouro|arranhador|animal/)){
+    return "pets";
+  }
+
+  if(full.match(/carro|automotivo|moto|veiculo|veículo|volante|painel|pneu|retrovisor|limpador|som automotivo/)){
+    return "autoParts";
+  }
+
+  return "generic";
+}
+
 function autoDetect(){
   const title = document.getElementById("productTitle").value.trim();
   const desc = document.getElementById("productDescription").value.trim();
   const color = document.getElementById("productColor").value.trim();
   const materialInput = document.getElementById("productMaterial").value.trim();
   const finishInput = document.getElementById("productFinish").value.trim();
+  const manualCategory = document.getElementById("manualCategory").value;
 
   const full = normalizeText(title + " " + desc + " " + color + " " + materialInput + " " + finishInput + " " + uploadedFileNames.join(" "));
 
-  let productType = "produto físico decorativo";
-  let material = materialInput || "material conforme descrição";
-  let shape = "formato conforme imagem";
-  let usage = "organização e decoração";
-  let quantity = "quantidade conforme descrição";
-  let finish = finishInput || "acabamento conforme descrição";
+  const detectedCategory = detectCategory(full);
+  const categoryId = manualCategory === "auto" ? detectedCategory : manualCategory;
+  const profile = categoryProfiles[categoryId] || categoryProfiles.generic;
 
-  if(full.includes("prateleira") || full.includes("nicho")){
-    productType = "prateleira decorativa";
+  let productType = profile.productType;
+
+  if(categoryId === "fashion"){
+    if(full.includes("jaqueta") || full.includes("casaco") || full.includes("bobojaco") || full.includes("puffer")){
+      productType = "jaqueta/casaco masculino ou feminino";
+    }
+    if(full.includes("camiseta") || full.includes("camisa")){
+      productType = "camisa ou camiseta";
+    }
+    if(full.includes("calca") || full.includes("calça")){
+      productType = "calça";
+    }
   }
 
-  if(full.includes("porta chave") || full.includes("porta-chave") || full.includes("chaveiro")){
-    productType = "porta-chaves de parede";
-    usage = "organização de chaves e decoração de entrada";
-  }
-
-  if(full.includes("peso de porta") || full.includes("segura porta")){
-    productType = "peso de porta decorativo";
-    usage = "segurar portas e decorar o ambiente";
-  }
-
-  if(full.includes("mesa") || full.includes("criado")){
-    productType = "móvel decorativo";
-    usage = "apoio de objetos e decoração";
-  }
-
-  if(!materialInput){
-    if(full.includes("mdf")) material = "MDF";
-    if(full.includes("acrilico") || full.includes("acrílico")) material = "acrílico";
-    if(full.includes("madeira")) material = "madeira";
-  }
-
-  if(full.includes("canto")) shape = "de canto";
-  if(full.includes("meia lua") || full.includes("meia-lua")){
-    shape = shape === "de canto" ? "de canto meia lua" : "meia lua";
-  }
-
-  if(full.includes("kit 3") || full.includes("3 unidades") || full.includes("três unidades") || full.includes("tres unidades")){
-    quantity = "kit com 3 unidades";
-  }
-
-  if(!finishInput){
-    if(full.includes("fosco")) finish = "acabamento fosco";
-    if(full.includes("acetinado")) finish = "acabamento acetinado";
+  if(categoryId === "home"){
+    if(full.includes("prateleira") || full.includes("nicho")){
+      productType = "prateleira decorativa";
+    }
+    if(full.includes("porta chave") || full.includes("porta-chave")){
+      productType = "porta-chaves de parede";
+    }
+    if(full.includes("peso de porta")){
+      productType = "peso de porta decorativo";
+    }
   }
 
   document.getElementById("detected").innerHTML = `
+    <div class="chip"><strong>Categoria:</strong> ${profile.label}</div>
     <div class="chip"><strong>Produto:</strong> ${productType}</div>
-    <div class="chip"><strong>Material:</strong> ${material}</div>
-    <div class="chip"><strong>Formato:</strong> ${shape}</div>
-    <div class="chip"><strong>Uso:</strong> ${usage}</div>
+    <div class="chip"><strong>Demonstração:</strong> ${profile.demo}</div>
+    <div class="chip"><strong>Ambiente:</strong> ${profile.scene}</div>
   `;
 
-  return {productType, material, shape, usage, quantity, finish};
+  return { categoryId, profile, productType };
 }
 
-["productTitle","productDescription","productColor","productMaterial","productFinish"].forEach(id=>{
+["productTitle","productDescription","productColor","productMaterial","productFinish","manualCategory","customEnvironment"].forEach(id=>{
   document.getElementById(id).addEventListener("input", autoDetect);
+  document.getElementById(id).addEventListener("change", autoDetect);
 });
 
 function getProductData(){
@@ -757,7 +899,7 @@ function getProductData(){
   const color = document.getElementById("productColor").value.trim();
   const materialInput = document.getElementById("productMaterial").value.trim();
   const finishInput = document.getElementById("productFinish").value.trim();
-  const environment = document.getElementById("environment").value;
+  const customEnvironment = document.getElementById("customEnvironment").value.trim();
   const duration = document.getElementById("duration").value;
 
   if(!title){
@@ -767,13 +909,15 @@ function getProductData(){
   }
 
   const detected = autoDetect();
+  const profile = detected.profile;
 
-  const material = materialInput || detected.material;
-  const finish = finishInput || detected.finish;
+  const material = materialInput || "material/tecido conforme imagem e descrição";
+  const finish = finishInput || "acabamento conforme imagem e descrição";
   const safeColor = color || "cor conforme imagem";
-  const safeDescription = description || "produto decorativo para organização e melhoria do ambiente";
+  const safeDescription = description || "produto físico de e-commerce com características conforme imagem";
+  const environment = customEnvironment || profile.scene;
 
-  const productLine = `${title}, ${detected.quantity}, ${detected.productType} ${detected.shape}, feito em ${material}, cor ${safeColor}, ${finish}, ${safeDescription}`;
+  const productLine = `${title}, categoria ${profile.label}, ${detected.productType}, cor ${safeColor}, material/tecido: ${material}, acabamento/detalhes: ${finish}, descrição: ${safeDescription}`;
 
   const refImages = uploadedFileNames.length
     ? uploadedFileNames.map((n,i)=>`Imagem de referência ${i+1}: ${n}`).join("; ")
@@ -788,23 +932,39 @@ function getProductData(){
     environment,
     duration,
     detected,
+    profile,
     productLine,
     refImages
   };
 }
 
-function commonNegative(){
-  return "beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone interface elements, recording UI, battery icon, signal icon, notification icons, app overlays, TikTok interface, readable private customer data, product redesign, product modification, invented features, extra parts, wrong color, wrong material, wrong quantity, unrealistic hands, distorted product, fake labels, professional studio background, luxury showroom, cartoon style, plastic look if product is MDF";
+function commonNegative(data){
+  let base = "beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone interface elements, recording UI, battery icon, signal icon, notification icons, app overlays, TikTok interface, readable private customer data, product redesign, product modification, invented features, extra parts, wrong color, wrong material, wrong quantity, unrealistic hands, distorted product, fake labels, professional studio background, luxury showroom, cartoon style";
+
+  if(data.detected.categoryId === "fashion"){
+    base += ", changing jacket into shelf, changing clothing type, wrong garment, extra sleeves, missing zipper, wrong hood, unrealistic fabric, deformed body, exaggerated muscles, sexualized pose";
+  }
+
+  if(data.detected.categoryId === "home"){
+    base += ", model wearing the shelf, changing decor product into clothing, floating shelf without support, unrealistic wall, impossible installation";
+  }
+
+  return base;
 }
 
 function productLock(data){
-  return `[PRODUCT LOCK]: O produto principal deve ser exatamente: ${data.productName}. Usar as imagens enviadas como referência visual do ${data.productName}. Não substituir por outro produto. Não redesenhar. Não alterar formato, cor, material, acabamento, proporção ou quantidade. O ${data.productName} deve aparecer fiel ao título, descrição e imagens de referência.
+  return `[PRODUCT LOCK]: O produto principal deve ser exatamente: ${data.productName}. Categoria correta: ${data.profile.label}. Usar as imagens enviadas como referência visual do ${data.productName}. Não substituir por outro produto. Não redesenhar. Não alterar formato, cor, material, acabamento, proporção, quantidade ou categoria. O ${data.productName} deve aparecer fiel ao título, descrição e imagens de referência.
 
 [REFERENCE IMAGES]: ${data.refImages}`;
 }
 
 function fillText(text, data){
-  return text.replaceAll("{name}", data.productName);
+  return text
+    .replaceAll("{name}", data.productName)
+    .replaceAll("{pain}", data.profile.pain)
+    .replaceAll("{desire}", data.profile.desire)
+    .replaceAll("{demo}", data.profile.demo)
+    .replaceAll("{details}", data.profile.details);
 }
 
 function getVariation(modelId, occurrence){
@@ -817,10 +977,10 @@ function makePrompt(modelId, data, globalIndex, occurrence){
   const variation = getVariation(modelId, occurrence);
 
   const name = data.productName;
-  const env = data.environment;
+  const profile = data.profile;
   const line = data.productLine;
   const duration = data.duration;
-  const negative = commonNegative();
+  const negative = commonNegative(data);
 
   const hook = fillText(variation.hook, data);
   const scene2 = fillText(variation.scene2, data);
@@ -830,328 +990,67 @@ function makePrompt(modelId, data, globalIndex, occurrence){
 
   const baseHeader = `━━━━ PROMPT ${globalIndex} — ${model.name.toUpperCase()} · VARIAÇÃO ${occurrence}: ${angle.toUpperCase()} ━━━━`;
 
-  if(modelId === "ugc"){
-    return `${baseHeader}
+  let sceneLabel2 = "Desenvolvimento";
+  let sceneLabel3 = "Demonstração";
 
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
+  if(modelId === "comparacao") sceneLabel2 = "Comparação";
+  if(modelId === "povFabrica") sceneLabel2 = "Bastidor";
+  if(modelId === "premium") sceneLabel3 = "Close Premium";
+  if(modelId === "problemaSolucao") sceneLabel2 = "Problema";
+  if(modelId === "demoRapida") sceneLabel3 = "Uso / Teste";
+  if(modelId === "antesDepois") sceneLabel2 = "Antes";
 
-━━━━ CENA 2 — Curiosidade / Desejo ━━━━
-${scene2}
+  let subject = profile.subject;
+  let scene = data.environment;
+  let camera = profile.camera;
+  let style = profile.style;
+  let demoAction = profile.demo;
 
-━━━━ CENA 3 — Demonstração ━━━━
-${scene3}
-
-━━━━ CENA 4 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: ${env}.
-[SUBJECT]: mulher brasileira, aparência natural e realista, pele com poros visíveis, micro textura da pele, imperfeições naturais, cílios realistas, sobrancelhas naturais, reflexos oculares realistas, assimetria facial sutil. Movimentos: piscar natural, micro movimento da cabeça, respiração sutil, gestos naturais das mãos. Vestindo roupa simples estilo UGC.
-[PRODUCT]: ${line}. O ${name} deve ser levantado rapidamente perto da câmera, ocupando pelo menos 40% do frame.
-[CAMERA]: smartphone camera, vertical 9:16, close-up no rosto da personagem e no ${name}, slight handheld camera movement, natural autofocus shift, smartphone compression artifacts, subtle sensor noise.
-[LIGHTING]: natural daylight from a nearby window mixed with indoor lighting.
-[STYLE]: UGC autêntico, gravação de smartphone real em ambiente doméstico brasileiro.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}.`;
+  if(modelId === "povHands"){
+    subject = `somente mãos adultas brasileiras demonstrando o ${name}, sem mostrar rosto, movimentos naturais`;
   }
 
   if(modelId === "povFabrica"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Bastidor ━━━━
-${scene2}
-
-━━━━ CENA 3 — Produção / Conferência ━━━━
-${scene3}
-
-━━━━ CENA 4 — Produto Pronto ━━━━
-O ${name} sai pronto para deixar a casa mais organizada, bonita e funcional.
-
-━━━━ CENA 5 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: pequena fábrica brasileira ou oficina de MDF, bancada de trabalho, peças organizadas, ambiente real de produção.
-[SUBJECT]: mãos de trabalhador brasileiro manuseando o ${name}, movimentos rápidos, naturais e realistas, sem pose artificial.
-[PRODUCT]: ${line}. O ${name} deve ser retirado da bancada, conferido e mostrado perto da câmera.
-[CAMERA]: POV smartphone camera, vertical 9:16, câmera na mão como se fosse o dono da fábrica mostrando o ${name}, movimentos rápidos e naturais, autofocus shift, subtle sensor noise.
-[LIGHTING]: luz de oficina brasileira, mistura de luz natural com lâmpadas frias.
-[STYLE]: bastidor realista de fábrica, vídeo autêntico de produção, aparência de pequeno negócio brasileiro.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, luxury factory, robotic machines, giant warehouse, unrealistic CNC machine.`;
-  }
-
-  if(modelId === "comparacao"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Comparação ━━━━
-${scene2}
-
-━━━━ CENA 3 — Valor Percebido ━━━━
-${scene3}
-
-━━━━ CENA 4 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: ${env}, com comparação visual entre canto vazio/desorganizado e o ${name} sendo apresentado como solução.
-[SUBJECT]: mãos brasileiras mostrando o produto e apontando para o espaço que será organizado.
-[PRODUCT]: ${line}. O ${name} deve aparecer como opção prática, com destaque de acabamento e utilidade.
-[CAMERA]: smartphone camera, vertical 9:16, cortes rápidos, close-up no ${name}, leve movimento de mão, foco alternando entre ambiente e produto.
-[LIGHTING]: luz natural realista misturada com iluminação interna simples.
-[STYLE]: anúncio UGC de comparação e oportunidade, realista, direto e comercial.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, fake price tags, unreadable money graphics, exaggerated discount overlay.`;
+    scene = `bastidor brasileiro realista: bancada, estoque, mesa de conferência, embalagem ou pequena produção adequada para a categoria ${profile.label}`;
+    subject = `mãos de trabalhador brasileiro conferindo, separando e mostrando o ${name}`;
   }
 
   if(modelId === "loja"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Achado de Loja ━━━━
-${scene2}
-
-━━━━ CENA 3 — Demonstração ━━━━
-${scene3}
-
-━━━━ CENA 4 — Desejo ━━━━
-Dá para usar em cozinha, sala, quarto, banheiro ou qualquer cantinho sem graça.
-
-━━━━ CENA 5 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: loja popular brasileira, prateleiras de produtos ao fundo, iluminação simples, ambiente realista de varejo.
-[SUBJECT]: pessoa brasileira mostrando o ${name} como achado de loja, gestos naturais, fala direta para câmera.
-[PRODUCT]: ${line}. O ${name} deve ocupar destaque no frame e manter fidelidade visual.
-[CAMERA]: smartphone camera, vertical 9:16, close-up no produto, movimento de loja real, autofocus shift, slight handheld.
-[LIGHTING]: iluminação simples de loja brasileira, misturada com luz natural se houver.
-[STYLE]: achado de loja, varejo brasileiro, UGC comercial autêntico.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, luxury mall, fake brand logos, fake barcode, unreadable labels.`;
+    scene = `loja brasileira realista adequada à categoria ${profile.label}, ambiente popular, prateleiras ou araras ao fundo, iluminação simples`;
   }
 
   if(modelId === "bras"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Movimento / Oportunidade ━━━━
-${scene2}
-
-━━━━ CENA 3 — Demonstração ━━━━
-${scene3}
-
-━━━━ CENA 4 — Urgência ━━━━
-Esse tipo de lote some rápido porque serve para organizar e decorar sem gastar muito.
-
-━━━━ CENA 5 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: feira shop brasileira estilo Brás, bancas de produtos, movimento natural de pessoas ao fundo, ambiente popular realista.
-[SUBJECT]: vendedor ou compradora brasileira segurando o ${name}, fala rápida, energia de achado e promoção.
-[PRODUCT]: ${line}. O ${name} deve ser o produto principal, fiel à imagem, sem alterações.
-[CAMERA]: smartphone camera, vertical 9:16, handheld, movimento rápido de feira, foco no ${name}, ruído sutil de sensor.
-[LIGHTING]: luz ambiente de feira/loja popular, realista e simples.
-[STYLE]: vídeo popular brasileiro, achado de feira shop, venda rápida, natural.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, fake crowd, unreadable signs, luxury background, product pile with wrong items.`;
-  }
-
-  if(modelId === "povHands"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Close no Produto ━━━━
-${scene2}
-
-━━━━ CENA 3 — Uso Real ━━━━
-${scene3}
-
-━━━━ CENA 4 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: ${env}.
-[SUBJECT]: somente mãos adultas brasileiras, sem mostrar rosto, movimentos naturais, segurando e posicionando o ${name}.
-[PRODUCT]: ${line}. O ${name} deve ocupar pelo menos 45% do frame nos closes.
-[CAMERA]: POV smartphone camera, vertical 9:16, close-up de mãos e produto, natural autofocus shift, handheld movement.
-[LIGHTING]: luz natural simples misturada com iluminação interna.
-[STYLE]: vídeo POV hands only, realista, caseiro, foco total no produto.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, face visible, unrealistic fingers, extra hands, product floating.`;
-  }
-
-  if(modelId === "antesDepois"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Antes ━━━━
-${scene2}
-
-━━━━ CENA 3 — Depois ━━━━
-${scene3}
-
-━━━━ CENA 4 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: ${env}, mostrando primeiro um canto vazio ou bagunçado e depois o mesmo canto organizado.
-[SUBJECT]: mãos adultas brasileiras organizando o ambiente e mostrando o resultado final.
-[PRODUCT]: ${line}. O ${name} deve aparecer claramente na transformação.
-[CAMERA]: smartphone camera, vertical 9:16, começa no canto vazio e faz transição rápida para o canto organizado, handheld movement, natural autofocus shift.
-[LIGHTING]: luz natural suave, ambiente doméstico simples e realista.
-[STYLE]: transformação caseira, antes e depois, realista, satisfatório e autêntico.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, luxury mansion, unrealistic transformation, floating object without support.`;
-  }
-
-  if(modelId === "instalacao"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Facilidade ━━━━
-${scene2}
-
-━━━━ CENA 3 — Resultado ━━━━
-${scene3}
-
-━━━━ CENA 4 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: ${env}, parede simples, ferramentas básicas se necessário, ambiente doméstico brasileiro realista.
-[SUBJECT]: mãos adultas instalando ou posicionando o ${name}, movimentos naturais, simples e seguros.
-[PRODUCT]: ${line}. O ${name} deve ser mostrado em close-up durante o uso.
-[CAMERA]: smartphone camera, close-up nas mãos e no ${name}, vertical 9:16, leve movimento de câmera, natural autofocus shift.
-[LIGHTING]: luz natural com iluminação interna comum.
-[STYLE]: tutorial rápido caseiro, realista, simples e direto, estilo UGC.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, complex industrial tools, impossible installation, floating product.`;
+    scene = `feira shop brasileira estilo Brás ou comércio popular adequado à categoria ${profile.label}, movimento natural ao fundo`;
   }
 
   if(modelId === "embalando"){
-    return `${baseHeader}
+    scene = `mesa de embalagem de loja online brasileira, caixas simples, plástico bolha ou embalagem adequada ao ${name}, etiquetas sem dados legíveis`;
+    subject = `mãos embalando pedidos, conferindo o ${name} e mostrando o produto antes do envio`;
+  }
+
+  return `${baseHeader}
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
 ${hook}
 
-━━━━ CENA 2 — Prova Social ━━━━
+━━━━ CENA 2 — ${sceneLabel2} ━━━━
 ${scene2}
 
-━━━━ CENA 3 — Produto / Embalagem ━━━━
+━━━━ CENA 3 — ${sceneLabel3} ━━━━
 ${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
 ${cta}
 
-[SCENE]: mesa de embalagem em pequena fábrica brasileira, caixas simples, plástico bolha, etiquetas de envio sem dados legíveis.
-[SUBJECT]: mãos embalando pedidos com movimentos rápidos e naturais, conferindo o ${name} e colocando na embalagem.
-[PRODUCT]: ${line}. O ${name} deve aparecer claramente perto da câmera antes de ser embalado.
-[CAMERA]: smartphone camera, vertical 9:16, POV sobre a bancada, cortes rápidos, movimento realista, natural autofocus shift.
-[LIGHTING]: luz de oficina ou estoque pequeno, iluminação simples e real.
-[STYLE]: bastidor de loja online, prova social, pedidos sendo preparados.
+[SCENE]: ${scene}.
+[SUBJECT]: ${subject}.
+[PRODUCT]: ${line}. A demonstração correta para essa categoria é: ${demoAction}. O ${name} deve aparecer fiel à imagem enviada e ocupar destaque visual no frame.
+[CAMERA]: ${camera}.
+[LIGHTING]: luz natural realista misturada com iluminação interna comum, sem aparência de estúdio.
+[STYLE]: ${style}.
 [DURATION]: ${duration}
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, readable customer addresses, real private data, huge logistics center.`;
-  }
-
-  if(modelId === "premium"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Percepção de Valor ━━━━
-${scene2}
-
-━━━━ CENA 3 — Demonstração Premium ━━━━
-${scene3}
-
-━━━━ CENA 4 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: ${env}, ambiente limpo, organizado, com visual elegante porém realista de casa brasileira.
-[SUBJECT]: mãos adultas mostrando o ${name} com cuidado, destacando acabamento, bordas e textura.
-[PRODUCT]: ${line}. O ${name} deve ser mostrado em close-up premium, ocupando pelo menos 45% do frame.
-[CAMERA]: smartphone camera, vertical 9:16, close-up premium, movimento suave de mão, natural autofocus shift, subtle sensor noise.
-[LIGHTING]: luz natural suave com iluminação interna equilibrada.
-[STYLE]: vídeo de produto premium realista, elegante, limpo, mas ainda com aparência de smartphone.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, overly cinematic, glossy fake finish, product redesign.`;
-  }
-
-  if(modelId === "problemaSolucao"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Problema ━━━━
-${scene2}
-
-━━━━ CENA 3 — Solução ━━━━
-${scene3}
-
-━━━━ CENA 4 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: ${env}, mostrando o problema de organização e depois o ${name} resolvendo a situação.
-[SUBJECT]: pessoa brasileira mostrando o problema com gesto natural das mãos e depois apresentando o ${name} como solução.
-[PRODUCT]: ${line}. O ${name} deve ser a solução principal da cena.
-[CAMERA]: smartphone camera, vertical 9:16, começa mostrando o problema e aproxima no ${name}, handheld movement, natural autofocus shift.
-[LIGHTING]: luz doméstica natural e realista.
-[STYLE]: vídeo UGC problema e solução, direto, realista e comercial.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, exaggerated mess, fake before-after overlay.`;
-  }
-
-  if(modelId === "casaPequena"){
-    return `${baseHeader}
-
-━━━━ CENA 1 — Scroll Stop ━━━━
-${hook}
-
-━━━━ CENA 2 — Problema de Espaço ━━━━
-${scene2}
-
-━━━━ CENA 3 — Solução Compacta ━━━━
-${scene3}
-
-━━━━ CENA 4 — CTA · CTA ━━━━
-${cta}
-
-[SCENE]: apartamento brasileiro compacto, cozinha pequena ou sala pequena, canto de parede visível, ambiente realista.
-[SUBJECT]: pessoa brasileira organizando objetos pequenos no ambiente, movimentos naturais, sem pose artificial.
-[PRODUCT]: ${line}. O ${name} deve ser usado para aproveitar espaço pequeno da casa.
-[CAMERA]: smartphone camera, vertical 9:16, plano médio mostrando o canto e close-up nos detalhes do ${name}, handheld movement.
-[LIGHTING]: luz natural de janela pequena com luz interna suave.
-[STYLE]: vídeo realista de organização para casa pequena, UGC doméstico brasileiro.
-[DURATION]: ${duration}
-${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}, huge luxury apartment, unrealistic space, oversized product.`;
-  }
-
-  return "";
+[NEGATIVE PROMPT]: ${negative}.`;
 }
 
 function generateCampaign(){
@@ -1173,18 +1072,19 @@ function generateCampaign(){
     return;
   }
 
-  let output = `PROMPTFLOW V3 — PACOTE DE CAMPANHA COM VARIAÇÕES PARA FLOW
+  let output = `PROMPTFLOW V4 — PACOTE DE CAMPANHA COM CATEGORIA INTELIGENTE
 
 PRODUTO PRINCIPAL: ${data.productName}
+CATEGORIA DETECTADA: ${data.profile.label}
 DESCRIÇÃO: ${data.description}
 TOTAL DE PROMPTS: ${selected.length}
 
-LÓGICA DA CAMPANHA:
-Cada modelo criativo pode gerar várias versões diferentes.
-Exemplo: UGC 3x gera Descoberta, Dor/Solução e Urgência, sem repetir o mesmo roteiro.
-
 INSTRUÇÃO GERAL:
-Todos os prompts abaixo devem manter o produto principal fiel ao nome, descrição e imagens de referência. Não trocar, não redesenhar e não inventar variações do produto.
+Todos os prompts abaixo devem respeitar a categoria correta do produto.
+Se o produto for moda/vestuário, mostrar pessoa vestindo, tecido, caimento, zíper, capuz, costura e detalhes da peça.
+Se o produto for casa/decoração, mostrar ambiente doméstico, organização, instalação ou uso no espaço.
+Se o produto for eletrônico, mostrar teste, função, tela, botão, cabo ou funcionamento.
+Não trocar a categoria do produto.
 
 `;
 
@@ -1194,7 +1094,7 @@ Todos os prompts abaixo devem manter o produto principal fiel ao nome, descriç�
 
   document.getElementById("result").textContent = output;
   saveHistory(data.productName, output);
-  showMessage("Campanha gerada com " + selected.length + " prompts variados!");
+  showMessage("Campanha gerada com categoria correta!");
 }
 
 function generateSelectedOnly(){
@@ -1203,9 +1103,10 @@ function generateSelectedOnly(){
 
   const model = creativeModels.find(m => m.id === selectedModelForSingle) || creativeModels[0];
 
-  let output = `PROMPTFLOW V3 — MODELO INDIVIDUAL COM VARIAÇÕES
+  let output = `PROMPTFLOW V4 — MODELO INDIVIDUAL COM CATEGORIA INTELIGENTE
 
 PRODUTO PRINCIPAL: ${data.productName}
+CATEGORIA DETECTADA: ${data.profile.label}
 MODELO CRIATIVO: ${model.name}
 
 `;
@@ -1218,17 +1119,16 @@ MODELO CRIATIVO: ${model.name}
 
   document.getElementById("result").textContent = output;
   saveHistory(data.productName + " · " + model.name, output);
-  showMessage("Variações individuais geradas: " + model.name);
+  showMessage("Variações do modelo geradas.");
 }
 
 function setStarterPack(){
   resetCounts(false);
   counts.ugc = 3;
-  counts.povFabrica = 2;
   counts.povHands = 2;
-  counts.antesDepois = 2;
-  counts.embalando = 1;
-  counts.premium = 1;
+  counts.premium = 2;
+  counts.problemaSolucao = 1;
+  counts.demoRapida = 1;
 
   creativeModels.forEach(m=>{
     const el = document.getElementById("count-" + m.id);
@@ -1236,7 +1136,7 @@ function setStarterPack(){
   });
 
   updateTotal();
-  showMessage("Pacote teste com variações configurado.");
+  showMessage("Pacote teste configurado.");
 }
 
 function resetCounts(show=true){
@@ -1282,7 +1182,7 @@ function downloadTxt(){
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = safe + "-promptflow-v3.txt";
+  a.download = safe + "-promptflow-v4.txt";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1298,8 +1198,9 @@ function clearAll(){
   document.getElementById("productColor").value = "";
   document.getElementById("productMaterial").value = "";
   document.getElementById("productFinish").value = "";
+  document.getElementById("customEnvironment").value = "";
+  document.getElementById("manualCategory").value = "auto";
   document.getElementById("duration").selectedIndex = 0;
-  document.getElementById("environment").selectedIndex = 0;
   uploadedFileNames = [];
   document.getElementById("previewGrid").innerHTML = `<div class="preview-item">Sem imagem</div>`;
   document.getElementById("result").textContent = "Preencha o nome do produto, escolha os modelos criativos com + e clique em GERAR CAMPANHA.";
@@ -1309,20 +1210,20 @@ function clearAll(){
 }
 
 function saveHistory(title, content){
-  const history = JSON.parse(localStorage.getItem("promptflow_history_v3") || "[]");
+  const history = JSON.parse(localStorage.getItem("promptflow_history_v4") || "[]");
   history.unshift({
     title,
     date:new Date().toLocaleString("pt-BR"),
     content
   });
 
-  localStorage.setItem("promptflow_history_v3", JSON.stringify(history.slice(0,10)));
+  localStorage.setItem("promptflow_history_v4", JSON.stringify(history.slice(0,10)));
   renderHistory();
 }
 
 function renderHistory(){
   const list = document.getElementById("historyList");
-  const history = JSON.parse(localStorage.getItem("promptflow_history_v3") || "[]");
+  const history = JSON.parse(localStorage.getItem("promptflow_history_v4") || "[]");
 
   if(history.length === 0){
     list.textContent = "Nenhuma campanha salva ainda.";
@@ -1353,11 +1254,11 @@ window.addEventListener("load", ()=>{
   renderModels();
   renderHistory();
 
-  document.getElementById("productTitle").value = "Kit 3 Prateleiras de Canto Meia Lua em MDF Preto";
-  document.getElementById("productDescription").value = "Kit com 3 unidades em MDF, acabamento fosco, fácil instalação, ideal para organizar cozinha, sala, quarto e banheiro.";
+  document.getElementById("productTitle").value = "Jaqueta Puffer Masculina Bobojaco Com Capuz Frio Intenso Luxo";
+  document.getElementById("productDescription").value = "Jaqueta preta com tecido acolchoado, capuz, zíper frontal, bolsos e caimento confortável, ideal para frio intenso.";
   document.getElementById("productColor").value = "preta";
-  document.getElementById("productMaterial").value = "MDF";
-  document.getElementById("productFinish").value = "fosco/acetinado";
+  document.getElementById("productMaterial").value = "tecido acolchoado";
+  document.getElementById("productFinish").value = "costura acolchoada, capuz e zíper frontal";
 
   setStarterPack();
   autoDetect();
