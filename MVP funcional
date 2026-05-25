@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flow Prompt Factory</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(255, 120, 0, 0.18), transparent 30%),
+      radial-gradient(circle at bottom right, rgba(0, 150, 255, 0.12), transparent 35%),
+      #080808;
+    color: #fff;
+  }
+
+  .app {
+    max-width: 1200px;
+    margin: auto;
+    padding: 18px;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #161616, #0b0b0b);
+    border: 1px solid #2a2a2a;
+    border-radius: 22px;
+    padding: 22px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.35);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(255, 120, 0, 0.14);
+    color: #ff9d3b;
+    border: 1px solid rgba(255, 120, 0, 0.35);
+    border-radius: 999px;
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 30px;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitle {
+    color: #bdbdbd;
+    font-size: 14px;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 390px 1fr;
+    gap: 18px;
+  }
+
+  .card {
+    background: rgba(18, 18, 18, 0.92);
+    border: 1px solid #292929;
+    border-radius: 22px;
+    padding: 18px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.28);
+  }
+
+  .section-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    color: #bcbcbc;
+    margin: 14px 0 6px;
+  }
+
+  input, textarea, select {
+    width: 100%;
+    background: #0c0c0c;
+    color: #fff;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 13px;
+    outline: none;
+    font-size: 14px;
+  }
+
+  textarea {
+    min-height: 96px;
+    resize: vertical;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: #ff8c22;
+    box-shadow: 0 0 0 3px rgba(255, 140, 34, 0.12);
+  }
+
+  .upload-box {
+    border: 1px dashed #555;
+    background: #0d0d0d;
+    border-radius: 18px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .preview {
+    margin-top: 12px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #050505;
+    border: 1px solid #252525;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 13px;
+  }
+
+  .preview img {
+    width: 100%;
+    display: block;
+    max-height: 260px;
+    object-fit: contain;
+  }
+
+  .patterns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .pattern-btn {
+    border: 1px solid #303030;
+    background: #101010;
+    color: #e6e6e6;
+    padding: 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.2s;
+    font-size: 13px;
+    min-height: 58px;
+  }
+
+  .pattern-btn:hover {
+    border-color: #ff8c22;
+    transform: translateY(-1px);
+  }
+
+  .pattern-btn.active {
+    background: linear-gradient(135deg, #ff7a00, #ff9f35);
+    color: #111;
+    border-color: #ffb35f;
+    font-weight: bold;
+  }
+
+  .pattern-number {
+    opacity: 0.75;
+    font-size: 11px;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  button.main {
+    flex: 1;
+    min-width: 160px;
+    border: none;
+    background: linear-gradient(135deg, #ff7a00, #ffb13b);
+    color: #111;
+    font-weight: bold;
+    border-radius: 16px;
+    padding: 14px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  button.secondary {
+    border: 1px solid #333;
+    background: #101010;
+    color: #fff;
+    border-radius: 16px;
+    padding: 14px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  button.main:hover, button.secondary:hover {
+    filter: brightness(1.08);
+  }
+
+  .result-box {
+    background: #050505;
+    border: 1px solid #2c2c2c;
+    border-radius: 18px;
+    padding: 16px;
+    min-height: 520px;
+    white-space: pre-wrap;
+    line-height: 1.48;
+    font-size: 14px;
+    color: #f1f1f1;
+  }
+
+  .detected {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .chip {
+    background: #0c0c0c;
+    border: 1px solid #292929;
+    color: #cfcfcf;
+    padding: 9px 10px;
+    border-radius: 14px;
+    font-size: 12px;
+  }
+
+  .chip strong {
+    color: #ff9d3b;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff8c22;
+    color: #111;
+    font-weight: bold;
+    padding: 12px 18px;
+    border-radius: 999px;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    z-index: 20;
+  }
+
+  .small-help {
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: 25px;
+    }
+
+    .patterns {
+      grid-template-columns: 1fr;
+    }
+
+    .result-box {
+      min-height: 360px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    <div class="badge">FLOW PROMPT FACTORY · V1</div>
+    <h1>Gerador de Prompts Profissionais para Flow</h1>
+    <div class="subtitle">
+      Escolha um padrão de vídeo, envie a imagem do produto, preencha título e descrição.
+      O sistema monta um prompt completo no formato UGC, POV, fábrica, antes/depois e outros estilos.
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="section-title">1. Produto</div>
+
+      <div class="upload-box">
+        <input type="file" id="imageUpload" accept="image/*" />
+        <div class="small-help">
+          Envie uma imagem do produto. Nesta V1, o app usa o nome do arquivo + título + descrição para identificar o produto.
+        </div>
+        <div class="preview" id="preview">
+          Prévia da imagem
+        </div>
+      </div>
+
+      <label>Título do produto</label>
+      <input id="productTitle" placeholder="Ex: Kit 3 Prateleiras de Canto Meia Lua em MDF Preto" />
+
+      <label>Descrição do produto</label>
+      <textarea id="productDescription" placeholder="Ex: Kit com 3 unidades em MDF, acabamento fosco, fácil instalação, ideal para cozinha, sala, quarto e banheiro."></textarea>
+
+      <label>Cor principal</label>
+      <input id="productColor" placeholder="Ex: preta, branca, amadeirada" />
+
+      <label>Ambiente desejado</label>
+      <select id="environment">
+        <option value="cozinha doméstica brasileira, bancada simples, luz natural de janela">Cozinha brasileira</option>
+        <option value="sala brasileira pequena, parede clara, decoração simples e realista">Sala pequena</option>
+        <option value="quarto brasileiro simples, parede clara, organização doméstica">Quarto</option>
+        <option value="banheiro brasileiro pequeno, parede clara, ambiente limpo e realista">Banheiro</option>
+        <option value="oficina brasileira de MDF, bancada de trabalho, peças organizadas">Fábrica / Oficina MDF</option>
+        <option value="apartamento brasileiro compacto, canto de parede pequeno e funcional">Apartamento pequeno</option>
+      </select>
+
+      <label>Duração</label>
+      <select id="duration">
+        <option value="7s">7 segundos</option>
+        <option value="8s">8 segundos</option>
+        <option value="10s">10 segundos</option>
+        <option value="12s">12 segundos</option>
+      </select>
+
+      <div class="section-title" style="margin-top:18px;">2. Padrão do vídeo</div>
+
+      <div class="patterns" id="patterns">
+        <button class="pattern-btn active" data-pattern="ugc">
+          <span class="pattern-number">01</span>
+          UGC Pessoa Mostrando
+        </button>
+
+        <button class="pattern-btn" data-pattern="povFabrica">
+          <span class="pattern-number">02</span>
+          POV Fábrica
+        </button>
+
+        <button class="pattern-btn" data-pattern="antesDepois">
+          <span class="pattern-number">03</span>
+          Antes e Depois
+        </button>
+
+        <button class="pattern-btn" data-pattern="instalacao">
+          <span class="pattern-number">04</span>
+          Instalação Rápida
+        </button>
+
+        <button class="pattern-btn" data-pattern="casaPequena">
+          <span class="pattern-number">05</span>
+          Casa Pequena
+        </button>
+
+        <button class="pattern-btn" data-pattern="embalando">
+          <span class="pattern-number">06</span>
+          Embalando Pedidos
+        </button>
+
+        <button class="pattern-btn" data-pattern="decoracao">
+          <span class="pattern-number">07</span>
+          Decoração Satisfatória
+        </button>
+
+        <button class="pattern-btn" data-pattern="oferta">
+          <span class="pattern-number">08</span>
+          Oferta Relâmpago
+        </button>
+
+        <button class="pattern-btn" data-pattern="problemaSolucao">
+          <span class="pattern-number">09</span>
+          Problema e Solução
+        </button>
+
+        <button class="pattern-btn" data-pattern="premium">
+          <span class="pattern-number">10</span>
+          Produto Premium
+        </button>
+      </div>
+
+      <div class="detected" id="detected">
+        <div class="chip"><strong>Produto:</strong> aguardando</div>
+        <div class="chip"><strong>Material:</strong> aguardando</div>
+        <div class="chip"><strong>Formato:</strong> aguardando</div>
+        <div class="chip"><strong>Uso:</strong> aguardando</div>
+      </div>
+
+      <div class="actions">
+        <button class="main" onclick="generatePrompt()">GERAR PROMPT</button>
+        <button class="secondary" onclick="clearAll()">Limpar</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">3. Prompt pronto para Flow</div>
+
+      <div class="actions" style="margin-top:0; margin-bottom:12px;">
+        <button class="main" onclick="copyPrompt()">Copiar Prompt</button>
+        <button class="secondary" onclick="downloadPrompt()">Baixar .TXT</button>
+      </div>
+
+      <div class="result-box" id="result">
+Preencha os dados do produto, escolha um padrão e clique em GERAR PROMPT.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast">Prompt copiado!</div>
+
+<script>
+  let selectedPattern = "ugc";
+  let uploadedFileName = "";
+
+  const patternButtons = document.querySelectorAll(".pattern-btn");
+
+  patternButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      patternButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      selectedPattern = btn.dataset.pattern;
+      generatePrompt(false);
+    });
+  });
+
+  document.getElementById("imageUpload").addEventListener("change", function(e) {
+    const file = e.target.files[0];
+    const preview = document.getElementById("preview");
+
+    if (!file) {
+      uploadedFileName = "";
+      preview.innerHTML = "Prévia da imagem";
+      return;
+    }
+
+    uploadedFileName = file.name;
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      preview.innerHTML = `<img src="${event.target.result}" alt="Prévia do produto">`;
+    };
+    reader.readAsDataURL(file);
+
+    generatePrompt(false);
+  });
+
+  function normalizeText(text) {
+    return (text || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function detectProductData(title, description, color, fileName) {
+    const full = normalizeText(title + " " + description + " " + color + " " + fileName);
+
+    let productType = "produto físico decorativo";
+    let material = "material não informado";
+    let shape = "formato conforme imagem enviada";
+    let usage = "organização e decoração";
+    let quantity = "unidade ou kit conforme descrição";
+    let finish = "acabamento conforme descrição";
+    let productKeywords = [];
+
+    if (full.includes("prateleira") || full.includes("nicho")) {
+      productType = "prateleira decorativa";
+      productKeywords.push("prateleira");
+    }
+
+    if (full.includes("porta chave") || full.includes("porta-chave") || full.includes("chaveiro")) {
+      productType = "porta-chaves de parede";
+      usage = "organização de chaves e decoração de entrada";
+      productKeywords.push("porta-chaves");
+    }
+
+    if (full.includes("peso de porta") || full.includes("segura porta")) {
+      productType = "peso de porta decorativo";
+      usage = "segurar portas e decorar o ambiente";
+      productKeywords.push("peso de porta");
+    }
+
+    if (full.includes("mesa") || full.includes("criado mudo") || full.includes("criado-mudo")) {
+      productType = "móvel decorativo";
+      usage = "decoração e apoio de objetos";
+      productKeywords.push("móvel");
+    }
+
+    if (full.includes("mdf")) {
+      material = "MDF";
+      productKeywords.push("MDF");
+    }
+
+    if (full.includes("acrilico") || full.includes("acrílico")) {
+      material = "acrílico";
+      productKeywords.push("acrílico");
+    }
+
+    if (full.includes("madeira")) {
+      material = "madeira";
+      productKeywords.push("madeira");
+    }
+
+    if (full.includes("canto")) {
+      shape = "de canto";
+      productKeywords.push("canto");
+    }
+
+    if (full.includes("meia lua") || full.includes("meia-lua")) {
+      shape = shape === "de canto" ? "de canto meia lua" : "meia lua";
+      productKeywords.push("meia lua");
+    }
+
+    if (full.includes("kit 3") || full.includes("3 unidades") || full.includes("tres unidades") || full.includes("três unidades")) {
+      quantity = "kit com 3 unidades";
+      productKeywords.push("kit com 3 unidades");
+    }
+
+    if (full.includes("fosco") || full.includes("acetinado")) {
+      finish = "acabamento fosco/acetinado";
+      productKeywords.push("acabamento fosco");
+    }
+
+    if (full.includes("branco") || full.includes("branca")) {
+      productKeywords.push("cor branca");
+    }
+
+    if (full.includes("preto") || full.includes("preta")) {
+      productKeywords.push("cor preta");
+    }
+
+    if (full.includes("organizar") || full.includes("organizacao") || full.includes("organização")) {
+      usage = "organização e decoração de ambientes pequenos";
+    }
+
+    if (full.includes("cozinha")) {
+      productKeywords.push("cozinha");
+    }
+
+    if (full.includes("sala")) {
+      productKeywords.push("sala");
+    }
+
+    if (full.includes("banheiro")) {
+      productKeywords.push("banheiro");
+    }
+
+    if (productKeywords.length === 0) {
+      productKeywords.push("produto conforme imagem", "decoração", "organização");
+    }
+
+    return {
+      productType,
+      material,
+      shape,
+      usage,
+      quantity,
+      finish,
+      productKeywords: productKeywords.join(", ")
+    };
+  }
+
+  function updateDetected(data) {
+    document.getElementById("detected").innerHTML = `
+      <div class="chip"><strong>Produto:</strong> ${data.productType}</div>
+      <div class="chip"><strong>Material:</strong> ${data.material}</div>
+      <div class="chip"><strong>Formato:</strong> ${data.shape}</div>
+      <div class="chip"><strong>Uso:</strong> ${data.usage}</div>
+    `;
+  }
+
+  function buildProductLine(title, description, color, data) {
+    const safeTitle = title || "Produto conforme imagem enviada";
+    const safeDescription = description || "Produto decorativo para organização da casa.";
+    const safeColor = color || "cor conforme imagem enviada";
+
+    return `${safeTitle}, ${data.quantity}, ${data.productType} ${data.shape}, feito em ${data.material}, cor ${safeColor}, ${data.finish}, ${safeDescription}`;
+  }
+
+  function getTemplate(pattern, productLine, environment, duration, title, data) {
+    const safeTitle = title || "produto";
+    const lowerTitle = safeTitle.toLowerCase();
+
+    const commonNegative = "beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone interface elements, recording UI, battery icon, signal icon, notification icons, app overlays, TikTok interface, readable private customer data, product redesign, product modification, invented features, extra parts, wrong color, wrong material, unrealistic hands, distorted product, fake labels, professional studio background";
+
+    const templates = {
+
+      ugc: `━━━━ CENA 1 — Scroll Stop ━━━━
+Eu fiquei esperando promoção e quase fiquei sem! Olha só essa descoberta incrível para organizar a casa.
+
+━━━━ CENA 2 — Curiosidade ━━━━
+Chega de cantos sem graça e bagunça. Esse produto transforma qualquer espaço pequeno em algo útil, bonito e bem organizado.
+
+━━━━ CENA 3 — Demonstração ━━━━
+Olha o acabamento, a estrutura e como ele fica perfeito para decorar e organizar sem ocupar espaço.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Não perde tempo. Se você quiser o seu também, clica no carrinho laranja aqui no cantinho da tela antes que acabe.
+
+[SCENE]: ${environment}.
+[SUBJECT]: mulher brasileira, pele realista com poros visíveis, micro textura da pele, penugem facial fina, imperfeições naturais da pele, linhas naturais da textura dos lábios, cílios realistas, fios de sobrancelha naturais, reflexos oculares realistas, assimetria facial sutil. Movimentos: piscar natural, micro movimento da cabeça, respiração sutil, gestos naturais das mãos. Vestindo roupa padrão do estilo UGC.
+[PRODUCT]: ${productLine}, sendo levantado rapidamente perto da câmera, ocupando pelo menos 40% do frame. Usar a imagem enviada como referência visual principal do produto.
+[CAMERA]: smartphone camera, close-up no rosto da personagem e no produto, slight handheld camera movement, natural autofocus shift, smartphone compression artifacts, subtle sensor noise, vertical 9:16.
+[LIGHTING]: natural daylight from a nearby window mixed with indoor lighting.
+[STYLE]: UGC autêntico, gravação de smartphone real em ambiente doméstico brasileiro.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}.`,
+
+      povFabrica: `━━━━ CENA 1 — Scroll Stop ━━━━
+POV: você encontrou esse produto direto da fábrica antes de acabar o lote.
+
+━━━━ CENA 2 — Bastidor ━━━━
+Aqui as peças são separadas, conferidas e preparadas uma por uma para envio.
+
+━━━━ CENA 3 — Produto Pronto ━━━━
+Esse ${lowerTitle} sai pronto para deixar a casa mais organizada, bonita e funcional.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Se quiser garantir o seu, clica no carrinho antes que esse lote acabe.
+
+[SCENE]: pequena fábrica brasileira ou oficina de MDF, bancada de trabalho, peças organizadas, ambiente real de produção.
+[SUBJECT]: mãos de trabalhador brasileiro manuseando o produto, movimentos rápidos, naturais e realistas, sem pose artificial.
+[PRODUCT]: ${productLine}, sendo retirado da bancada, conferido e mostrado perto da câmera, ocupando pelo menos 40% do frame. Usar a imagem enviada como referência visual principal.
+[CAMERA]: POV smartphone camera, vertical 9:16, câmera na mão como se fosse o dono da fábrica mostrando o produto, movimentos rápidos e naturais, autofocus shift, subtle sensor noise.
+[LIGHTING]: luz de oficina brasileira, mistura de luz natural com lâmpadas frias.
+[STYLE]: bastidor realista de fábrica, vídeo autêntico de produção, aparência de pequeno negócio brasileiro.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}, luxury factory, robotic machines, giant warehouse, unrealistic CNC machine.`,
+
+      antesDepois: `━━━━ CENA 1 — Scroll Stop ━━━━
+Olha como esse cantinho sem graça mudou em segundos.
+
+━━━━ CENA 2 — Antes ━━━━
+Antes era só um espaço vazio, bagunçado e sem utilidade.
+
+━━━━ CENA 3 — Depois ━━━━
+Depois, com o ${lowerTitle}, o ambiente ficou mais bonito, organizado e funcional.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Quer fazer isso na sua casa também? Clica no carrinho e garante o seu antes que acabe.
+
+[SCENE]: ${environment}, mostrando primeiro um canto vazio ou bagunçado e depois o mesmo canto organizado.
+[SUBJECT]: mãos adultas brasileiras organizando o ambiente, colocando pequenos objetos e mostrando o resultado final.
+[PRODUCT]: ${productLine}, instalado ou posicionado no ambiente, claramente visível no antes e depois. Usar a imagem enviada como referência visual principal.
+[CAMERA]: smartphone camera, vertical 9:16, começa com plano do canto vazio e faz transição rápida para o canto organizado, handheld movement, natural autofocus shift.
+[LIGHTING]: luz natural suave, ambiente doméstico simples e realista.
+[STYLE]: vídeo de transformação caseira, antes e depois, realista, satisfatório e autêntico.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}, luxury mansion, unrealistic installation, floating object without support.`,
+
+      instalacao: `━━━━ CENA 1 — Scroll Stop ━━━━
+Você não precisa ser profissional para deixar esse cantinho bonito.
+
+━━━━ CENA 2 — Facilidade ━━━━
+A instalação é simples, rápida e o produto já vem pronto para usar.
+
+━━━━ CENA 3 — Resultado ━━━━
+Em poucos minutos, aquele canto vazio vira um espaço útil para decorar ou organizar.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Clica no carrinho e garante o seu antes que acabe.
+
+[SCENE]: ${environment}, parede simples, ferramentas básicas sobre a bancada, ambiente doméstico brasileiro realista.
+[SUBJECT]: mãos adultas instalando ou posicionando o produto, movimentos naturais, simples e seguros.
+[PRODUCT]: ${productLine}, sendo posicionado no local de instalação e mostrado em close-up. Usar a imagem enviada como referência visual principal.
+[CAMERA]: smartphone camera, close-up nas mãos e no produto, vertical 9:16, leve movimento de câmera, natural autofocus shift, subtle sensor noise.
+[LIGHTING]: luz natural com iluminação interna comum.
+[STYLE]: tutorial rápido caseiro, realista, simples e direto, estilo UGC.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}, complex industrial tools, unrealistic screws, impossible installation, floating product.`,
+
+      casaPequena: `━━━━ CENA 1 — Scroll Stop ━━━━
+Se sua casa é pequena, esse cantinho pode virar espaço útil.
+
+━━━━ CENA 2 — Problema ━━━━
+A gente sempre acha que não tem espaço, mas às vezes o canto da parede está sendo desperdiçado.
+
+━━━━ CENA 3 — Solução ━━━━
+Com o ${lowerTitle}, dá para organizar melhor e deixar o ambiente mais bonito sem ocupar espaço.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Clica no carrinho e aproveita enquanto ainda tem disponível.
+
+[SCENE]: apartamento brasileiro compacto, cozinha pequena ou sala pequena, canto de parede visível, ambiente realista.
+[SUBJECT]: pessoa brasileira organizando objetos pequenos no ambiente, movimentos naturais, sem pose artificial.
+[PRODUCT]: ${productLine}, sendo usado para aproveitar um espaço pequeno da casa. Usar a imagem enviada como referência visual principal.
+[CAMERA]: smartphone camera, vertical 9:16, plano médio mostrando o canto e close-up nos detalhes do produto, handheld movement.
+[LIGHTING]: luz natural de janela pequena com luz interna suave.
+[STYLE]: vídeo realista de organização para casa pequena, UGC doméstico brasileiro.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}, huge luxury apartment, unrealistic space, oversized product.`,
+
+      embalando: `━━━━ CENA 1 — Scroll Stop ━━━━
+Olha a quantidade de pedidos saindo hoje desse produto.
+
+━━━━ CENA 2 — Prova Social ━━━━
+Muita gente está aproveitando para organizar e decorar a casa com esse item.
+
+━━━━ CENA 3 — Produto ━━━━
+Cada peça é conferida, separada e embalada com cuidado antes do envio.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Se quiser o seu, clica no carrinho antes que esse lote acabe.
+
+[SCENE]: mesa de embalagem em pequena fábrica brasileira, caixas simples, plástico bolha, etiquetas de envio sem dados legíveis.
+[SUBJECT]: mãos embalando pedidos com movimentos rápidos e naturais, conferindo o produto e colocando na embalagem.
+[PRODUCT]: ${productLine}, sendo colocado em embalagem para envio, aparecendo claramente perto da câmera. Usar a imagem enviada como referência visual principal.
+[CAMERA]: smartphone camera, vertical 9:16, POV sobre a bancada, cortes rápidos, movimento realista, natural autofocus shift.
+[LIGHTING]: luz de oficina ou estoque pequeno, iluminação simples e real.
+[STYLE]: vídeo de bastidor de loja online, prova social, pedidos sendo preparados.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}, readable customer addresses, real private data, huge logistics center, fake shipping labels.`,
+
+      decoracao: `━━━━ CENA 1 — Scroll Stop ━━━━
+Esse detalhe deixou o cantinho da casa muito mais bonito.
+
+━━━━ CENA 2 — Desejo ━━━━
+Às vezes uma parede vazia só precisa de uma peça simples para mudar tudo.
+
+━━━━ CENA 3 — Demonstração ━━━━
+Com o ${lowerTitle}, dá para decorar, organizar e deixar o ambiente com muito mais charme.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Gostou? Clica no carrinho e garante o seu.
+
+[SCENE]: ${environment}, decoração simples e bonita, parede clara, plantas pequenas e objetos decorativos.
+[SUBJECT]: mãos femininas ou masculinas organizando objetos com movimentos suaves, naturais e satisfatórios.
+[PRODUCT]: ${productLine}, aparecendo como peça principal da decoração, bem enquadrado e com destaque. Usar a imagem enviada como referência visual principal.
+[CAMERA]: smartphone camera, vertical 9:16, close-ups satisfatórios, movimento lento e natural, foco nos detalhes do produto.
+[LIGHTING]: luz natural suave de janela, ambiente aconchegante.
+[STYLE]: vídeo de decoração satisfatória, realista, clean, caseiro e elegante sem parecer propaganda profissional.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}, luxury showroom, overly cinematic lighting, unrealistic decor.`,
+
+      oferta: `━━━━ CENA 1 — Scroll Stop ━━━━
+Eu vi esse produto com preço direto de fábrica e quase não acreditei.
+
+━━━━ CENA 2 — Urgência ━━━━
+O problema é que esse lote está acabando rápido, e depois pode não ter reposição.
+
+━━━━ CENA 3 — Valor ━━━━
+É bonito, útil, fácil de usar e perfeito para deixar a casa mais organizada.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Clica no carrinho laranja agora e garante o seu antes que acabe.
+
+[SCENE]: ${environment}, ambiente doméstico brasileiro simples, com o produto sendo mostrado como achado de promoção.
+[SUBJECT]: mulher brasileira ou homem brasileiro com estilo UGC, expressão de surpresa realista, segurando o produto perto da câmera.
+[PRODUCT]: ${productLine}, mostrado rapidamente perto da câmera como oferta encontrada, ocupando pelo menos 40% do frame. Usar a imagem enviada como referência visual principal.
+[CAMERA]: smartphone camera, vertical 9:16, close-up, leve tremor natural de mão, foco alternando entre rosto e produto.
+[LIGHTING]: luz natural de janela misturada com luz interna.
+[STYLE]: UGC de oferta relâmpago, natural, urgente, com cara de achado real.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}, fake discount labels, exaggerated money graphics, app overlay, countdown overlay.`,
+
+      problemaSolucao: `━━━━ CENA 1 — Scroll Stop ━━━━
+Esse cantinho da casa estava totalmente desperdiçado.
+
+━━━━ CENA 2 — Problema ━━━━
+Era bagunça, falta de espaço e um visual sem graça no ambiente.
+
+━━━━ CENA 3 — Solução ━━━━
+Com o ${lowerTitle}, o espaço ficou organizado, bonito e muito mais útil.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Se você também quer resolver isso na sua casa, clica no carrinho e garante o seu.
+
+[SCENE]: ${environment}, mostrando o problema de organização e depois o produto resolvendo a situação.
+[SUBJECT]: pessoa brasileira mostrando o problema com gesto natural das mãos e depois apresentando o produto como solução.
+[PRODUCT]: ${productLine}, usado como solução principal para organização e decoração. Usar a imagem enviada como referência visual principal.
+[CAMERA]: smartphone camera, vertical 9:16, começa mostrando o problema e aproxima no produto, handheld movement, natural autofocus shift.
+[LIGHTING]: luz doméstica natural e realista.
+[STYLE]: vídeo UGC problema e solução, direto, realista e comercial.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}, exaggerated mess, unrealistic transformation, fake before-after overlay.`,
+
+      premium: `━━━━ CENA 1 — Scroll Stop ━━━━
+Olha esse acabamento. Parece detalhe pequeno, mas muda o ambiente.
+
+━━━━ CENA 2 — Percepção de Valor ━━━━
+O design é simples, bonito e combina com vários estilos de casa.
+
+━━━━ CENA 3 — Demonstração ━━━━
+O ${lowerTitle} deixa o espaço mais organizado, com visual limpo e bem acabado.
+
+━━━━ CENA 4 — CTA · CTA ━━━━
+Se quiser deixar sua casa mais bonita também, clica no carrinho e garante o seu.
+
+[SCENE]: ${environment}, ambiente limpo, organizado, com visual elegante porém realista de casa brasileira.
+[SUBJECT]: mãos adultas mostrando o produto com cuidado, destacando acabamento, bordas e textura.
+[PRODUCT]: ${productLine}, mostrado em close-up para destacar superfície, acabamento e formato, ocupando pelo menos 40% do frame. Usar a imagem enviada como referência visual principal.
+[CAMERA]: smartphone camera, vertical 9:16, close-up premium, movimento suave de mão, natural autofocus shift, subtle sensor noise.
+[LIGHTING]: luz natural suave com iluminação interna equilibrada.
+[STYLE]: vídeo de produto premium realista, elegante, limpo, mas ainda com aparência de smartphone.
+[DURATION]: ${duration}
+[NEGATIVE PROMPT]: ${commonNegative}, luxury studio, overly cinematic, glossy fake finish, product redesign.`
+    };
+
+    return templates[pattern] || templates.ugc;
+  }
+
+  function generatePrompt(showToast = true) {
+    const title = document.getElementById("productTitle").value.trim();
+    const description = document.getElementById("productDescription").value.trim();
+    const color = document.getElementById("productColor").value.trim();
+    const environment = document.getElementById("environment").value;
+    const duration = document.getElementById("duration").value;
+
+    const data = detectProductData(title, description, color, uploadedFileName);
+    updateDetected(data);
+
+    const productLine = buildProductLine(title, description, color, data);
+    const prompt = getTemplate(selectedPattern, productLine, environment, duration, title, data);
+
+    document.getElementById("result").textContent = prompt;
+
+    if (showToast) {
+      showMessage("Prompt gerado!");
+    }
+  }
+
+  function copyPrompt() {
+    const text = document.getElementById("result").textContent;
+
+    if (!text || text.includes("Preencha os dados")) {
+      showMessage("Gere um prompt primeiro.");
+      return;
+    }
+
+    navigator.clipboard.writeText(text).then(() => {
+      showMessage("Prompt copiado!");
+    }).catch(() => {
+      showMessage("Não foi possível copiar.");
+    });
+  }
+
+  function downloadPrompt() {
+    const text = document.getElementById("result").textContent;
+
+    if (!text || text.includes("Preencha os dados")) {
+      showMessage("Gere um prompt primeiro.");
+      return;
+    }
+
+    const title = document.getElementById("productTitle").value.trim() || "prompt-flow";
+    const safeName = title
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = safeName + ".txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+    showMessage("Arquivo .TXT baixado!");
+  }
+
+  function clearAll() {
+    document.getElementById("imageUpload").value = "";
+    document.getElementById("productTitle").value = "";
+    document.getElementById("productDescription").value = "";
+    document.getElementById("productColor").value = "";
+    document.getElementById("environment").selectedIndex = 0;
+    document.getElementById("duration").selectedIndex = 0;
+    document.getElementById("preview").innerHTML = "Prévia da imagem";
+    document.getElementById("result").textContent = "Preencha os dados do produto, escolha um padrão e clique em GERAR PROMPT.";
+    uploadedFileName = "";
+
+    patternButtons.forEach(b => b.classList.remove("active"));
+    document.querySelector('[data-pattern="ugc"]').classList.add("active");
+    selectedPattern = "ugc";
+
+    document.getElementById("detected").innerHTML = `
+      <div class="chip"><strong>Produto:</strong> aguardando</div>
+      <div class="chip"><strong>Material:</strong> aguardando</div>
+      <div class="chip"><strong>Formato:</strong> aguardando</div>
+      <div class="chip"><strong>Uso:</strong> aguardando</div>
+    `;
+
+    showMessage("Campos limpos.");
+  }
+
+  function showMessage(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 1800);
+  }
+
+  window.addEventListener("load", () => {
+    document.getElementById("productTitle").value = "Kit 3 Prateleiras de Canto Meia Lua em MDF Preto";
+    document.getElementById("productDescription").value = "Kit com 3 unidades em MDF, acabamento fosco, fácil instalação, ideal para organizar cozinha, sala, quarto e banheiro.";
+    document.getElementById("productColor").value = "preta";
+    generatePrompt(false);
+  });
+</script>
+
+</body>
+</html>
