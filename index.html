@@ -1,281 +1,506 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PromptFLOW V4.5 - Prompt Cards</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PromptFLOW V4.6 - Nano Banana Integration</title>
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:
-    radial-gradient(circle at top left,rgba(255,120,0,.18),transparent 32%),
-    radial-gradient(circle at bottom right,rgba(0,170,255,.12),transparent 34%),
-    #070707;
-  color:#fff;
-}
-.app{max-width:1380px;margin:auto;padding:18px}
-.header{
-  background:linear-gradient(135deg,#171717,#090909);
-  border:1px solid #292929;
-  border-radius:24px;
-  padding:22px;
-  margin-bottom:18px;
-  box-shadow:0 12px 40px rgba(0,0,0,.38)
-}
-.badge{
-  display:inline-block;
-  padding:6px 12px;
-  border-radius:999px;
-  background:rgba(255,128,0,.13);
-  border:1px solid rgba(255,128,0,.38);
-  color:#ff9b35;
-  font-size:12px;
-  font-weight:bold;
-  margin-bottom:12px
-}
-h1{margin:0;font-size:30px;letter-spacing:-.6px}
-.subtitle{color:#bdbdbd;font-size:14px;line-height:1.5;margin-top:8px}
-.grid{display:grid;grid-template-columns:430px 1fr;gap:18px}
-.card{
-  background:rgba(17,17,17,.94);
-  border:1px solid #292929;
-  border-radius:24px;
-  padding:18px;
-  box-shadow:0 12px 40px rgba(0,0,0,.32)
-}
-.section-title{font-size:16px;font-weight:bold;margin-bottom:12px}
-.sub-title{font-size:13px;color:#ff9b35;font-weight:bold;margin:18px 0 8px}
-label{display:block;font-size:12px;color:#bdbdbd;margin:13px 0 6px}
-input,textarea,select{
-  width:100%;
-  background:#090909;
-  color:#fff;
-  border:1px solid #333;
-  border-radius:14px;
-  padding:13px;
-  outline:none;
-  font-size:14px
-}
-textarea{resize:vertical;min-height:110px}
-input:focus,textarea:focus,select:focus{
-  border-color:#ff8c22;
-  box-shadow:0 0 0 3px rgba(255,140,34,.12)
-}
-.upload-box{
-  background:#0b0b0b;
-  border:1px dashed #555;
-  border-radius:18px;
-  padding:14px
-}
-.help{color:#aaa;font-size:12px;line-height:1.4;margin-top:8px}
-.preview-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:12px
-}
-.preview-item{
-  background:#050505;
-  border:1px solid #282828;
-  border-radius:14px;
-  min-height:90px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#777;
-  font-size:11px
-}
-.preview-item img{width:100%;height:100%;max-height:115px;object-fit:cover;display:block}
-.two-cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.model-list{display:flex;flex-direction:column;gap:10px}
-.model{
-  background:#0b0b0b;
-  border:1px solid #292929;
-  border-radius:18px;
-  padding:12px;
-  transition:.2s
-}
-.model:hover{border-color:#ff8c22}
-.model-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.model-info{flex:1}
-.model-name{font-weight:bold;font-size:14px}
-.model-desc{color:#aaa;font-size:11px;margin-top:4px;line-height:1.35}
-.counter{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:#050505;
-  border:1px solid #272727;
-  border-radius:999px;
-  padding:5px
-}
-.counter button{
-  width:30px;
-  height:30px;
-  border:none;
-  border-radius:50%;
-  background:#171717;
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer
-}
-.counter button:hover{background:#ff8c22;color:#111}
-.counter span{min-width:22px;text-align:center;font-weight:bold;color:#ff9b35}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-button.main{
-  flex:1;
-  min-width:150px;
-  border:none;
-  background:linear-gradient(135deg,#ff7900,#ffb13b);
-  color:#111;
-  font-weight:bold;
-  border-radius:16px;
-  padding:14px;
-  cursor:pointer;
-  font-size:14px
-}
-button.secondary{
-  border:1px solid #333;
-  background:#101010;
-  color:#fff;
-  border-radius:16px;
-  padding:14px;
-  cursor:pointer;
-  font-size:14px
-}
-button.danger{
-  border:1px solid rgba(255,70,70,.45);
-  background:rgba(255,70,70,.08);
-  color:#ff8a8a;
-  border-radius:16px;
-  padding:14px;
-  cursor:pointer;
-  font-size:14px
-}
-button.main:hover,button.secondary:hover,button.danger:hover{filter:brightness(1.08)}
-.toolbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin-bottom:12px;
-  flex-wrap:wrap
-}
-.count-total{color:#ff9b35;font-weight:bold;font-size:13px}
-.prompt-tabs,.scene-tabs{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin:12px 0
-}
-.tab{
-  border:1px solid #333;
-  background:#101010;
-  color:#fff;
-  border-radius:999px;
-  padding:9px 12px;
-  cursor:pointer;
-  font-size:12px
-}
-.tab.active{
-  background:#ff9b35;
-  color:#111;
-  border-color:#ff9b35;
-  font-weight:bold
-}
-.prompt-panel{
-  background:#050505;
-  border:1px solid #292929;
-  border-radius:20px;
-  padding:16px;
-  min-height:520px;
-  max-height:72vh;
-  overflow:auto;
-  white-space:pre-wrap;
-  line-height:1.48;
-  color:#f1f1f1;
-  font-size:14px
-}
-.empty{
-  color:#999;
-  background:#050505;
-  border:1px solid #292929;
-  border-radius:20px;
-  padding:18px;
-  min-height:300px
-}
-.history{
-  margin-top:14px;
-  background:#080808;
-  border:1px solid #292929;
-  border-radius:18px;
-  padding:12px
-}
-.history-item{
-  border-bottom:1px solid #222;
-  padding:10px 0;
-  font-size:12px;
-  color:#bbb;
-  cursor:pointer
-}
-.history-item:last-child{border-bottom:none}
-.history-item:hover{color:#ff9b35}
-.toast{
-  display:none;
-  position:fixed;
-  bottom:18px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#ff8c22;
-  color:#111;
-  font-weight:bold;
-  padding:12px 18px;
-  border-radius:999px;
-  z-index:50;
-  box-shadow:0 10px 35px rgba(0,0,0,.4)
-}
-.approved{
-  display:inline-block;
-  margin-left:8px;
-  color:#35ff8a;
-  font-size:12px;
-  font-weight:bold
-}
-@media(max-width:950px){
-  .grid{grid-template-columns:1fr}
-  h1{font-size:25px}
-  .prompt-panel{min-height:420px}
-}
-@media(max-width:520px){
-  .two-cols{grid-template-columns:1fr}
-  .preview-grid{grid-template-columns:repeat(2,1fr)}
-}
-</style>
+  <style>
+    * { box-sizing: border-box; }
+
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255,120,0,.18), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(0,170,255,.12), transparent 34%),
+        #070707;
+      color:#fff;
+    }
+
+    .app{
+      max-width:1450px;
+      margin:auto;
+      padding:18px;
+    }
+
+    .header{
+      background:linear-gradient(135deg,#171717,#090909);
+      border:1px solid #292929;
+      border-radius:24px;
+      padding:22px;
+      margin-bottom:18px;
+      box-shadow:0 12px 40px rgba(0,0,0,.38);
+    }
+
+    .badge{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(255,128,0,.13);
+      border:1px solid rgba(255,128,0,.38);
+      color:#ff9b35;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:12px;
+    }
+
+    h1{
+      margin:0;
+      font-size:30px;
+      letter-spacing:-.6px;
+    }
+
+    .subtitle{
+      color:#bdbdbd;
+      font-size:14px;
+      line-height:1.5;
+      margin-top:8px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:430px 1fr;
+      gap:18px;
+    }
+
+    .card{
+      background:rgba(17,17,17,.94);
+      border:1px solid #292929;
+      border-radius:24px;
+      padding:18px;
+      box-shadow:0 12px 40px rgba(0,0,0,.32);
+    }
+
+    .section-title{
+      font-size:16px;
+      font-weight:bold;
+      margin-bottom:12px;
+    }
+
+    .sub-title{
+      font-size:13px;
+      color:#ff9b35;
+      font-weight:bold;
+      margin:18px 0 8px;
+    }
+
+    label{
+      display:block;
+      font-size:12px;
+      color:#bdbdbd;
+      margin:13px 0 6px;
+    }
+
+    input,textarea,select{
+      width:100%;
+      background:#090909;
+      color:#fff;
+      border:1px solid #333;
+      border-radius:14px;
+      padding:13px;
+      outline:none;
+      font-size:14px;
+    }
+
+    textarea{
+      resize:vertical;
+      min-height:110px;
+    }
+
+    input:focus,textarea:focus,select:focus{
+      border-color:#ff8c22;
+      box-shadow:0 0 0 3px rgba(255,140,34,.12);
+    }
+
+    .upload-box{
+      background:#0b0b0b;
+      border:1px dashed #555;
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .help{
+      color:#aaa;
+      font-size:12px;
+      line-height:1.4;
+      margin-top:8px;
+    }
+
+    .warning-box{
+      background:rgba(255,140,34,.08);
+      border:1px solid rgba(255,140,34,.25);
+      color:#ffd7b2;
+      border-radius:16px;
+      padding:12px;
+      font-size:12px;
+      line-height:1.45;
+      margin-top:10px;
+    }
+
+    .preview-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .preview-item{
+      background:#050505;
+      border:1px solid #282828;
+      border-radius:14px;
+      min-height:90px;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#777;
+      font-size:11px;
+    }
+
+    .preview-item img{
+      width:100%;
+      height:100%;
+      max-height:115px;
+      object-fit:cover;
+      display:block;
+    }
+
+    .two-cols{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .model-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .model{
+      background:#0b0b0b;
+      border:1px solid #292929;
+      border-radius:18px;
+      padding:12px;
+      transition:.2s;
+    }
+
+    .model:hover{
+      border-color:#ff8c22;
+    }
+
+    .model-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .model-info{
+      flex:1;
+    }
+
+    .model-name{
+      font-weight:bold;
+      font-size:14px;
+    }
+
+    .model-desc{
+      color:#aaa;
+      font-size:11px;
+      margin-top:4px;
+      line-height:1.35;
+    }
+
+    .counter{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      background:#050505;
+      border:1px solid #272727;
+      border-radius:999px;
+      padding:5px;
+    }
+
+    .counter button{
+      width:30px;
+      height:30px;
+      border:none;
+      border-radius:50%;
+      background:#171717;
+      color:#fff;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .counter button:hover{
+      background:#ff8c22;
+      color:#111;
+    }
+
+    .counter span{
+      min-width:22px;
+      text-align:center;
+      font-weight:bold;
+      color:#ff9b35;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+
+    button.main{
+      flex:1;
+      min-width:150px;
+      border:none;
+      background:linear-gradient(135deg,#ff7900,#ffb13b);
+      color:#111;
+      font-weight:bold;
+      border-radius:16px;
+      padding:14px;
+      cursor:pointer;
+      font-size:14px;
+    }
+
+    button.secondary{
+      border:1px solid #333;
+      background:#101010;
+      color:#fff;
+      border-radius:16px;
+      padding:14px;
+      cursor:pointer;
+      font-size:14px;
+    }
+
+    button.danger{
+      border:1px solid rgba(255,70,70,.45);
+      background:rgba(255,70,70,.08);
+      color:#ff8a8a;
+      border-radius:16px;
+      padding:14px;
+      cursor:pointer;
+      font-size:14px;
+    }
+
+    button.main:hover,button.secondary:hover,button.danger:hover{
+      filter:brightness(1.08);
+    }
+
+    button:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+    }
+
+    .toolbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    }
+
+    .count-total{
+      color:#ff9b35;
+      font-weight:bold;
+      font-size:13px;
+    }
+
+    .prompt-tabs,.scene-tabs{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin:12px 0;
+    }
+
+    .tab{
+      border:1px solid #333;
+      background:#101010;
+      color:#fff;
+      border-radius:999px;
+      padding:9px 12px;
+      cursor:pointer;
+      font-size:12px;
+    }
+
+    .tab.active{
+      background:#ff9b35;
+      color:#111;
+      border-color:#ff9b35;
+      font-weight:bold;
+    }
+
+    .prompt-panel{
+      background:#050505;
+      border:1px solid #292929;
+      border-radius:20px;
+      padding:16px;
+      min-height:420px;
+      max-height:60vh;
+      overflow:auto;
+      white-space:pre-wrap;
+      line-height:1.48;
+      color:#f1f1f1;
+      font-size:14px;
+    }
+
+    .empty{
+      color:#999;
+      background:#050505;
+      border:1px solid #292929;
+      border-radius:20px;
+      padding:18px;
+      min-height:240px;
+    }
+
+    .history{
+      margin-top:14px;
+      background:#080808;
+      border:1px solid #292929;
+      border-radius:18px;
+      padding:12px;
+    }
+
+    .history-item{
+      border-bottom:1px solid #222;
+      padding:10px 0;
+      font-size:12px;
+      color:#bbb;
+      cursor:pointer;
+    }
+
+    .history-item:last-child{
+      border-bottom:none;
+    }
+
+    .history-item:hover{
+      color:#ff9b35;
+    }
+
+    .approved{
+      display:inline-block;
+      margin-left:8px;
+      color:#35ff8a;
+      font-size:12px;
+      font-weight:bold;
+    }
+
+    .image-section{
+      margin-top:18px;
+      background:#080808;
+      border:1px solid #292929;
+      border-radius:20px;
+      padding:14px;
+    }
+
+    .image-toolbar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .image-result{
+      background:#050505;
+      border:1px solid #292929;
+      border-radius:18px;
+      padding:14px;
+      margin-top:12px;
+      min-height:220px;
+    }
+
+    .image-placeholder{
+      color:#888;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .image-card{
+      border:1px solid #2b2b2b;
+      background:#0a0a0a;
+      border-radius:18px;
+      padding:12px;
+      margin-top:10px;
+    }
+
+    .image-card img{
+      width:100%;
+      max-height:600px;
+      object-fit:contain;
+      background:#111;
+      border-radius:14px;
+      display:block;
+      margin-bottom:10px;
+    }
+
+    .mini-label{
+      color:#ff9b35;
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:6px;
+    }
+
+    .small-text{
+      color:#c9c9c9;
+      font-size:12px;
+      line-height:1.45;
+      white-space:pre-wrap;
+    }
+
+    .loading{
+      color:#ffb870;
+      font-weight:bold;
+      font-size:13px;
+    }
+
+    .toast{
+      display:none;
+      position:fixed;
+      bottom:18px;
+      left:50%;
+      transform:translateX(-50%);
+      background:#ff8c22;
+      color:#111;
+      font-weight:bold;
+      padding:12px 18px;
+      border-radius:999px;
+      z-index:50;
+      box-shadow:0 10px 35px rgba(0,0,0,.4);
+    }
+
+    @media(max-width:950px){
+      .grid{grid-template-columns:1fr}
+      h1{font-size:25px}
+      .prompt-panel{min-height:360px}
+    }
+
+    @media(max-width:520px){
+      .two-cols{grid-template-columns:1fr}
+      .preview-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
 </head>
-
 <body>
 
 <div class="app">
-
   <div class="header">
-    <div class="badge">PROMPTFLOW V4.5 · PROMPT CARDS</div>
+    <div class="badge">PROMPTFLOW V4.6 · NANO BANANA / GEMINI IMAGE</div>
     <h1>Gerador de Campanhas Criativas para Flow</h1>
     <div class="subtitle">
-      Agora os prompts gerados ficam organizados em janelas. Clique em Prompt 1, Prompt 2, Prompt 3... e depois navegue por Cena 1, Cena 2, Cena 3, Cena 4 ou Prompt Completo.
+      Gere os prompts em cards, selecione uma cena específica e crie a imagem diretamente no site usando sua API Key.
     </div>
   </div>
 
   <div class="grid">
-
     <div class="card">
       <div class="section-title">1. Produto</div>
 
       <div class="upload-box">
-        <input type="file" id="imageUpload" accept="image/*" multiple>
+        <input type="file" id="imageUpload" accept="image/*" multiple />
         <div class="help">Envie até 10 imagens de referência do produto.</div>
         <div class="preview-grid" id="previewGrid">
           <div class="preview-item">Sem imagem</div>
@@ -283,7 +508,7 @@ button.main:hover,button.secondary:hover,button.danger:hover{filter:brightness(1
       </div>
 
       <label>Nome do produto</label>
-      <input id="productTitle" placeholder="Digite o nome exato do produto">
+      <input id="productTitle" placeholder="Digite o nome exato do produto" />
 
       <label>Descrição do produto</label>
       <textarea id="productDescription" placeholder="Digite aqui a descrição completa do produto: cor, material, acabamento, detalhes, uso, medidas e características importantes."></textarea>
@@ -316,7 +541,25 @@ button.main:hover,button.secondary:hover,button.danger:hover{filter:brightness(1
         </div>
       </div>
 
-      <div class="sub-title">2. Modelos Criativos</div>
+      <div class="sub-title">2. Integração Pessoal Nano Banana / Gemini</div>
+
+      <label>Sua API Key</label>
+      <input id="apiKey" type="password" placeholder="Cole sua API Key aqui" />
+
+      <label>Modelo de imagem</label>
+      <input id="imageModel" value="gemini-2.0-flash-preview-image-generation" placeholder="Ex: gemini-2.0-flash-preview-image-generation" />
+
+      <div class="actions">
+        <button class="secondary" onclick="saveApiSettings()">Salvar API no Navegador</button>
+        <button class="danger" onclick="clearApiSettings()">Apagar API</button>
+      </div>
+
+      <div class="warning-box">
+        Esta versão é para uso pessoal. A chave fica salva no navegador do seu computador. 
+        Se futuramente você quiser transformar isso em sistema mais seguro, aí a gente move a chave para um backend.
+      </div>
+
+      <div class="sub-title">3. Modelos Criativos</div>
       <div class="help">Escolha manualmente quantos prompts quer em cada modelo usando + e -.</div>
 
       <div class="model-list" id="modelList"></div>
@@ -330,7 +573,7 @@ button.main:hover,button.secondary:hover,button.danger:hover{filter:brightness(1
     <div class="card">
       <div class="toolbar">
         <div>
-          <div class="section-title" style="margin-bottom:4px;">3. Prompts Gerados</div>
+          <div class="section-title" style="margin-bottom:4px;">4. Prompts Gerados</div>
           <div class="count-total" id="totalCounter">Total selecionado: 0 vídeos</div>
         </div>
 
@@ -351,7 +594,26 @@ button.main:hover,button.secondary:hover,button.danger:hover{filter:brightness(1
 
       <div class="actions">
         <button class="secondary" onclick="approveCurrent()">Aprovar Prompt Atual</button>
-        <button class="secondary" onclick="prepareImageGeneration()">Preparar Cena para Imagem</button>
+        <button class="main" id="generateImageBtn" onclick="generateImageForCurrentScene()">Gerar Imagem da Cena</button>
+      </div>
+
+      <div class="image-section">
+        <div class="section-title" style="margin-bottom:8px;">5. Resultado da Imagem</div>
+        <div class="help">
+          O sistema usa a cena selecionada + bloco técnico + imagens enviadas como referência visual.
+        </div>
+
+        <div class="image-toolbar">
+          <button class="secondary" onclick="copyImagePrompt()">Copiar Prompt da Imagem</button>
+          <button class="danger" onclick="clearGeneratedImages()">Limpar Imagens</button>
+        </div>
+
+        <div id="imageResult" class="image-result">
+          <div class="image-placeholder">
+            Nenhuma imagem gerada ainda.  
+            Gere os prompts, escolha uma cena e clique em <strong>Gerar Imagem da Cena</strong>.
+          </div>
+        </div>
       </div>
 
       <div class="history">
@@ -359,321 +621,369 @@ button.main:hover,button.secondary:hover,button.danger:hover{filter:brightness(1
         <div id="historyList">Nenhuma campanha salva ainda.</div>
       </div>
     </div>
-
   </div>
 </div>
 
 <div class="toast" id="toast">Mensagem</div>
 
 <script>
-let uploadedFileNames = [];
-let generatedPrompts = [];
-let currentPromptIndex = 0;
-let currentSceneKey = "full";
+  let uploadedFileNames = [];
+  let uploadedImageParts = [];
+  let generatedPrompts = [];
+  let currentPromptIndex = 0;
+  let currentSceneKey = "full";
+  let generatedImages = [];
+  let lastImagePromptUsed = "";
+  let isGeneratingImage = false;
 
-const creativeModels = [
-  { id:"ugc", name:"UGC Pessoa Mostrando", desc:"Pessoa real mostrando o produto como descoberta natural.", scenes:4 },
-  { id:"povFabrica", name:"POV Fábrica / Bastidor", desc:"Bastidor, preparo, estoque, embalagem ou produção.", scenes:5 },
-  { id:"comparacao", name:"Comparação de Valor", desc:"Mostra antes/depois, valor percebido e oportunidade.", scenes:4 },
-  { id:"loja", name:"Loja / Varejo Brasileiro", desc:"Produto apresentado como achado em loja popular.", scenes:5 },
-  { id:"bras", name:"Brás / Feira Shop", desc:"Estilo feira shop, movimento, urgência e achado.", scenes:5 },
-  { id:"povHands", name:"POV Mãos Only", desc:"Somente mãos mostrando detalhes do produto.", scenes:4 },
-  { id:"antesDepois", name:"Antes e Depois", desc:"Transformação visual de uso do produto.", scenes:4 },
-  { id:"demoRapida", name:"Demonstração Rápida", desc:"Mostra como usa, veste, testa, instala ou aplica.", scenes:4 },
-  { id:"embalando", name:"Embalando Pedidos", desc:"Prova social com pedidos saindo.", scenes:4 },
-  { id:"premium", name:"Produto Premium", desc:"Close em acabamento, textura, detalhe e valor.", scenes:4 },
-  { id:"problemaSolucao", name:"Problema e Solução", desc:"Dor do cliente e produto resolvendo.", scenes:4 },
-  { id:"usoReal", name:"Uso Real no Dia a Dia", desc:"Produto em contexto real de uso.", scenes:4 }
-];
+  const creativeModels = [
+    { id:"ugc", name:"UGC Pessoa Mostrando", desc:"Pessoa real mostrando o produto como descoberta natural.", scenes:4 },
+    { id:"povFabrica", name:"POV Fábrica / Bastidor", desc:"Bastidor, preparo, estoque, embalagem ou produção.", scenes:5 },
+    { id:"comparacao", name:"Comparação de Valor", desc:"Mostra antes/depois, valor percebido e oportunidade.", scenes:4 },
+    { id:"loja", name:"Loja / Varejo Brasileiro", desc:"Produto apresentado como achado em loja popular.", scenes:5 },
+    { id:"bras", name:"Brás / Feira Shop", desc:"Estilo feira shop, movimento, urgência e achado.", scenes:5 },
+    { id:"povHands", name:"POV Mãos Only", desc:"Somente mãos mostrando detalhes do produto.", scenes:4 },
+    { id:"antesDepois", name:"Antes e Depois", desc:"Transformação visual de uso do produto.", scenes:4 },
+    { id:"demoRapida", name:"Demonstração Rápida", desc:"Mostra como usa, veste, testa, instala ou aplica.", scenes:4 },
+    { id:"embalando", name:"Embalando Pedidos", desc:"Prova social com pedidos saindo.", scenes:4 },
+    { id:"premium", name:"Produto Premium", desc:"Close em acabamento, textura, detalhe e valor.", scenes:4 },
+    { id:"problemaSolucao", name:"Problema e Solução", desc:"Dor do cliente e produto resolvendo.", scenes:4 },
+    { id:"usoReal", name:"Uso Real no Dia a Dia", desc:"Produto em contexto real de uso.", scenes:4 }
+  ];
 
-const categoryProfiles = {
-  home:{
-    label:"Casa / Decoração",
-    productType:"produto de casa, decoração ou organização",
-    scene:"casa brasileira realista, cozinha, sala ou quarto simples, luz natural de janela",
-    subject:"pessoa brasileira adulta usando o produto em casa, postura relaxada e movimentos simples",
-    pain:"canto sem graça, bagunça, falta de espaço ou ambiente sem organização",
-    desire:"organizar e decorar a casa de forma prática",
-    demo:"mostrar o produto no ambiente, posicionar no espaço e destacar utilidade e acabamento",
-    details:"acabamento, material, formato, bordas, cor e proporção",
-    camera:"smartphone camera, vertical 9:16, close-up no produto e no ambiente, leve movimento de mão, foco estável",
-    style:"UGC doméstico brasileiro, realista, caseiro, sem cara de estúdio"
-  },
-  fashion:{
-    label:"Moda / Vestuário",
-    productType:"peça de roupa, calçado ou vestuário",
-    scene:"quarto brasileiro com espelho, loja de roupas brasileira ou rua urbana realista",
-    subject:"homem ou mulher brasileira adulta vestindo ou experimentando o produto, postura estável e gesto simples",
-    pain:"frio, roupa sem estilo, peça desconfortável, calçado ruim ou falta de uma peça bonita para sair",
-    desire:"vestir bem, ficar confortável, proteger do frio ou melhorar o visual",
-    demo:"vestir ou experimentar o produto, mostrando caimento, tecido, costura, zíper, capuz ou detalhes principais",
-    details:"tecido, caimento, costura, zíper, capuz, bolsos, textura, solado, cadarço, cor e acabamento",
-    camera:"smartphone camera, vertical 9:16, close-up no tecido/calçado e plano médio da pessoa usando, leve movimento de mão, foco estável",
-    style:"UGC realista de moda, vídeo de compra online, aparência caseira e autêntica"
-  },
-  electronics:{
-    label:"Eletrônicos",
-    productType:"produto eletrônico ou acessório tecnológico",
-    scene:"mesa brasileira simples, quarto ou escritório doméstico, produto sendo testado em ambiente real",
-    subject:"pessoa brasileira adulta segurando, ligando ou testando o eletrônico com movimentos controlados",
-    pain:"produto antigo, falta de praticidade, necessidade de função rápida ou solução tecnológica simples",
-    desire:"ter mais praticidade, testar funções e melhorar o uso no dia a dia",
-    demo:"ligar o produto, mostrar tela, botões, cabos, conexões, funcionamento, encaixe, som ou luzes",
-    details:"tela, botões, entrada USB, cabo, acabamento, luzes, conexões, tamanho real, estojo ou encaixe",
-    camera:"smartphone camera, vertical 9:16, close-up no eletrônico, foco alternando suavemente entre mão, produto e funcionamento",
-    style:"UGC tecnológico realista, teste rápido de produto, ambiente doméstico"
-  },
-  beauty:{
-    label:"Beleza / Cuidados",
-    productType:"produto de beleza, skincare ou cuidado pessoal",
-    scene:"banheiro ou penteadeira brasileira simples, espelho, luz natural suave, ambiente limpo e realista",
-    subject:"pessoa brasileira adulta aplicando ou mostrando o produto com movimentos suaves e controlados",
-    pain:"pele sem cuidado, rotina corrida, falta de praticidade ou desejo de melhorar aparência",
-    desire:"cuidar da aparência, melhorar a rotina e ter sensação de autocuidado",
-    demo:"mostrar embalagem, textura, aplicação, quantidade usada e resultado visual sem exagero",
-    details:"embalagem, textura, tampa, rótulo não legível, cor, consistência e modo de uso",
-    camera:"smartphone camera, vertical 9:16, close-up nas mãos, produto e rosto de forma natural e estável",
-    style:"UGC realista de beleza, rotina caseira, luz natural, sem filtro de beleza"
-  },
-  tools:{
-    label:"Ferramentas",
-    productType:"ferramenta ou item técnico",
-    scene:"bancada de oficina brasileira, garagem ou área de trabalho simples, ambiente realista",
-    subject:"mãos de trabalhador brasileiro usando ou mostrando a ferramenta com segurança e movimento simples",
-    pain:"trabalho difícil, improviso, falta de ferramenta adequada ou perda de tempo",
-    desire:"facilitar o trabalho, ganhar precisão e resolver serviço com mais eficiência",
-    demo:"segurar a ferramenta, mostrar função, material, pegada, encaixe, resistência e uso prático",
-    details:"cabo, ponta, encaixe, corpo, material, função, tamanho e acabamento",
-    camera:"smartphone camera, vertical 9:16, close-up na ferramenta e na mão usando, enquadramento estável",
-    style:"UGC técnico realista, oficina brasileira, demonstração prática"
-  },
-  kids:{
-    label:"Infantil",
-    productType:"produto infantil",
-    scene:"quarto infantil brasileiro, sala de casa ou ambiente familiar seguro e realista",
-    subject:"adulto brasileiro mostrando o produto infantil com cuidado, postura simples e segura",
-    pain:"organização infantil, conforto, praticidade para pais ou rotina com criança",
-    desire:"mais praticidade, conforto, segurança e organização na rotina familiar",
-    demo:"mostrar o produto, detalhes, material, tamanho, função e uso seguro",
-    details:"material, acabamento, tamanho, cor, função e segurança visual",
-    camera:"smartphone camera, vertical 9:16, close-up no produto, movimentos suaves e familiares",
-    style:"UGC familiar realista, ambiente doméstico brasileiro"
-  },
-  pets:{
-    label:"Pets",
-    productType:"produto para pets",
-    scene:"casa brasileira com área de pet, sala ou quintal simples, ambiente realista",
-    subject:"adulto brasileiro mostrando o produto para uso com cachorro ou gato, movimentos controlados",
-    pain:"bagunça, falta de conforto para o pet, rotina difícil ou necessidade de praticidade",
-    desire:"cuidar melhor do pet, organizar rotina e trazer conforto",
-    demo:"mostrar tamanho, material, uso, resistência e interação segura com pet",
-    details:"material, tamanho, textura, resistência, cor e função",
-    camera:"smartphone camera, vertical 9:16, close-up no produto e no uso real com pet, enquadramento estável",
-    style:"UGC realista de pet, caseiro e natural"
-  },
-  autoParts:{
-    label:"Automotivo",
-    productType:"produto automotivo ou acessório para carro",
-    scene:"garagem brasileira, interior de carro ou área externa simples, ambiente realista",
-    subject:"mãos adultas mostrando o produto no carro, instalando ou testando com cuidado e movimento simples",
-    pain:"carro desorganizado, peça desgastada, falta de praticidade ou necessidade de acessório útil",
-    desire:"melhorar o carro, deixar mais prático, bonito ou funcional",
-    demo:"mostrar encaixe, instalação, acabamento, função e antes/depois no veículo",
-    details:"encaixe, material, formato, acabamento, compatibilidade visual e função",
-    camera:"smartphone camera, vertical 9:16, close-up no produto e no carro, enquadramento estável",
-    style:"UGC automotivo realista, demonstração prática em carro brasileiro"
-  },
-  generic:{
-    label:"Produto Geral",
-    productType:"produto físico de e-commerce",
-    scene:"ambiente brasileiro realista, mesa simples, luz natural, produto sendo mostrado de perto",
-    subject:"pessoa brasileira adulta mostrando o produto com postura natural e movimentos simples",
-    pain:"necessidade prática do dia a dia, falta de solução simples ou compra por oportunidade",
-    desire:"resolver uma necessidade, ter praticidade e aproveitar uma boa compra",
-    demo:"mostrar o produto perto da câmera, destacar material, tamanho, função, acabamento e uso real",
-    details:"material, tamanho, cor, formato, acabamento e função",
-    camera:"smartphone camera, vertical 9:16, close-up no produto, leve movimento de mão, foco estável",
-    style:"UGC realista de e-commerce, caseiro e autêntico"
-  }
-};
+  const categoryProfiles = {
+    home:{
+      label:"Casa / Decoração",
+      productType:"produto de casa, decoração ou organização",
+      scene:"casa brasileira realista, cozinha, sala ou quarto simples, luz natural de janela",
+      subject:"pessoa brasileira adulta usando o produto em casa, postura relaxada e movimentos simples",
+      pain:"canto sem graça, bagunça, falta de espaço ou ambiente sem organização",
+      desire:"organizar e decorar a casa de forma prática",
+      demo:"mostrar o produto no ambiente, posicionar no espaço e destacar utilidade e acabamento",
+      details:"acabamento, material, formato, bordas, cor e proporção",
+      camera:"smartphone camera, vertical 9:16, close-up no produto e no ambiente, leve movimento de mão, foco estável",
+      style:"UGC doméstico brasileiro, realista, caseiro, sem cara de estúdio"
+    },
+    fashion:{
+      label:"Moda / Vestuário",
+      productType:"peça de roupa, calçado ou vestuário",
+      scene:"quarto brasileiro com espelho, loja de roupas brasileira ou rua urbana realista",
+      subject:"homem ou mulher brasileira adulta vestindo ou experimentando o produto, postura estável e gesto simples",
+      pain:"frio, roupa sem estilo, peça desconfortável, calçado ruim ou falta de uma peça bonita para sair",
+      desire:"vestir bem, ficar confortável, proteger do frio ou melhorar o visual",
+      demo:"vestir ou experimentar o produto, mostrando caimento, tecido, costura, zíper, capuz ou detalhes principais",
+      details:"tecido, caimento, costura, zíper, capuz, bolsos, textura, solado, cadarço, cor e acabamento",
+      camera:"smartphone camera, vertical 9:16, close-up no tecido/calçado e plano médio da pessoa usando, leve movimento de mão, foco estável",
+      style:"UGC realista de moda, vídeo de compra online, aparência caseira e autêntica"
+    },
+    electronics:{
+      label:"Eletrônicos",
+      productType:"produto eletrônico ou acessório tecnológico",
+      scene:"mesa brasileira simples, quarto ou escritório doméstico, produto sendo testado em ambiente real",
+      subject:"pessoa brasileira adulta segurando, ligando ou testando o eletrônico com movimentos controlados",
+      pain:"produto antigo, falta de praticidade, necessidade de função rápida ou solução tecnológica simples",
+      desire:"ter mais praticidade, testar funções e melhorar o uso no dia a dia",
+      demo:"ligar o produto, mostrar tela, botões, cabos, conexões, funcionamento, encaixe, som ou luzes",
+      details:"tela, botões, entrada USB, cabo, acabamento, luzes, conexões, tamanho real, estojo ou encaixe",
+      camera:"smartphone camera, vertical 9:16, close-up no eletrônico, foco alternando suavemente entre mão, produto e funcionamento",
+      style:"UGC tecnológico realista, teste rápido de produto, ambiente doméstico"
+    },
+    beauty:{
+      label:"Beleza / Cuidados",
+      productType:"produto de beleza, skincare ou cuidado pessoal",
+      scene:"banheiro ou penteadeira brasileira simples, espelho, luz natural suave, ambiente limpo e realista",
+      subject:"pessoa brasileira adulta aplicando ou mostrando o produto com movimentos suaves e controlados",
+      pain:"pele sem cuidado, rotina corrida, falta de praticidade ou desejo de melhorar aparência",
+      desire:"cuidar da aparência, melhorar a rotina e ter sensação de autocuidado",
+      demo:"mostrar embalagem, textura, aplicação, quantidade usada e resultado visual sem exagero",
+      details:"embalagem, textura, tampa, rótulo não legível, cor, consistência e modo de uso",
+      camera:"smartphone camera, vertical 9:16, close-up nas mãos, produto e rosto de forma natural e estável",
+      style:"UGC realista de beleza, rotina caseira, luz natural, sem filtro de beleza"
+    },
+    tools:{
+      label:"Ferramentas",
+      productType:"ferramenta ou item técnico",
+      scene:"bancada de oficina brasileira, garagem ou área de trabalho simples, ambiente realista",
+      subject:"mãos de trabalhador brasileiro usando ou mostrando a ferramenta com segurança e movimento simples",
+      pain:"trabalho difícil, improviso, falta de ferramenta adequada ou perda de tempo",
+      desire:"facilitar o trabalho, ganhar precisão e resolver serviço com mais eficiência",
+      demo:"segurar a ferramenta, mostrar função, material, pegada, encaixe, resistência e uso prático",
+      details:"cabo, ponta, encaixe, corpo, material, função, tamanho e acabamento",
+      camera:"smartphone camera, vertical 9:16, close-up na ferramenta e na mão usando, enquadramento estável",
+      style:"UGC técnico realista, oficina brasileira, demonstração prática"
+    },
+    kids:{
+      label:"Infantil",
+      productType:"produto infantil",
+      scene:"quarto infantil brasileiro, sala de casa ou ambiente familiar seguro e realista",
+      subject:"adulto brasileiro mostrando o produto infantil com cuidado, postura simples e segura",
+      pain:"organização infantil, conforto, praticidade para pais ou rotina com criança",
+      desire:"mais praticidade, conforto, segurança e organização na rotina familiar",
+      demo:"mostrar o produto, detalhes, material, tamanho, função e uso seguro",
+      details:"material, acabamento, tamanho, cor, função e segurança visual",
+      camera:"smartphone camera, vertical 9:16, close-up no produto, movimentos suaves e familiares",
+      style:"UGC familiar realista, ambiente doméstico brasileiro"
+    },
+    pets:{
+      label:"Pets",
+      productType:"produto para pets",
+      scene:"casa brasileira com área de pet, sala ou quintal simples, ambiente realista",
+      subject:"adulto brasileiro mostrando o produto para uso com cachorro ou gato, movimentos controlados",
+      pain:"bagunça, falta de conforto para o pet, rotina difícil ou necessidade de praticidade",
+      desire:"cuidar melhor do pet, organizar rotina e trazer conforto",
+      demo:"mostrar tamanho, material, uso, resistência e interação segura com pet",
+      details:"material, tamanho, textura, resistência, cor e função",
+      camera:"smartphone camera, vertical 9:16, close-up no produto e no uso real com pet, enquadramento estável",
+      style:"UGC realista de pet, caseiro e natural"
+    },
+    autoParts:{
+      label:"Automotivo",
+      productType:"produto automotivo ou acessório para carro",
+      scene:"garagem brasileira, interior de carro ou área externa simples, ambiente realista",
+      subject:"mãos adultas mostrando o produto no carro, instalando ou testando com cuidado e movimento simples",
+      pain:"carro desorganizado, peça desgastada, falta de praticidade ou necessidade de acessório útil",
+      desire:"melhorar o carro, deixar mais prático, bonito ou funcional",
+      demo:"mostrar encaixe, instalação, acabamento, função e antes/depois no veículo",
+      details:"encaixe, material, formato, acabamento, compatibilidade visual e função",
+      camera:"smartphone camera, vertical 9:16, close-up no produto e no carro, enquadramento estável",
+      style:"UGC automotivo realista, demonstração prática em carro brasileiro"
+    },
+    generic:{
+      label:"Produto Geral",
+      productType:"produto físico de e-commerce",
+      scene:"ambiente brasileiro realista, mesa simples, luz natural, produto sendo mostrado de perto",
+      subject:"pessoa brasileira adulta mostrando o produto com postura natural e movimentos simples",
+      pain:"necessidade prática do dia a dia, falta de solução simples ou compra por oportunidade",
+      desire:"resolver uma necessidade, ter praticidade e aproveitar uma boa compra",
+      demo:"mostrar o produto perto da câmera, destacar material, tamanho, função, acabamento e uso real",
+      details:"material, tamanho, cor, formato, acabamento e função",
+      camera:"smartphone camera, vertical 9:16, close-up no produto, leve movimento de mão, foco estável",
+      style:"UGC realista de e-commerce, caseiro e autêntico"
+    }
+  };
 
-const variationBank = {
-  ugc:[
-    {angle:"Descoberta / Achado", hook:"Eu quase perdi esse {name}! Olha só esse achado.", scene2:"Sabe aquele produto que resolve uma dor real e ainda chama atenção?", scene3:"O {name} aparece em uso real, com foco nos detalhes e na utilidade.", cta:"Se você quiser o seu {name}, clica no carrinho antes que acabe."},
-    {angle:"Dor / Desejo", hook:"Eu não sabia que precisava do {name} até ver isso funcionando.", scene2:"Muita gente passa por esse problema: {pain}.", scene3:"O {name} aparece resolvendo isso de forma simples, visual e realista.", cta:"Clica no carrinho e garante o seu {name}."},
-    {angle:"Urgência / Último Lote", hook:"Eu demorei para pegar o {name} e quase fiquei sem.", scene2:"Quando aparece produto útil assim, o lote costuma acabar rápido.", scene3:"O {name} é mostrado como uma compra inteligente para {desire}.", cta:"Corre no carrinho e garante o seu {name} antes que acabe."}
-  ],
-  povFabrica:[
-    {angle:"Bastidor Real", hook:"POV: você vê o {name} sendo preparado antes do envio.", scene2:"Aqui o produto é separado, conferido e mostrado de perto.", scene3:"O {name} aparece em bancada real, com foco em {details}.", cta:"Garante o seu {name} antes que esse lote acabe."},
-    {angle:"Conferência de Produto", hook:"Olha a conferência do {name} antes de sair para entrega.", scene2:"Nada de imagem perfeita demais: é bastidor real de produto.", scene3:"O {name} é manuseado com foco em acabamento, proporção e detalhes reais.", cta:"Clica no carrinho e pega o seu {name}."},
-    {angle:"Lote Saindo", hook:"Esse lote do {name} está saindo rápido.", scene2:"Pedidos sendo separados, produto aparecendo em close e clima de estoque acabando.", scene3:"O {name} é mostrado de perto para reforçar fidelidade visual.", cta:"Se quiser o seu {name}, aproveita agora."}
-  ],
-  comparacao:[
-    {angle:"Antes vs Depois", hook:"Antes de comprar qualquer coisa parecida, olha o {name}.", scene2:"Muita gente improvisa e continua com o mesmo problema: {pain}.", scene3:"O {name} aparece como solução mais bonita, prática e direta.", cta:"Clica no carrinho e garante o seu {name}."},
-    {angle:"Valor Percebido", hook:"Parece simples, mas o {name} muda a experiência.", scene2:"O valor está nos detalhes: {details}.", scene3:"O {name} aparece em comparação visual com uma alternativa fraca ou improvisada.", cta:"Aproveita e garante o seu {name}."},
-    {angle:"Achado de Preço", hook:"Olha esse achado: {name} com cara de produto muito mais caro.", scene2:"É o tipo de produto que entrega visual, função e utilidade.", scene3:"O {name} aparece com close nos detalhes principais.", cta:"Clica no carrinho e pega o seu {name}."}
-  ],
-  loja:[
-    {angle:"Achado de Loja", hook:"Achei o {name} e tive que mostrar.", scene2:"É aquele produto que você olha e já imagina usando.", scene3:"O {name} aparece nas mãos, com close em {details}.", cta:"Se gostou do {name}, clica no carrinho."},
-    {angle:"Produto Útil", hook:"Esse {name} é o tipo de produto que faz sentido ter.", scene2:"Ele ajuda a {desire}.", scene3:"O {name} é mostrado como achado de loja, em ambiente realista.", cta:"Garante o seu {name} antes que acabe."},
-    {angle:"Compra Inteligente", hook:"Eu compraria esse {name} fácil.", scene2:"Bonito, útil e com demonstração clara de uso.", scene3:"O {name} é mostrado em close e depois em uso.", cta:"Clica no carrinho e pega o seu {name}."}
-  ]
-};
+  const variationBank = {
+    ugc:[
+      {angle:"Descoberta / Achado", hook:"Eu quase perdi esse {name}! Olha só esse achado.", scene2:"Sabe aquele produto que resolve uma dor real e ainda chama atenção?", scene3:"O {name} aparece em uso real, com foco nos detalhes e na utilidade.", cta:"Se você quiser o seu {name}, clica no carrinho antes que acabe."},
+      {angle:"Dor / Desejo", hook:"Eu não sabia que precisava do {name} até ver isso funcionando.", scene2:"Muita gente passa por esse problema: {pain}.", scene3:"O {name} aparece resolvendo isso de forma simples, visual e realista.", cta:"Clica no carrinho e garante o seu {name}."},
+      {angle:"Urgência / Último Lote", hook:"Eu demorei para pegar o {name} e quase fiquei sem.", scene2:"Quando aparece produto útil assim, o lote costuma acabar rápido.", scene3:"O {name} é mostrado como uma compra inteligente para {desire}.", cta:"Corre no carrinho e garante o seu {name} antes que acabe."}
+    ],
+    povFabrica:[
+      {angle:"Bastidor Real", hook:"POV: você vê o {name} sendo preparado antes do envio.", scene2:"Aqui o produto é separado, conferido e mostrado de perto.", scene3:"O {name} aparece em bancada real, com foco em {details}.", cta:"Garante o seu {name} antes que esse lote acabe."},
+      {angle:"Conferência de Produto", hook:"Olha a conferência do {name} antes de sair para entrega.", scene2:"Nada de imagem perfeita demais: é bastidor real de produto.", scene3:"O {name} é manuseado com foco em acabamento, proporção e detalhes reais.", cta:"Clica no carrinho e pega o seu {name}."},
+      {angle:"Lote Saindo", hook:"Esse lote do {name} está saindo rápido.", scene2:"Pedidos sendo separados, produto aparecendo em close e clima de estoque acabando.", scene3:"O {name} é mostrado de perto para reforçar fidelidade visual.", cta:"Se quiser o seu {name}, aproveita agora."}
+    ],
+    comparacao:[
+      {angle:"Antes vs Depois", hook:"Antes de comprar qualquer coisa parecida, olha o {name}.", scene2:"Muita gente improvisa e continua com o mesmo problema: {pain}.", scene3:"O {name} aparece como solução mais bonita, prática e direta.", cta:"Clica no carrinho e garante o seu {name}."},
+      {angle:"Valor Percebido", hook:"Parece simples, mas o {name} muda a experiência.", scene2:"O valor está nos detalhes: {details}.", scene3:"O {name} aparece em comparação visual com uma alternativa fraca ou improvisada.", cta:"Aproveita e garante o seu {name}."},
+      {angle:"Achado de Preço", hook:"Olha esse achado: {name} com cara de produto muito mais caro.", scene2:"É o tipo de produto que entrega visual, função e utilidade.", scene3:"O {name} aparece com close nos detalhes principais.", cta:"Clica no carrinho e pega o seu {name}."}
+    ],
+    loja:[
+      {angle:"Achado de Loja", hook:"Achei o {name} e tive que mostrar.", scene2:"É aquele produto que você olha e já imagina usando.", scene3:"O {name} aparece nas mãos, com close em {details}.", cta:"Se gostou do {name}, clica no carrinho."},
+      {angle:"Produto Útil", hook:"Esse {name} é o tipo de produto que faz sentido ter.", scene2:"Ele ajuda a {desire}.", scene3:"O {name} é mostrado como achado de loja, em ambiente realista.", cta:"Garante o seu {name} antes que acabe."},
+      {angle:"Compra Inteligente", hook:"Eu compraria esse {name} fácil.", scene2:"Bonito, útil e com demonstração clara de uso.", scene3:"O {name} é mostrado em close e depois em uso.", cta:"Clica no carrinho e pega o seu {name}."}
+    ]
+  };
 
-["bras","povHands","antesDepois","demoRapida","embalando","premium","problemaSolucao","usoReal"].forEach(id=>{
-  variationBank[id] = variationBank.ugc;
-});
-
-const counts = {};
-creativeModels.forEach(m=>counts[m.id]=0);
-
-function renderModels(){
-  const modelList=document.getElementById("modelList");
-  modelList.innerHTML="";
-  creativeModels.forEach(model=>{
-    const div=document.createElement("div");
-    div.className="model";
-    div.innerHTML=`
-      <div class="model-top">
-        <div class="model-info">
-          <div class="model-name">${model.name}</div>
-          <div class="model-desc">${model.desc} · ${model.scenes} cenas</div>
-        </div>
-        <div class="counter">
-          <button onclick="changeCount('${model.id}',-1)">−</button>
-          <span id="count-${model.id}">${counts[model.id]}</span>
-          <button onclick="changeCount('${model.id}',1)">+</button>
-        </div>
-      </div>`;
-    modelList.appendChild(div);
+  ["bras","povHands","antesDepois","demoRapida","embalando","premium","problemaSolucao","usoReal"].forEach(id=>{
+    variationBank[id] = variationBank.ugc;
   });
-  updateTotal();
-}
 
-function changeCount(id,delta){
-  counts[id]=Math.max(0,Math.min(20,counts[id]+delta));
-  document.getElementById("count-"+id).textContent=counts[id];
-  updateTotal();
-}
+  const counts = {};
+  creativeModels.forEach(m => counts[m.id] = 0);
 
-function updateTotal(){
-  const total=Object.values(counts).reduce((a,b)=>a+b,0);
-  document.getElementById("totalCounter").textContent="Total selecionado: "+total+" vídeo"+(total===1?"":"s");
-}
+  function renderModels(){
+    const modelList = document.getElementById("modelList");
+    modelList.innerHTML = "";
 
-document.getElementById("imageUpload").addEventListener("change",function(e){
-  const files=Array.from(e.target.files).slice(0,10);
-  uploadedFileNames=files.map(f=>f.name);
-  const grid=document.getElementById("previewGrid");
-  grid.innerHTML="";
-  if(files.length===0){
-    grid.innerHTML='<div class="preview-item">Sem imagem</div>';
-    return;
+    creativeModels.forEach(model=>{
+      const div = document.createElement("div");
+      div.className = "model";
+      div.innerHTML = `
+        <div class="model-top">
+          <div class="model-info">
+            <div class="model-name">${model.name}</div>
+            <div class="model-desc">${model.desc} · ${model.scenes} cenas</div>
+          </div>
+          <div class="counter">
+            <button onclick="changeCount('${model.id}',-1)">−</button>
+            <span id="count-${model.id}">${counts[model.id]}</span>
+            <button onclick="changeCount('${model.id}',1)">+</button>
+          </div>
+        </div>`;
+      modelList.appendChild(div);
+    });
+
+    updateTotal();
   }
-  files.forEach(file=>{
-    const item=document.createElement("div");
-    item.className="preview-item";
-    item.textContent="Carregando...";
-    grid.appendChild(item);
-    const reader=new FileReader();
-    reader.onload=ev=>{item.innerHTML=`<img src="${ev.target.result}" alt="Imagem do produto">`;};
-    reader.readAsDataURL(file);
+
+  function changeCount(id, delta){
+    counts[id] = Math.max(0, Math.min(20, counts[id] + delta));
+    document.getElementById("count-" + id).textContent = counts[id];
+    updateTotal();
+  }
+
+  function updateTotal(){
+    const total = Object.values(counts).reduce((a,b)=>a+b,0);
+    document.getElementById("totalCounter").textContent = "Total selecionado: " + total + " vídeo" + (total===1 ? "" : "s");
+  }
+
+  document.getElementById("imageUpload").addEventListener("change", async function(e){
+    const files = Array.from(e.target.files).slice(0,10);
+    uploadedFileNames = files.map(f => f.name);
+
+    const grid = document.getElementById("previewGrid");
+    grid.innerHTML = "";
+
+    if(files.length === 0){
+      grid.innerHTML = `<div class="preview-item">Sem imagem</div>`;
+      uploadedImageParts = [];
+      return;
+    }
+
+    const promises = files.map(file => fileToDataUrl(file));
+    const results = await Promise.all(promises);
+
+    uploadedImageParts = results.map((dataUrl, index) => ({
+      name: files[index].name,
+      mimeType: files[index].type || "image/png",
+      dataUrl
+    }));
+
+    uploadedImageParts.forEach(item=>{
+      const div = document.createElement("div");
+      div.className = "preview-item";
+      div.innerHTML = `<img src="${item.dataUrl}" alt="${item.name}">`;
+      grid.appendChild(div);
+    });
   });
-});
 
-function normalizeText(text){
-  return (text||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
-}
-
-function detectCategory(full){
-  if(full.match(/jaqueta|casaco|bobojaco|puffer|moletom|camiseta|camisa|calca|calça|bermuda|vestido|blusa|tenis|tênis|sapato|sandalia|sandália|moda|roupa|capuz|gola|ziper|zíper|manga|tamanho|calcado|calçado/)) return "fashion";
-  if(full.match(/prateleira|nicho|porta chave|porta-chave|peso de porta|mesa|criado|decoracao|decoração|mdf|casa|cozinha|sala|quarto|banheiro|parede|organizador/)) return "home";
-  if(full.match(/fone|carregador|cabo|bluetooth|radio|rádio|caixa de som|smartwatch|teclado|mouse|camera|câmera|led|usb|eletronico|eletrônico|bateria|controle remoto|speaker|som/)) return "electronics";
-  if(full.match(/creme|serum|sérum|shampoo|condicionador|maquiagem|batom|base|hidratante|skincare|pele|cabelo|beleza|perfume|cosmetico|cosmético/)) return "beauty";
-  if(full.match(/ferramenta|parafusadeira|furadeira|alicate|chave de fenda|martelo|serra|broca|multimetro|multímetro|oficina|manual|reparo/)) return "tools";
-  if(full.match(/infantil|bebe|bebê|crianca|criança|brinquedo|maternidade|menino|menina|kids/)) return "kids";
-  if(full.match(/pet|cachorro|gato|coleira|comedouro|bebedouro|arranhador|animal/)) return "pets";
-  if(full.match(/carro|automotivo|moto|veiculo|veículo|volante|painel|pneu|retrovisor|limpador|som automotivo/)) return "autoParts";
-  return "generic";
-}
-
-function getCategoryProfile(){
-  const manual=document.getElementById("manualCategory").value;
-  const title=document.getElementById("productTitle").value.trim();
-  const desc=document.getElementById("productDescription").value.trim();
-  const full=normalizeText(title+" "+desc+" "+uploadedFileNames.join(" "));
-  const id=manual==="auto"?detectCategory(full):manual;
-  return {id,...categoryProfiles[id]};
-}
-
-function extractHints(text){
-  const full=normalizeText(text);
-  let color="cor conforme imagem e descrição";
-  let material="material conforme imagem e descrição";
-  let finish="acabamento conforme imagem e descrição";
-  ["preta","preto","branca","branco","azul","vermelha","vermelho","verde","rosa","cinza","bege","marrom","inox","dourado","prata","madeira"].forEach(c=>{if(full.includes(c)) color=c;});
-  if(full.includes("mdf")) material="MDF";
-  if(full.includes("acrilico")||full.includes("acrílico")) material="acrílico";
-  if(full.includes("metal")) material="metal";
-  if(full.includes("plastico")||full.includes("plástico")) material="plástico";
-  if(full.includes("tecido acolchoado")) material="tecido acolchoado";
-  if(full.includes("algodao")||full.includes("algodão")) material="algodão";
-  if(full.includes("couro")) material="couro";
-  if(full.includes("fosco")) finish="acabamento fosco";
-  if(full.includes("brilhante")) finish="acabamento brilhante";
-  if(full.includes("acolchoado")||full.includes("acolchoada")) finish="acabamento acolchoado";
-  if(full.includes("texturizado")||full.includes("texturizada")) finish="acabamento texturizado";
-  return {color,material,finish};
-}
-
-function getProductData(){
-  const productName=document.getElementById("productTitle").value.trim();
-  const description=document.getElementById("productDescription").value.trim();
-  const duration=document.getElementById("duration").value;
-  if(!productName){
-    showMessage("Digite o nome do produto.");
-    return null;
+  function fileToDataUrl(file){
+    return new Promise((resolve, reject)=>{
+      const reader = new FileReader();
+      reader.onload = ev => resolve(ev.target.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   }
-  const profile=getCategoryProfile();
-  const hints=extractHints(productName+" "+description+" "+uploadedFileNames.join(" "));
-  const finalDescription=description||"produto físico de e-commerce com características conforme imagem e título";
-  const productLine=`${productName}, categoria ${profile.label}, ${profile.productType}, ${hints.color}, ${hints.material}, ${hints.finish}, descrição: ${finalDescription}`;
-  const refImages=uploadedFileNames.length?uploadedFileNames.map((n,i)=>`Imagem de referência ${i+1}: ${n}`).join("; "):"Nenhuma imagem enviada; usar título e descrição como referência principal.";
-  return {productName,description:finalDescription,duration,profile,productLine,refImages};
-}
 
-function fillText(text,data){
-  return text.replaceAll("{name}",data.productName).replaceAll("{pain}",data.profile.pain).replaceAll("{desire}",data.profile.desire).replaceAll("{demo}",data.profile.demo).replaceAll("{details}",data.profile.details);
-}
+  function normalizeText(text){
+    return (text || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
 
-function getVariation(modelId,occurrence){
-  const arr=variationBank[modelId]||variationBank.ugc;
-  return arr[(occurrence-1)%arr.length];
-}
+  function detectCategory(full){
+    if(full.match(/jaqueta|casaco|bobojaco|puffer|moletom|camiseta|camisa|calca|calça|bermuda|vestido|blusa|tenis|tênis|sapato|sandalia|sandália|moda|roupa|capuz|gola|ziper|zíper|manga|tamanho|calcado|calçado/)) return "fashion";
+    if(full.match(/prateleira|nicho|porta chave|porta-chave|peso de porta|mesa|criado|decoracao|decoração|mdf|casa|cozinha|sala|quarto|banheiro|parede|organizador/)) return "home";
+    if(full.match(/fone|carregador|cabo|bluetooth|radio|rádio|caixa de som|smartwatch|teclado|mouse|camera|câmera|led|usb|eletronico|eletrônico|bateria|controle remoto|speaker|som/)) return "electronics";
+    if(full.match(/creme|serum|sérum|shampoo|condicionador|maquiagem|batom|base|hidratante|skincare|pele|cabelo|beleza|perfume|cosmetico|cosmético/)) return "beauty";
+    if(full.match(/ferramenta|parafusadeira|furadeira|alicate|chave de fenda|martelo|serra|broca|multimetro|multímetro|oficina|manual|reparo/)) return "tools";
+    if(full.match(/infantil|bebe|bebê|crianca|criança|brinquedo|maternidade|menino|menina|kids/)) return "kids";
+    if(full.match(/pet|cachorro|gato|coleira|comedouro|bebedouro|arranhador|animal/)) return "pets";
+    if(full.match(/carro|automotivo|moto|veiculo|veículo|volante|painel|pneu|retrovisor|limpador|som automotivo/)) return "autoParts";
+    return "generic";
+  }
 
-function commonNegative(data){
-  let base="beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone interface elements, recording UI, battery icon, signal icon, notification icons, app overlays, TikTok interface, readable private customer data, product redesign, product modification, invented features, extra parts, wrong color, wrong material, wrong quantity, distorted product, fake labels, professional studio background, luxury showroom, cartoon style";
-  base+=", extra arms, extra hands, extra fingers, missing fingers, fused fingers, malformed hands, duplicated limbs, broken wrists, dislocated elbows, twisted arms, floating hands, deformed anatomy, cloned body parts, overlapping limbs, mutated hands, incorrect grip, distorted pose, impossible pose, wrong hand position, bent fingers, stretched hands, merged arms, extra person, duplicate body";
-  return base;
-}
+  function getCategoryProfile(){
+    const manual = document.getElementById("manualCategory").value;
+    const title = document.getElementById("productTitle").value.trim();
+    const desc = document.getElementById("productDescription").value.trim();
+    const full = normalizeText(title + " " + desc + " " + uploadedFileNames.join(" "));
+    const id = manual === "auto" ? detectCategory(full) : manual;
+    return { id, ...categoryProfiles[id] };
+  }
 
-function safetyLocks(modelId,data){
-  const anatomy = modelId==="povHands" || modelId==="embalando"
-    ? "[HUMAN ANATOMY LOCK]: Exactly two hands only must appear in frame. Exactly five fingers on each hand. No extra hands, no extra fingers, no merged fingers, no distorted wrists."
-    : "[HUMAN ANATOMY LOCK]: Only one adult person in frame. Exactly two arms, two hands, and five fingers on each hand. No extra limbs, no duplicated hands, no merged fingers, no distorted anatomy, no additional people.";
+  function extractHints(text){
+    const full = normalizeText(text);
+    let color = "cor conforme imagem e descrição";
+    let material = "material conforme imagem e descrição";
+    let finish = "acabamento conforme imagem e descrição";
 
-  const motion = "[MOTION LOCK]: Only one simple action at a time. Slow, controlled movement only. No abrupt gestures. No fast arm switching. No overlapping arm motion. No complex multi-step body action.";
-  const hand = modelId==="povHands"
-    ? "[HAND LOCK]: The product stays centered between two visible hands or in one main hand with the other lightly supporting. Hands must remain fully visible. No crossing arms."
-    : "[HAND LOCK]: The product is held steadily in one main hand, with the other hand relaxed or lightly supporting from below. Hands must remain fully visible and anatomically correct.";
-  const camera = "[CAMERA LOCK]: Stable framing. Slight handheld movement only. No aggressive shake. No sudden zoom. No abrupt reframing. No extreme close-up distortion.";
-  const action = "[ACTION LOCK]: The subject performs one simple action only. Do not combine multiple complex gestures at the same time. Keep the pose stable and readable.";
+    ["preta","preto","branca","branco","azul","vermelha","vermelho","verde","rosa","cinza","bege","marrom","inox","dourado","prata","madeira"].forEach(c=>{
+      if(full.includes(c)) color = c;
+    });
 
-  return `${anatomy}\n\n${motion}\n\n${hand}\n\n${camera}\n\n${action}`;
-}
+    if(full.includes("mdf")) material = "MDF";
+    if(full.includes("acrilico") || full.includes("acrílico")) material = "acrílico";
+    if(full.includes("metal")) material = "metal";
+    if(full.includes("plastico") || full.includes("plástico")) material = "plástico";
+    if(full.includes("tecido acolchoado")) material = "tecido acolchoado";
+    if(full.includes("algodao") || full.includes("algodão")) material = "algodão";
+    if(full.includes("couro")) material = "couro";
 
-function productLock(data){
-  return `[PRODUCT LOCK]:
+    if(full.includes("fosco")) finish = "acabamento fosco";
+    if(full.includes("brilhante")) finish = "acabamento brilhante";
+    if(full.includes("acolchoado") || full.includes("acolchoada")) finish = "acabamento acolchoado";
+    if(full.includes("texturizado") || full.includes("texturizada")) finish = "acabamento texturizado";
+
+    return { color, material, finish };
+  }
+
+  function getProductData(){
+    const productName = document.getElementById("productTitle").value.trim();
+    const description = document.getElementById("productDescription").value.trim();
+    const duration = document.getElementById("duration").value;
+
+    if(!productName){
+      showMessage("Digite o nome do produto.");
+      return null;
+    }
+
+    const profile = getCategoryProfile();
+    const hints = extractHints(productName + " " + description + " " + uploadedFileNames.join(" "));
+    const finalDescription = description || "produto físico de e-commerce com características conforme imagem e título";
+    const productLine = `${productName}, categoria ${profile.label}, ${profile.productType}, ${hints.color}, ${hints.material}, ${hints.finish}, descrição: ${finalDescription}`;
+    const refImages = uploadedFileNames.length
+      ? uploadedFileNames.map((n,i)=>`Imagem de referência ${i+1}: ${n}`).join("; ")
+      : "Nenhuma imagem enviada; usar título e descrição como referência principal.";
+
+    return {
+      productName,
+      description: finalDescription,
+      duration,
+      profile,
+      productLine,
+      refImages
+    };
+  }
+
+  function fillText(text, data){
+    return text
+      .replaceAll("{name}", data.productName)
+      .replaceAll("{pain}", data.profile.pain)
+      .replaceAll("{desire}", data.profile.desire)
+      .replaceAll("{demo}", data.profile.demo)
+      .replaceAll("{details}", data.profile.details);
+  }
+
+  function getVariation(modelId, occurrence){
+    const arr = variationBank[modelId] || variationBank.ugc;
+    return arr[(occurrence-1) % arr.length];
+  }
+
+  function commonNegative(){
+    return "beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone interface elements, recording UI, battery icon, signal icon, notification icons, app overlays, TikTok interface, readable private customer data, product redesign, product modification, invented features, extra parts, wrong color, wrong material, wrong quantity, distorted product, fake labels, professional studio background, luxury showroom, cartoon style, extra arms, extra hands, extra fingers, missing fingers, fused fingers, malformed hands, duplicated limbs, broken wrists, dislocated elbows, twisted arms, floating hands, deformed anatomy, cloned body parts, overlapping limbs, mutated hands, incorrect grip, distorted pose, impossible pose, wrong hand position, bent fingers, stretched hands, merged arms, extra person, duplicate body";
+  }
+
+  function safetyLocks(modelId, data){
+    const anatomy = (modelId === "povHands" || modelId === "embalando")
+      ? "[HUMAN ANATOMY LOCK]: Exactly two hands only must appear in frame. Exactly five fingers on each hand. No extra hands, no extra fingers, no merged fingers, no distorted wrists."
+      : "[HUMAN ANATOMY LOCK]: Only one adult person in frame. Exactly two arms, two hands, and five fingers on each hand. No extra limbs, no duplicated hands, no merged fingers, no distorted anatomy, no additional people.";
+
+    const motion = "[MOTION LOCK]: Only one simple action at a time. Slow, controlled movement only. No abrupt gestures. No fast arm switching. No overlapping arm motion. No complex multi-step body action.";
+    const hand = (modelId === "povHands")
+      ? "[HAND LOCK]: The product stays centered between two visible hands or in one main hand with the other lightly supporting. Hands must remain fully visible. No crossing arms."
+      : "[HAND LOCK]: The product is held steadily in one main hand, with the other hand relaxed or lightly supporting from below. Hands must remain fully visible and anatomically correct.";
+    const camera = "[CAMERA LOCK]: Stable framing. Slight handheld movement only. No aggressive shake. No sudden zoom. No abrupt reframing. No extreme close-up distortion.";
+    const action = "[ACTION LOCK]: The subject performs one simple action only. Do not combine multiple complex gestures at the same time. Keep the pose stable and readable.";
+
+    return `${anatomy}\n\n${motion}\n\n${hand}\n\n${camera}\n\n${action}`;
+  }
+
+  function productLock(data){
+    return `[PRODUCT LOCK]:
 The main product must be exactly: ${data.productName}.
 Correct category: ${data.profile.label}.
 Use the uploaded images as the visual reference for ${data.productName}.
@@ -684,39 +994,43 @@ The product must remain faithful to the title, description, and reference images
 
 [REFERENCE IMAGES]:
 ${data.refImages}`;
-}
-
-function makePromptObject(modelId,data,globalIndex,occurrence){
-  const model=creativeModels.find(m=>m.id===modelId)||creativeModels[0];
-  const variation=getVariation(modelId,occurrence);
-
-  const s1=fillText(variation.hook,data);
-  const s2=fillText(variation.scene2,data);
-  const s3=fillText(variation.scene3,data);
-  const s4=fillText(variation.cta,data);
-
-  let scene=data.profile.scene;
-  let subject=data.profile.subject;
-
-  if(modelId==="povHands"){
-    subject=`somente duas mãos adultas brasileiras demonstrando o ${data.productName}, sem mostrar rosto, movimentos lentos e controlados`;
-  }
-  if(modelId==="povFabrica"){
-    scene=`bastidor brasileiro realista: bancada, estoque, mesa de conferência, embalagem ou pequena produção adequada para a categoria ${data.profile.label}`;
-    subject=`mãos de trabalhador brasileiro conferindo, separando e mostrando o ${data.productName} com movimentos simples`;
-  }
-  if(modelId==="loja"){
-    scene=`loja brasileira realista adequada à categoria ${data.profile.label}, ambiente popular, prateleiras, araras, balcão ou mesa de exposição ao fundo, iluminação simples`;
-  }
-  if(modelId==="bras"){
-    scene=`feira shop brasileira estilo Brás ou comércio popular adequado à categoria ${data.profile.label}, movimento natural ao fundo`;
-  }
-  if(modelId==="embalando"){
-    scene=`mesa de embalagem de loja online brasileira, caixas simples, plástico bolha ou embalagem adequada ao ${data.productName}, etiquetas sem dados legíveis`;
-    subject=`duas mãos embalando pedidos, conferindo o ${data.productName} e mostrando o produto antes do envio, com movimentos simples`;
   }
 
-  const technical = `[SCENE]:
+  function makePromptObject(modelId, data, globalIndex, occurrence){
+    const model = creativeModels.find(m => m.id === modelId) || creativeModels[0];
+    const variation = getVariation(modelId, occurrence);
+
+    const s1 = fillText(variation.hook, data);
+    const s2 = fillText(variation.scene2, data);
+    const s3 = fillText(variation.scene3, data);
+    const s4 = fillText(variation.cta, data);
+
+    let scene = data.profile.scene;
+    let subject = data.profile.subject;
+
+    if(modelId === "povHands"){
+      subject = `somente duas mãos adultas brasileiras demonstrando o ${data.productName}, sem mostrar rosto, movimentos lentos e controlados`;
+    }
+
+    if(modelId === "povFabrica"){
+      scene = `bastidor brasileiro realista: bancada, estoque, mesa de conferência, embalagem ou pequena produção adequada para a categoria ${data.profile.label}`;
+      subject = `mãos de trabalhador brasileiro conferindo, separando e mostrando o ${data.productName} com movimentos simples`;
+    }
+
+    if(modelId === "loja"){
+      scene = `loja brasileira realista adequada à categoria ${data.profile.label}, ambiente popular, prateleiras, araras, balcão ou mesa de exposição ao fundo, iluminação simples`;
+    }
+
+    if(modelId === "bras"){
+      scene = `feira shop brasileira estilo Brás ou comércio popular adequado à categoria ${data.profile.label}, movimento natural ao fundo`;
+    }
+
+    if(modelId === "embalando"){
+      scene = `mesa de embalagem de loja online brasileira, caixas simples, plástico bolha ou embalagem adequada ao ${data.productName}, etiquetas sem dados legíveis`;
+      subject = `duas mãos embalando pedidos, conferindo o ${data.productName} e mostrando o produto antes do envio, com movimentos simples`;
+    }
+
+    const technical = `[SCENE]:
 ${scene}.
 
 [SUBJECT]:
@@ -741,12 +1055,12 @@ ${data.duration}
 
 ${productLock(data)}
 
-${safetyLocks(modelId,data)}
+${safetyLocks(modelId, data)}
 
 [NEGATIVE PROMPT]:
-${commonNegative(data)}.`;
+${commonNegative()}.`;
 
-  const full = `━━━━ PROMPT ${globalIndex} — ${model.name.toUpperCase()} · VARIAÇÃO ${occurrence}: ${variation.angle.toUpperCase()} ━━━━
+    const full = `━━━━ PROMPT ${globalIndex} — ${model.name.toUpperCase()} · VARIAÇÃO ${occurrence}: ${variation.angle.toUpperCase()} ━━━━
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
 ${s1}
@@ -762,250 +1076,512 @@ ${s4}
 
 ${technical}`;
 
-  return {
-    id:globalIndex,
-    modelId,
-    modelName:model.name,
-    variation:variation.angle,
-    approved:false,
-    scenes:{
-      scene1:`━━━━ CENA 1 — Scroll Stop ━━━━\n${s1}`,
-      scene2:`━━━━ CENA 2 — Desenvolvimento ━━━━\n${s2}`,
-      scene3:`━━━━ CENA 3 — Demonstração ━━━━\n${s3}`,
-      scene4:`━━━━ CENA 4 — CTA · CTA ━━━━\n${s4}`,
-      technical,
-      full
+    return {
+      id: globalIndex,
+      modelId,
+      modelName: model.name,
+      variation: variation.angle,
+      approved: false,
+      scenes: {
+        scene1: `━━━━ CENA 1 — Scroll Stop ━━━━\n${s1}`,
+        scene2: `━━━━ CENA 2 — Desenvolvimento ━━━━\n${s2}`,
+        scene3: `━━━━ CENA 3 — Demonstração ━━━━\n${s3}`,
+        scene4: `━━━━ CENA 4 — CTA · CTA ━━━━\n${s4}`,
+        technical,
+        full
+      }
+    };
+  }
+
+  function generateCampaign(){
+    const data = getProductData();
+    if(!data) return;
+
+    generatedPrompts = [];
+    let index = 1;
+
+    creativeModels.forEach(model=>{
+      for(let i=1; i<=counts[model.id]; i++){
+        generatedPrompts.push(makePromptObject(model.id, data, index, i));
+        index++;
+      }
+    });
+
+    if(generatedPrompts.length === 0){
+      showMessage("Escolha pelo menos 1 modelo com o botão +.");
+      return;
     }
-  };
-}
 
-function generateCampaign(){
-  const data=getProductData();
-  if(!data)return;
+    currentPromptIndex = 0;
+    currentSceneKey = "full";
+    renderPromptTabs();
+    renderSceneTabs();
+    renderViewer();
+    saveHistory(data.productName, generatedPrompts);
+    showMessage("Campanha gerada em cards!");
+  }
 
-  generatedPrompts=[];
-  let index=1;
+  function renderPromptTabs(){
+    const tabs = document.getElementById("promptTabs");
+    tabs.innerHTML = "";
 
-  creativeModels.forEach(model=>{
-    for(let i=1;i<=counts[model.id];i++){
-      generatedPrompts.push(makePromptObject(model.id,data,index,i));
-      index++;
+    generatedPrompts.forEach((p,i)=>{
+      const btn = document.createElement("button");
+      btn.className = "tab" + (i === currentPromptIndex ? " active" : "");
+      btn.innerHTML = `Prompt ${p.id}${p.approved ? '<span class="approved">OK</span>' : ''}`;
+      btn.onclick = ()=>{
+        currentPromptIndex = i;
+        currentSceneKey = "full";
+        renderPromptTabs();
+        renderSceneTabs();
+        renderViewer();
+      };
+      tabs.appendChild(btn);
+    });
+  }
+
+  function renderSceneTabs(){
+    const tabs = document.getElementById("sceneTabs");
+    tabs.innerHTML = "";
+
+    if(!generatedPrompts.length) return;
+
+    const sceneButtons = [
+      ["scene1","Cena 1"],
+      ["scene2","Cena 2"],
+      ["scene3","Cena 3"],
+      ["scene4","Cena 4"],
+      ["technical","Técnico"],
+      ["full","Prompt Completo"]
+    ];
+
+    sceneButtons.forEach(([key,label])=>{
+      const btn = document.createElement("button");
+      btn.className = "tab" + (key === currentSceneKey ? " active" : "");
+      btn.textContent = label;
+      btn.onclick = ()=>{
+        currentSceneKey = key;
+        renderSceneTabs();
+        renderViewer();
+      };
+      tabs.appendChild(btn);
+    });
+  }
+
+  function renderViewer(){
+    const viewer = document.getElementById("promptViewer");
+
+    if(!generatedPrompts.length){
+      viewer.className = "empty";
+      viewer.textContent = "Preencha o nome do produto, escolha os modelos criativos com + e clique em GERAR CAMPANHA.";
+      return;
     }
+
+    viewer.className = "prompt-panel";
+    const p = generatedPrompts[currentPromptIndex];
+    viewer.textContent = p.scenes[currentSceneKey] || p.scenes.full;
+  }
+
+  function getCurrentText(){
+    if(!generatedPrompts.length) return "";
+    const p = generatedPrompts[currentPromptIndex];
+    return p.scenes[currentSceneKey] || p.scenes.full;
+  }
+
+  function getCurrentPromptObject(){
+    if(!generatedPrompts.length) return null;
+    return generatedPrompts[currentPromptIndex];
+  }
+
+  function buildImagePromptFromCurrentSelection(){
+    const p = getCurrentPromptObject();
+    if(!p) return "";
+
+    let sceneText = "";
+    if(currentSceneKey === "technical"){
+      sceneText = p.scenes.technical;
+    } else if(currentSceneKey === "full"){
+      sceneText = p.scenes.full;
+    } else {
+      sceneText = p.scenes[currentSceneKey] + "\n\n" + p.scenes.technical;
+    }
+
+    return `Generate one high-quality still image based on the selected campaign scene below.
+
+Important:
+- Create a single still image, not a collage.
+- Stay faithful to the product, title, description, and uploaded reference images.
+- If a person appears, maintain correct human anatomy, realistic hands, and correct number of fingers.
+- Keep the scene visually clear and realistic.
+- If the selected content is a CTA scene, still generate a visual scene that matches the campaign context naturally.
+- Do not add interface elements, mobile UI overlays, or social media UI.
+
+SELECTED CONTENT:
+${sceneText}`;
+  }
+
+  function copyCurrent(){
+    const text = getCurrentText();
+    if(!text){
+      showMessage("Nada para copiar.");
+      return;
+    }
+
+    navigator.clipboard.writeText(text).then(()=>showMessage("Copiado!"));
+  }
+
+  function copyAll(){
+    if(!generatedPrompts.length){
+      showMessage("Gere uma campanha primeiro.");
+      return;
+    }
+
+    const all = generatedPrompts.map(p=>p.scenes.full).join("\n\n");
+    navigator.clipboard.writeText(all).then(()=>showMessage("Tudo copiado!"));
+  }
+
+  function approveCurrent(){
+    if(!generatedPrompts.length){
+      showMessage("Gere uma campanha primeiro.");
+      return;
+    }
+
+    generatedPrompts[currentPromptIndex].approved = true;
+    renderPromptTabs();
+    showMessage("Prompt aprovado!");
+  }
+
+  function downloadTxt(){
+    if(!generatedPrompts.length){
+      showMessage("Gere uma campanha primeiro.");
+      return;
+    }
+
+    const all = generatedPrompts.map(p=>p.scenes.full).join("\n\n");
+    const title = document.getElementById("productTitle").value.trim() || "promptflow-campanha";
+    const safe = title.toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"")
+      .replace(/[^a-z0-9]+/g,"-")
+      .replace(/^-|-$/g,"");
+
+    const blob = new Blob([all], {type:"text/plain;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = safe + "-promptflow-v4-6.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showMessage("Arquivo baixado.");
+  }
+
+  function resetCounts(show=true){
+    Object.keys(counts).forEach(k=>counts[k]=0);
+
+    creativeModels.forEach(m=>{
+      const el = document.getElementById("count-" + m.id);
+      if(el) el.textContent = 0;
+    });
+
+    updateTotal();
+
+    if(show) showMessage("Modelos zerados.");
+  }
+
+  function clearAll(){
+    document.getElementById("imageUpload").value = "";
+    document.getElementById("productTitle").value = "";
+    document.getElementById("productDescription").value = "";
+    document.getElementById("manualCategory").value = "auto";
+    document.getElementById("duration").selectedIndex = 0;
+
+    uploadedFileNames = [];
+    uploadedImageParts = [];
+    generatedPrompts = [];
+    generatedImages = [];
+    currentPromptIndex = 0;
+    currentSceneKey = "full";
+    lastImagePromptUsed = "";
+
+    document.getElementById("previewGrid").innerHTML = `<div class="preview-item">Sem imagem</div>`;
+    document.getElementById("promptTabs").innerHTML = "";
+    document.getElementById("sceneTabs").innerHTML = "";
+    resetCounts(false);
+    renderViewer();
+    renderGeneratedImages();
+
+    showMessage("Tudo limpo.");
+  }
+
+  function saveHistory(title, prompts){
+    const history = JSON.parse(localStorage.getItem("promptflow_history_v46") || "[]");
+    history.unshift({
+      title,
+      date: new Date().toLocaleString("pt-BR"),
+      prompts
+    });
+    localStorage.setItem("promptflow_history_v46", JSON.stringify(history.slice(0,10)));
+    renderHistory();
+  }
+
+  function renderHistory(){
+    const list = document.getElementById("historyList");
+    const history = JSON.parse(localStorage.getItem("promptflow_history_v46") || "[]");
+
+    if(history.length === 0){
+      list.textContent = "Nenhuma campanha salva ainda.";
+      return;
+    }
+
+    list.innerHTML = "";
+
+    history.forEach(item=>{
+      const div = document.createElement("div");
+      div.className = "history-item";
+      div.innerHTML = `<strong>${item.title}</strong><br>${item.date} · ${item.prompts.length} prompts`;
+      div.onclick = ()=>{
+        generatedPrompts = item.prompts;
+        currentPromptIndex = 0;
+        currentSceneKey = "full";
+        renderPromptTabs();
+        renderSceneTabs();
+        renderViewer();
+        showMessage("Histórico carregado.");
+      };
+      list.appendChild(div);
+    });
+  }
+
+  function saveApiSettings(){
+    const apiKey = document.getElementById("apiKey").value.trim();
+    const imageModel = document.getElementById("imageModel").value.trim();
+
+    localStorage.setItem("promptflow_api_key", apiKey);
+    localStorage.setItem("promptflow_image_model", imageModel);
+
+    showMessage("API e modelo salvos no navegador.");
+  }
+
+  function loadApiSettings(){
+    const apiKey = localStorage.getItem("promptflow_api_key") || "";
+    const imageModel = localStorage.getItem("promptflow_image_model") || "gemini-2.0-flash-preview-image-generation";
+
+    document.getElementById("apiKey").value = apiKey;
+    document.getElementById("imageModel").value = imageModel;
+  }
+
+  function clearApiSettings(){
+    localStorage.removeItem("promptflow_api_key");
+    localStorage.removeItem("promptflow_image_model");
+    document.getElementById("apiKey").value = "";
+    document.getElementById("imageModel").value = "gemini-2.0-flash-preview-image-generation";
+    showMessage("API removida do navegador.");
+  }
+
+  function copyImagePrompt(){
+    if(!lastImagePromptUsed){
+      showMessage("Nenhum prompt de imagem foi gerado ainda.");
+      return;
+    }
+
+    navigator.clipboard.writeText(lastImagePromptUsed).then(()=>{
+      showMessage("Prompt de imagem copiado!");
+    });
+  }
+
+  function clearGeneratedImages(){
+    generatedImages = [];
+    renderGeneratedImages();
+    showMessage("Imagens removidas.");
+  }
+
+  function renderGeneratedImages(loadingText = ""){
+    const container = document.getElementById("imageResult");
+
+    if(loadingText){
+      container.innerHTML = `<div class="loading">${loadingText}</div>`;
+      return;
+    }
+
+    if(generatedImages.length === 0){
+      container.innerHTML = `
+        <div class="image-placeholder">
+          Nenhuma imagem gerada ainda.<br>
+          Gere os prompts, escolha uma cena e clique em <strong>Gerar Imagem da Cena</strong>.
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = "";
+
+    generatedImages.slice().reverse().forEach((item, idx)=>{
+      const card = document.createElement("div");
+      card.className = "image-card";
+      card.innerHTML = `
+        <div class="mini-label">Imagem ${generatedImages.length - idx} · ${item.meta}</div>
+        <img src="${item.dataUrl}" alt="Imagem gerada">
+        <div class="small-text">${item.promptUsed}</div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  async function generateImageForCurrentScene(){
+    if(isGeneratingImage) return;
+
+    const apiKey = document.getElementById("apiKey").value.trim();
+    const imageModel = document.getElementById("imageModel").value.trim();
+
+    if(!apiKey){
+      showMessage("Cole sua API Key primeiro.");
+      return;
+    }
+
+    if(!imageModel){
+      showMessage("Defina o modelo de imagem.");
+      return;
+    }
+
+    if(!generatedPrompts.length){
+      showMessage("Gere uma campanha primeiro.");
+      return;
+    }
+
+    const prompt = buildImagePromptFromCurrentSelection();
+    if(!prompt){
+      showMessage("Não foi possível montar o prompt da imagem.");
+      return;
+    }
+
+    lastImagePromptUsed = prompt;
+    isGeneratingImage = true;
+    const btn = document.getElementById("generateImageBtn");
+    btn.disabled = true;
+    btn.textContent = "Gerando imagem...";
+    renderGeneratedImages("Gerando imagem... aguarde alguns segundos.");
+
+    try{
+      const parts = [{ text: prompt }];
+
+      uploadedImageParts.slice(0, 4).forEach(img=>{
+        const base64Data = img.dataUrl.split(",")[1];
+        parts.push({
+          inline_data: {
+            mime_type: img.mimeType || "image/png",
+            data: base64Data
+          }
+        });
+      });
+
+      const body = {
+        contents: [
+          {
+            role: "user",
+            parts
+          }
+        ],
+        generationConfig: {
+          responseModalities: ["TEXT", "IMAGE"]
+        }
+      };
+
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(imageModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+      });
+
+      const data = await response.json();
+
+      if(!response.ok){
+        console.error(data);
+        throw new Error(data?.error?.message || "Erro ao gerar imagem.");
+      }
+
+      const imageParts = [];
+      const textParts = [];
+
+      (data.candidates || []).forEach(candidate=>{
+        ((candidate.content && candidate.content.parts) || []).forEach(part=>{
+          if(part.inlineData && part.inlineData.data){
+            imageParts.push({
+              data: part.inlineData.data,
+              mimeType: part.inlineData.mimeType || "image/png"
+            });
+          }
+          if(part.inline_data && part.inline_data.data){
+            imageParts.push({
+              data: part.inline_data.data,
+              mimeType: part.inline_data.mime_type || "image/png"
+            });
+          }
+          if(part.text){
+            textParts.push(part.text);
+          }
+        });
+      });
+
+      if(imageParts.length === 0){
+        console.error(data);
+        const extraText = textParts.length ? "\n\nResposta textual:\n" + textParts.join("\n") : "";
+        throw new Error("A API respondeu, mas não retornou imagem." + extraText);
+      }
+
+      imageParts.forEach(img=>{
+        generatedImages.push({
+          dataUrl: `data:${img.mimeType};base64,${img.data}`,
+          meta: `Prompt ${generatedPrompts[currentPromptIndex].id} · ${sceneLabelByKey(currentSceneKey)}`,
+          promptUsed: lastImagePromptUsed
+        });
+      });
+
+      renderGeneratedImages();
+      showMessage("Imagem gerada com sucesso!");
+
+    }catch(err){
+      console.error(err);
+      renderGeneratedImages();
+      showMessage("Erro ao gerar imagem.");
+      alert("Erro ao gerar imagem:\n\n" + err.message + "\n\nSe precisar, teste outro modelo no campo 'Modelo de imagem'.");
+    }finally{
+      isGeneratingImage = false;
+      btn.disabled = false;
+      btn.textContent = "Gerar Imagem da Cena";
+    }
+  }
+
+  function sceneLabelByKey(key){
+    if(key === "scene1") return "Cena 1";
+    if(key === "scene2") return "Cena 2";
+    if(key === "scene3") return "Cena 3";
+    if(key === "scene4") return "Cena 4";
+    if(key === "technical") return "Técnico";
+    return "Prompt Completo";
+  }
+
+  function showMessage(msg){
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.style.display = "block";
+    setTimeout(()=>toast.style.display = "none", 1800);
+  }
+
+  window.addEventListener("load", ()=>{
+    renderModels();
+    renderHistory();
+    resetCounts(false);
+    renderViewer();
+    renderGeneratedImages();
+    loadApiSettings();
   });
-
-  if(generatedPrompts.length===0){
-    showMessage("Escolha pelo menos 1 modelo com o botão +.");
-    return;
-  }
-
-  currentPromptIndex=0;
-  currentSceneKey="full";
-  renderPromptTabs();
-  renderSceneTabs();
-  renderViewer();
-  saveHistory(data.productName, generatedPrompts);
-  showMessage("Campanha gerada em cards!");
-}
-
-function renderPromptTabs(){
-  const tabs=document.getElementById("promptTabs");
-  tabs.innerHTML="";
-  generatedPrompts.forEach((p,i)=>{
-    const btn=document.createElement("button");
-    btn.className="tab"+(i===currentPromptIndex?" active":"");
-    btn.innerHTML=`Prompt ${p.id}${p.approved?'<span class="approved">OK</span>':''}`;
-    btn.onclick=()=>{
-      currentPromptIndex=i;
-      currentSceneKey="full";
-      renderPromptTabs();
-      renderSceneTabs();
-      renderViewer();
-    };
-    tabs.appendChild(btn);
-  });
-}
-
-function renderSceneTabs(){
-  const tabs=document.getElementById("sceneTabs");
-  tabs.innerHTML="";
-  if(!generatedPrompts.length)return;
-
-  const sceneButtons=[
-    ["scene1","Cena 1"],
-    ["scene2","Cena 2"],
-    ["scene3","Cena 3"],
-    ["scene4","Cena 4"],
-    ["technical","Técnico"],
-    ["full","Prompt Completo"]
-  ];
-
-  sceneButtons.forEach(([key,label])=>{
-    const btn=document.createElement("button");
-    btn.className="tab"+(key===currentSceneKey?" active":"");
-    btn.textContent=label;
-    btn.onclick=()=>{
-      currentSceneKey=key;
-      renderSceneTabs();
-      renderViewer();
-    };
-    tabs.appendChild(btn);
-  });
-}
-
-function renderViewer(){
-  const viewer=document.getElementById("promptViewer");
-  if(!generatedPrompts.length){
-    viewer.className="empty";
-    viewer.textContent="Preencha o nome do produto, escolha os modelos criativos com + e clique em GERAR CAMPANHA.";
-    return;
-  }
-  viewer.className="prompt-panel";
-  const p=generatedPrompts[currentPromptIndex];
-  viewer.textContent=p.scenes[currentSceneKey] || p.scenes.full;
-}
-
-function getCurrentText(){
-  if(!generatedPrompts.length)return "";
-  const p=generatedPrompts[currentPromptIndex];
-  return p.scenes[currentSceneKey] || p.scenes.full;
-}
-
-function copyCurrent(){
-  const text=getCurrentText();
-  if(!text){
-    showMessage("Nada para copiar.");
-    return;
-  }
-  navigator.clipboard.writeText(text).then(()=>showMessage("Copiado!"));
-}
-
-function copyAll(){
-  if(!generatedPrompts.length){
-    showMessage("Gere uma campanha primeiro.");
-    return;
-  }
-  const all=generatedPrompts.map(p=>p.scenes.full).join("\n\n");
-  navigator.clipboard.writeText(all).then(()=>showMessage("Tudo copiado!"));
-}
-
-function approveCurrent(){
-  if(!generatedPrompts.length){
-    showMessage("Gere uma campanha primeiro.");
-    return;
-  }
-  generatedPrompts[currentPromptIndex].approved=true;
-  renderPromptTabs();
-  showMessage("Prompt aprovado!");
-}
-
-function prepareImageGeneration(){
-  const text=getCurrentText();
-  if(!text){
-    showMessage("Selecione uma cena primeiro.");
-    return;
-  }
-  navigator.clipboard.writeText(text).then(()=>{
-    showMessage("Cena copiada. Próxima etapa: conectar geração de imagem.");
-  });
-}
-
-function downloadTxt(){
-  if(!generatedPrompts.length){
-    showMessage("Gere uma campanha primeiro.");
-    return;
-  }
-  const all=generatedPrompts.map(p=>p.scenes.full).join("\n\n");
-  const title=document.getElementById("productTitle").value.trim()||"promptflow-campanha";
-  const safe=title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
-  const blob=new Blob([all],{type:"text/plain;charset=utf-8"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;
-  a.download=safe+"-promptflow-v4-5.txt";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showMessage("Arquivo baixado.");
-}
-
-function resetCounts(show=true){
-  Object.keys(counts).forEach(k=>counts[k]=0);
-  creativeModels.forEach(m=>{
-    const el=document.getElementById("count-"+m.id);
-    if(el)el.textContent=0;
-  });
-  updateTotal();
-  if(show)showMessage("Modelos zerados.");
-}
-
-function clearAll(){
-  document.getElementById("imageUpload").value="";
-  document.getElementById("productTitle").value="";
-  document.getElementById("productDescription").value="";
-  document.getElementById("manualCategory").value="auto";
-  document.getElementById("duration").selectedIndex=0;
-  uploadedFileNames=[];
-  generatedPrompts=[];
-  currentPromptIndex=0;
-  currentSceneKey="full";
-  document.getElementById("previewGrid").innerHTML='<div class="preview-item">Sem imagem</div>';
-  document.getElementById("promptTabs").innerHTML="";
-  document.getElementById("sceneTabs").innerHTML="";
-  resetCounts(false);
-  renderViewer();
-  showMessage("Tudo limpo.");
-}
-
-function saveHistory(title,prompts){
-  const history=JSON.parse(localStorage.getItem("promptflow_history_v45")||"[]");
-  history.unshift({
-    title,
-    date:new Date().toLocaleString("pt-BR"),
-    prompts
-  });
-  localStorage.setItem("promptflow_history_v45",JSON.stringify(history.slice(0,10)));
-  renderHistory();
-}
-
-function renderHistory(){
-  const list=document.getElementById("historyList");
-  const history=JSON.parse(localStorage.getItem("promptflow_history_v45")||"[]");
-  if(history.length===0){
-    list.textContent="Nenhuma campanha salva ainda.";
-    return;
-  }
-  list.innerHTML="";
-  history.forEach(item=>{
-    const div=document.createElement("div");
-    div.className="history-item";
-    div.innerHTML=`<strong>${item.title}</strong><br>${item.date} · ${item.prompts.length} prompts`;
-    div.onclick=()=>{
-      generatedPrompts=item.prompts;
-      currentPromptIndex=0;
-      currentSceneKey="full";
-      renderPromptTabs();
-      renderSceneTabs();
-      renderViewer();
-      showMessage("Histórico carregado.");
-    };
-    list.appendChild(div);
-  });
-}
-
-function showMessage(msg){
-  const toast=document.getElementById("toast");
-  toast.textContent=msg;
-  toast.style.display="block";
-  setTimeout(()=>toast.style.display="none",1800);
-}
-
-window.addEventListener("load",()=>{
-  renderModels();
-  renderHistory();
-  resetCounts(false);
-  renderViewer();
-});
 </script>
 
 </body>
