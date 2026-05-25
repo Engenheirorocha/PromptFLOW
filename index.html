@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PromptFLOW V4 - Categoria Inteligente</title>
+<title>PromptFLOW V4.1 - Categoria Inteligente</title>
 
 <style>
 *{box-sizing:border-box}
@@ -386,10 +386,11 @@ button.main:hover,button.secondary:hover,button.danger:hover{
 <div class="app">
 
   <div class="header">
-    <div class="badge">PROMPTFLOW V4 · CATEGORIA INTELIGENTE</div>
+    <div class="badge">PROMPTFLOW V4.1 · CATEGORIA INTELIGENTE</div>
     <h1>Gerador de Campanhas Criativas para Flow</h1>
     <div class="subtitle">
-      Agora o sistema identifica a categoria do produto. Se for jaqueta, ele cria prompt de moda. Se for prateleira, cria prompt de casa. Se for eletrônico, beleza ou ferramenta, muda automaticamente o roteiro, ambiente e demonstração.
+      Preencha os dados do produto, envie imagens de referência e escolha manualmente quantos prompts quer em cada modelo criativo.
+      O sistema adapta o roteiro para moda, casa, eletrônico, beleza, ferramenta, pet, infantil, automotivo ou produto geral.
     </div>
   </div>
 
@@ -410,10 +411,10 @@ button.main:hover,button.secondary:hover,button.danger:hover{
       </div>
 
       <label>Nome do produto obrigatório</label>
-      <input id="productTitle" placeholder="Ex: Jaqueta Puffer Masculina Bobojaco Com Capuz Frio Intenso Luxo" />
+      <input id="productTitle" placeholder="Digite o nome exato do produto" />
 
       <label>Descrição do produto</label>
-      <textarea id="productDescription" placeholder="Ex: Jaqueta preta, tecido acolchoado, capuz, zíper frontal, ideal para frio intenso."></textarea>
+      <textarea id="productDescription" placeholder="Digite a descrição, características, medidas, material, uso e detalhes do produto"></textarea>
 
       <div class="two-cols">
         <div>
@@ -433,25 +434,25 @@ button.main:hover,button.secondary:hover,button.danger:hover{
         </div>
         <div>
           <label>Cor principal</label>
-          <input id="productColor" placeholder="Ex: preta" />
+          <input id="productColor" placeholder="Ex: preta, branca, azul, inox, madeira..." />
         </div>
       </div>
 
       <div class="two-cols">
         <div>
           <label>Material / tecido</label>
-          <input id="productMaterial" placeholder="Ex: tecido acolchoado / MDF / plástico" />
+          <input id="productMaterial" placeholder="Ex: MDF, tecido, plástico, metal, acrílico..." />
         </div>
         <div>
           <label>Acabamento / detalhe</label>
-          <input id="productFinish" placeholder="Ex: fosco / acolchoado / premium" />
+          <input id="productFinish" placeholder="Ex: fosco, brilhante, acolchoado, texturizado..." />
         </div>
       </div>
 
       <div class="two-cols">
         <div>
           <label>Ambiente manual opcional</label>
-          <input id="customEnvironment" placeholder="Ex: quarto com espelho, loja de roupas..." />
+          <input id="customEnvironment" placeholder="Ex: quarto com espelho, loja de roupas, bancada..." />
         </div>
         <div>
           <label>Duração por vídeo</label>
@@ -471,14 +472,15 @@ button.main:hover,button.secondary:hover,button.danger:hover{
         <div class="chip"><strong>Ambiente:</strong> aguardando</div>
       </div>
 
-      <div class="sub-title">2. Modelos Criativos com Quantidade</div>
+      <div class="sub-title">2. Escolha manualmente os modelos criativos</div>
+      <div class="help">
+        Use os botões + e - para definir quantos prompts deseja em cada modelo. Nada é selecionado automaticamente.
+      </div>
 
       <div class="model-list" id="modelList"></div>
 
       <div class="actions">
         <button class="main" onclick="generateCampaign()">GERAR CAMPANHA</button>
-        <button class="secondary" onclick="generateSelectedOnly()">GERAR MODELO SELECIONADO</button>
-        <button class="secondary" onclick="setStarterPack()">PACOTE TESTE</button>
         <button class="danger" onclick="resetCounts()">ZERAR MODELOS</button>
       </div>
 
@@ -550,14 +552,14 @@ const categoryProfiles = {
   },
   fashion:{
     label:"Moda / Vestuário",
-    productType:"peça de roupa ou vestuário",
-    scene:"quarto brasileiro com espelho, loja de roupas brasileira ou rua urbana com clima frio, ambiente realista",
-    subject:"homem ou mulher brasileira adulta vestindo a peça, ajustando no corpo, mostrando caimento, textura e detalhes",
-    pain:"frio, roupa sem estilo, peça desconfortável ou falta de uma roupa bonita para sair",
-    desire:"vestir bem, ficar confortável, proteger do frio e melhorar o visual",
-    demo:"vestir o produto, fechar o zíper ou botão, ajustar capuz ou gola, mostrar caimento no corpo, tecido, costura e acabamento",
-    details:"tecido, caimento, costura, zíper, capuz, bolsos, textura, cor e acabamento",
-    camera:"smartphone camera, vertical 9:16, close-up no tecido e plano médio da pessoa vestindo, leve movimento de mão, foco natural",
+    productType:"peça de roupa, calçado ou vestuário",
+    scene:"quarto brasileiro com espelho, loja de roupas brasileira ou rua urbana realista",
+    subject:"homem ou mulher brasileira adulta vestindo ou experimentando o produto, mostrando caimento, textura e detalhes",
+    pain:"frio, roupa sem estilo, peça desconfortável, calçado ruim ou falta de uma peça bonita para sair",
+    desire:"vestir bem, ficar confortável, proteger do frio ou melhorar o visual",
+    demo:"vestir, calçar ou experimentar o produto, mostrar caimento no corpo, tecido, costura, solado, zíper, capuz, gola ou detalhes principais",
+    details:"tecido, caimento, costura, zíper, capuz, bolsos, textura, solado, cadarço, cor e acabamento",
+    camera:"smartphone camera, vertical 9:16, close-up no tecido/calçado e plano médio da pessoa usando, leve movimento de mão, foco natural",
     style:"UGC realista de moda, vídeo de compra online, aparência caseira e autêntica"
   },
   electronics:{
@@ -567,8 +569,8 @@ const categoryProfiles = {
     subject:"pessoa brasileira adulta segurando, ligando ou testando o eletrônico, movimentos naturais",
     pain:"produto antigo, falta de praticidade, necessidade de função rápida ou solução tecnológica simples",
     desire:"ter mais praticidade, testar funções e melhorar o uso no dia a dia",
-    demo:"ligar o produto, mostrar tela, botões, cabos, conexões, funcionamento e detalhes externos",
-    details:"tela, botões, entrada, cabo, acabamento, luzes, conexões e tamanho real",
+    demo:"ligar o produto, mostrar tela, botões, cabos, conexões, funcionamento, encaixe, som ou luzes",
+    details:"tela, botões, entrada USB, cabo, acabamento, luzes, conexões, tamanho real, estojo ou encaixe",
     camera:"smartphone camera, vertical 9:16, close-up no eletrônico, foco alternando entre mão, produto e funcionamento",
     style:"UGC tecnológico realista, teste rápido de produto, ambiente doméstico"
   },
@@ -751,9 +753,6 @@ function selectSingleModel(id){
   });
   const active = document.getElementById("model-card-" + id);
   if(active) active.classList.add("active");
-
-  const model = creativeModels.find(m => m.id === id);
-  if(model) showMessage("Modelo selecionado: " + model.name);
 }
 
 function changeCount(id, delta){
@@ -803,7 +802,7 @@ function normalizeText(text){
 }
 
 function detectCategory(full){
-  if(full.match(/jaqueta|casaco|bobojaco|puffer|moletom|camiseta|camisa|calca|calça|bermuda|vestido|blusa|tenis|tênis|sapato|sandalia|sandália|moda|roupa|capuz|gola|ziper|zíper|manga|tamanho/)){
+  if(full.match(/jaqueta|casaco|bobojaco|puffer|moletom|camiseta|camisa|calca|calça|bermuda|vestido|blusa|tenis|tênis|sapato|sandalia|sandália|moda|roupa|capuz|gola|ziper|zíper|manga|tamanho|calcado|calçado/)){
     return "fashion";
   }
 
@@ -811,7 +810,7 @@ function detectCategory(full){
     return "home";
   }
 
-  if(full.match(/fone|carregador|cabo|bluetooth|caixa de som|smartwatch|relogio inteligente|relógio inteligente|teclado|mouse|camera|câmera|led|usb|eletronico|eletrônico|bateria|controle remoto/)){
+  if(full.match(/fone|carregador|cabo|bluetooth|radio|rádio|caixa de som|smartwatch|relogio inteligente|relógio inteligente|teclado|mouse|camera|câmera|led|usb|eletronico|eletrônico|bateria|controle remoto|speaker|som/)){
     return "electronics";
   }
 
@@ -856,13 +855,25 @@ function autoDetect(){
 
   if(categoryId === "fashion"){
     if(full.includes("jaqueta") || full.includes("casaco") || full.includes("bobojaco") || full.includes("puffer")){
-      productType = "jaqueta/casaco masculino ou feminino";
+      productType = "jaqueta ou casaco";
     }
     if(full.includes("camiseta") || full.includes("camisa")){
       productType = "camisa ou camiseta";
     }
     if(full.includes("calca") || full.includes("calça")){
       productType = "calça";
+    }
+    if(full.includes("tenis") || full.includes("tênis") || full.includes("sapato") || full.includes("sandalia") || full.includes("sandália")){
+      productType = "calçado";
+    }
+  }
+
+  if(categoryId === "electronics"){
+    if(full.includes("fone")){
+      productType = "fone de ouvido";
+    }
+    if(full.includes("bluetooth") || full.includes("radio") || full.includes("rádio") || full.includes("caixa de som")){
+      productType = "rádio, caixa de som ou eletrônico bluetooth";
     }
   }
 
@@ -942,11 +953,15 @@ function commonNegative(data){
   let base = "beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone interface elements, recording UI, battery icon, signal icon, notification icons, app overlays, TikTok interface, readable private customer data, product redesign, product modification, invented features, extra parts, wrong color, wrong material, wrong quantity, unrealistic hands, distorted product, fake labels, professional studio background, luxury showroom, cartoon style";
 
   if(data.detected.categoryId === "fashion"){
-    base += ", changing jacket into shelf, changing clothing type, wrong garment, extra sleeves, missing zipper, wrong hood, unrealistic fabric, deformed body, exaggerated muscles, sexualized pose";
+    base += ", changing clothing type, wrong garment, extra sleeves, missing zipper, wrong hood, unrealistic fabric, deformed body, exaggerated body shape, sexualized pose, turning clothing into home decor";
+  }
+
+  if(data.detected.categoryId === "electronics"){
+    base += ", wrong device, fake screen interface, invented buttons, extra cables, unrealistic glowing effects, changing device category";
   }
 
   if(data.detected.categoryId === "home"){
-    base += ", model wearing the shelf, changing decor product into clothing, floating shelf without support, unrealistic wall, impossible installation";
+    base += ", model wearing the decor product, changing decor product into clothing, floating shelf without support, unrealistic wall, impossible installation";
   }
 
   return base;
@@ -1016,7 +1031,7 @@ function makePrompt(modelId, data, globalIndex, occurrence){
   }
 
   if(modelId === "loja"){
-    scene = `loja brasileira realista adequada à categoria ${profile.label}, ambiente popular, prateleiras ou araras ao fundo, iluminação simples`;
+    scene = `loja brasileira realista adequada à categoria ${profile.label}, ambiente popular, prateleiras, araras, balcão ou mesa de exposição ao fundo, iluminação simples`;
   }
 
   if(modelId === "bras"){
@@ -1072,7 +1087,7 @@ function generateCampaign(){
     return;
   }
 
-  let output = `PROMPTFLOW V4 — PACOTE DE CAMPANHA COM CATEGORIA INTELIGENTE
+  let output = `PROMPTFLOW V4.1 — PACOTE DE CAMPANHA COM CATEGORIA INTELIGENTE
 
 PRODUTO PRINCIPAL: ${data.productName}
 CATEGORIA DETECTADA: ${data.profile.label}
@@ -1081,9 +1096,9 @@ TOTAL DE PROMPTS: ${selected.length}
 
 INSTRUÇÃO GERAL:
 Todos os prompts abaixo devem respeitar a categoria correta do produto.
-Se o produto for moda/vestuário, mostrar pessoa vestindo, tecido, caimento, zíper, capuz, costura e detalhes da peça.
+Se o produto for moda/vestuário, mostrar pessoa vestindo, calçando ou experimentando, com foco em tecido, caimento, zíper, capuz, costura, solado ou detalhes da peça.
 Se o produto for casa/decoração, mostrar ambiente doméstico, organização, instalação ou uso no espaço.
-Se o produto for eletrônico, mostrar teste, função, tela, botão, cabo ou funcionamento.
+Se o produto for eletrônico, mostrar teste, função, tela, botão, cabo, conexão, som, luz ou funcionamento.
 Não trocar a categoria do produto.
 
 `;
@@ -1095,48 +1110,6 @@ Não trocar a categoria do produto.
   document.getElementById("result").textContent = output;
   saveHistory(data.productName, output);
   showMessage("Campanha gerada com categoria correta!");
-}
-
-function generateSelectedOnly(){
-  const data = getProductData();
-  if(!data) return;
-
-  const model = creativeModels.find(m => m.id === selectedModelForSingle) || creativeModels[0];
-
-  let output = `PROMPTFLOW V4 — MODELO INDIVIDUAL COM CATEGORIA INTELIGENTE
-
-PRODUTO PRINCIPAL: ${data.productName}
-CATEGORIA DETECTADA: ${data.profile.label}
-MODELO CRIATIVO: ${model.name}
-
-`;
-
-  const variations = variationBank[model.id] || variationBank.ugc;
-
-  variations.forEach((v, index) => {
-    output += makePrompt(model.id, data, index + 1, index + 1) + "\n\n";
-  });
-
-  document.getElementById("result").textContent = output;
-  saveHistory(data.productName + " · " + model.name, output);
-  showMessage("Variações do modelo geradas.");
-}
-
-function setStarterPack(){
-  resetCounts(false);
-  counts.ugc = 3;
-  counts.povHands = 2;
-  counts.premium = 2;
-  counts.problemaSolucao = 1;
-  counts.demoRapida = 1;
-
-  creativeModels.forEach(m=>{
-    const el = document.getElementById("count-" + m.id);
-    if(el) el.textContent = counts[m.id];
-  });
-
-  updateTotal();
-  showMessage("Pacote teste configurado.");
 }
 
 function resetCounts(show=true){
@@ -1182,7 +1155,7 @@ function downloadTxt(){
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = safe + "-promptflow-v4.txt";
+  a.download = safe + "-promptflow-v4-1.txt";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1210,20 +1183,20 @@ function clearAll(){
 }
 
 function saveHistory(title, content){
-  const history = JSON.parse(localStorage.getItem("promptflow_history_v4") || "[]");
+  const history = JSON.parse(localStorage.getItem("promptflow_history_v41") || "[]");
   history.unshift({
     title,
     date:new Date().toLocaleString("pt-BR"),
     content
   });
 
-  localStorage.setItem("promptflow_history_v4", JSON.stringify(history.slice(0,10)));
+  localStorage.setItem("promptflow_history_v41", JSON.stringify(history.slice(0,10)));
   renderHistory();
 }
 
 function renderHistory(){
   const list = document.getElementById("historyList");
-  const history = JSON.parse(localStorage.getItem("promptflow_history_v4") || "[]");
+  const history = JSON.parse(localStorage.getItem("promptflow_history_v41") || "[]");
 
   if(history.length === 0){
     list.textContent = "Nenhuma campanha salva ainda.";
@@ -1253,14 +1226,7 @@ function showMessage(msg){
 window.addEventListener("load", ()=>{
   renderModels();
   renderHistory();
-
-  document.getElementById("productTitle").value = "Jaqueta Puffer Masculina Bobojaco Com Capuz Frio Intenso Luxo";
-  document.getElementById("productDescription").value = "Jaqueta preta com tecido acolchoado, capuz, zíper frontal, bolsos e caimento confortável, ideal para frio intenso.";
-  document.getElementById("productColor").value = "preta";
-  document.getElementById("productMaterial").value = "tecido acolchoado";
-  document.getElementById("productFinish").value = "costura acolchoada, capuz e zíper frontal";
-
-  setStarterPack();
+  resetCounts(false);
   autoDetect();
 });
 </script>
