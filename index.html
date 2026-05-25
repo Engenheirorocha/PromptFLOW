@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PromptFLOW V4.1 - Categoria Inteligente</title>
+<title>PromptFLOW V4.4 - Video Safety Lock</title>
 
 <style>
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(255,120,0,.18), transparent 32%),
-    radial-gradient(circle at bottom right, rgba(0,170,255,.12), transparent 34%),
+    radial-gradient(circle at top left,rgba(255,120,0,.18),transparent 32%),
+    radial-gradient(circle at bottom right,rgba(0,170,255,.12),transparent 34%),
     #070707;
   color:#fff;
 }
@@ -92,7 +92,7 @@ label{
   margin:13px 0 6px;
 }
 
-input, textarea, select{
+input,textarea,select{
   width:100%;
   background:#090909;
   color:#fff;
@@ -105,7 +105,7 @@ input, textarea, select{
 
 textarea{
   resize:vertical;
-  min-height:92px;
+  min-height:110px;
 }
 
 input:focus,textarea:focus,select:focus{
@@ -177,11 +177,6 @@ input:focus,textarea:focus,select:focus{
 
 .model:hover{
   border-color:#ff8c22;
-}
-
-.model.active{
-  border-color:#ff8c22;
-  box-shadow:0 0 0 3px rgba(255,140,34,.09);
 }
 
 .model-top{
@@ -284,24 +279,6 @@ button.main:hover,button.secondary:hover,button.danger:hover{
   filter:brightness(1.08);
 }
 
-.status{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-  margin-top:12px;
-}
-
-.chip{
-  background:#0b0b0b;
-  border:1px solid #292929;
-  border-radius:14px;
-  padding:9px 10px;
-  color:#cfcfcf;
-  font-size:12px;
-}
-
-.chip strong{color:#ff9b35}
-
 .result-box{
   background:#050505;
   border:1px solid #292929;
@@ -347,9 +324,13 @@ button.main:hover,button.secondary:hover,button.danger:hover{
   cursor:pointer;
 }
 
-.history-item:last-child{border-bottom:none}
+.history-item:last-child{
+  border-bottom:none;
+}
 
-.history-item:hover{color:#ff9b35}
+.history-item:hover{
+  color:#ff9b35;
+}
 
 .toast{
   display:none;
@@ -368,7 +349,6 @@ button.main:hover,button.secondary:hover,button.danger:hover{
 
 @media(max-width:950px){
   .grid{grid-template-columns:1fr}
-  .status{grid-template-columns:1fr 1fr}
   h1{font-size:25px}
   .result-box{min-height:420px}
 }
@@ -376,7 +356,6 @@ button.main:hover,button.secondary:hover,button.danger:hover{
 @media(max-width:520px){
   .two-cols{grid-template-columns:1fr}
   .preview-grid{grid-template-columns:repeat(2,1fr)}
-  .status{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -386,11 +365,10 @@ button.main:hover,button.secondary:hover,button.danger:hover{
 <div class="app">
 
   <div class="header">
-    <div class="badge">PROMPTFLOW V4.1 · CATEGORIA INTELIGENTE</div>
+    <div class="badge">PROMPTFLOW V4.4 · VIDEO SAFETY LOCK</div>
     <h1>Gerador de Campanhas Criativas para Flow</h1>
     <div class="subtitle">
-      Preencha os dados do produto, envie imagens de referência e escolha manualmente quantos prompts quer em cada modelo criativo.
-      O sistema adapta o roteiro para moda, casa, eletrônico, beleza, ferramenta, pet, infantil, automotivo ou produto geral.
+      Envie imagens, informe nome e descrição do produto, escolha categoria e duração. Esta versão adiciona travas automáticas para anatomia, mãos e movimento, ajudando a reduzir erros como 3 braços, mãos tortas e poses ruins na animação.
     </div>
   </div>
 
@@ -398,23 +376,23 @@ button.main:hover,button.secondary:hover,button.danger:hover{
 
     <div class="card">
 
-      <div class="section-title">1. Dados do Produto</div>
+      <div class="section-title">1. Produto</div>
 
       <div class="upload-box">
         <input type="file" id="imageUpload" accept="image/*" multiple />
         <div class="help">
-          Envie até 10 imagens de referência. O app usa imagem, nome do arquivo, título e descrição para reforçar fidelidade do produto.
+          Envie até 10 imagens de referência do produto.
         </div>
         <div class="preview-grid" id="previewGrid">
           <div class="preview-item">Sem imagem</div>
         </div>
       </div>
 
-      <label>Nome do produto obrigatório</label>
+      <label>Nome do produto</label>
       <input id="productTitle" placeholder="Digite o nome exato do produto" />
 
       <label>Descrição do produto</label>
-      <textarea id="productDescription" placeholder="Digite a descrição, características, medidas, material, uso e detalhes do produto"></textarea>
+      <textarea id="productDescription" placeholder="Digite aqui a descrição completa do produto: cor, material, acabamento, detalhes, uso, medidas e características importantes."></textarea>
 
       <div class="two-cols">
         <div>
@@ -432,30 +410,9 @@ button.main:hover,button.secondary:hover,button.danger:hover{
             <option value="generic">Produto Geral</option>
           </select>
         </div>
-        <div>
-          <label>Cor principal</label>
-          <input id="productColor" placeholder="Ex: preta, branca, azul, inox, madeira..." />
-        </div>
-      </div>
 
-      <div class="two-cols">
         <div>
-          <label>Material / tecido</label>
-          <input id="productMaterial" placeholder="Ex: MDF, tecido, plástico, metal, acrílico..." />
-        </div>
-        <div>
-          <label>Acabamento / detalhe</label>
-          <input id="productFinish" placeholder="Ex: fosco, brilhante, acolchoado, texturizado..." />
-        </div>
-      </div>
-
-      <div class="two-cols">
-        <div>
-          <label>Ambiente manual opcional</label>
-          <input id="customEnvironment" placeholder="Ex: quarto com espelho, loja de roupas, bancada..." />
-        </div>
-        <div>
-          <label>Duração por vídeo</label>
+          <label>Duração</label>
           <select id="duration">
             <option value="7s">7 segundos</option>
             <option value="8s">8 segundos</option>
@@ -465,16 +422,9 @@ button.main:hover,button.secondary:hover,button.danger:hover{
         </div>
       </div>
 
-      <div class="status" id="detected">
-        <div class="chip"><strong>Categoria:</strong> aguardando</div>
-        <div class="chip"><strong>Produto:</strong> aguardando</div>
-        <div class="chip"><strong>Demonstração:</strong> aguardando</div>
-        <div class="chip"><strong>Ambiente:</strong> aguardando</div>
-      </div>
-
-      <div class="sub-title">2. Escolha manualmente os modelos criativos</div>
+      <div class="sub-title">2. Modelos Criativos</div>
       <div class="help">
-        Use os botões + e - para definir quantos prompts deseja em cada modelo. Nada é selecionado automaticamente.
+        Escolha manualmente quantos prompts quer em cada modelo usando + e -.
       </div>
 
       <div class="model-list" id="modelList"></div>
@@ -490,7 +440,7 @@ button.main:hover,button.secondary:hover,button.danger:hover{
 
       <div class="toolbar">
         <div>
-          <div class="section-title" style="margin-bottom:4px;">3. Prompt Final / Pacote de Campanha</div>
+          <div class="section-title" style="margin-bottom:4px;">3. Pacote de Prompts</div>
           <div class="count-total" id="totalCounter">Total selecionado: 0 vídeos</div>
         </div>
 
@@ -520,7 +470,6 @@ Preencha o nome do produto, escolha os modelos criativos com + e clique em GERAR
 
 <script>
 let uploadedFileNames = [];
-let selectedModelForSingle = "ugc";
 
 const creativeModels = [
   { id:"ugc", name:"UGC Pessoa Mostrando", desc:"Pessoa real mostrando o produto como descoberta natural.", scenes:4 },
@@ -542,67 +491,67 @@ const categoryProfiles = {
     label:"Casa / Decoração",
     productType:"produto de casa, decoração ou organização",
     scene:"casa brasileira realista, cozinha, sala ou quarto simples, luz natural de janela",
-    subject:"pessoa brasileira adulta usando o produto em casa, movimentos naturais, estilo UGC doméstico",
+    subject:"pessoa brasileira adulta usando o produto em casa, postura relaxada e movimentos simples",
     pain:"canto sem graça, bagunça, falta de espaço ou ambiente sem organização",
     desire:"organizar e decorar a casa de forma prática",
-    demo:"mostrar o produto no ambiente, posicionar no espaço, destacar acabamento, formato e utilidade",
+    demo:"mostrar o produto no ambiente, posicionar no espaço e destacar utilidade e acabamento",
     details:"acabamento, material, formato, bordas, cor e proporção",
-    camera:"smartphone camera, vertical 9:16, close-up no produto e no ambiente, leve movimento de mão, natural autofocus shift",
+    camera:"smartphone camera, vertical 9:16, close-up no produto e no ambiente, leve movimento de mão, foco estável",
     style:"UGC doméstico brasileiro, realista, caseiro, sem cara de estúdio"
   },
   fashion:{
     label:"Moda / Vestuário",
     productType:"peça de roupa, calçado ou vestuário",
     scene:"quarto brasileiro com espelho, loja de roupas brasileira ou rua urbana realista",
-    subject:"homem ou mulher brasileira adulta vestindo ou experimentando o produto, mostrando caimento, textura e detalhes",
+    subject:"homem ou mulher brasileira adulta vestindo ou experimentando o produto, postura estável e gesto simples",
     pain:"frio, roupa sem estilo, peça desconfortável, calçado ruim ou falta de uma peça bonita para sair",
     desire:"vestir bem, ficar confortável, proteger do frio ou melhorar o visual",
-    demo:"vestir, calçar ou experimentar o produto, mostrar caimento no corpo, tecido, costura, solado, zíper, capuz, gola ou detalhes principais",
+    demo:"vestir ou experimentar o produto, mostrando caimento, tecido, costura, zíper, capuz ou detalhes principais",
     details:"tecido, caimento, costura, zíper, capuz, bolsos, textura, solado, cadarço, cor e acabamento",
-    camera:"smartphone camera, vertical 9:16, close-up no tecido/calçado e plano médio da pessoa usando, leve movimento de mão, foco natural",
+    camera:"smartphone camera, vertical 9:16, close-up no tecido/calçado e plano médio da pessoa usando, leve movimento de mão, foco estável",
     style:"UGC realista de moda, vídeo de compra online, aparência caseira e autêntica"
   },
   electronics:{
     label:"Eletrônicos",
     productType:"produto eletrônico ou acessório tecnológico",
     scene:"mesa brasileira simples, quarto ou escritório doméstico, produto sendo testado em ambiente real",
-    subject:"pessoa brasileira adulta segurando, ligando ou testando o eletrônico, movimentos naturais",
+    subject:"pessoa brasileira adulta segurando, ligando ou testando o eletrônico com movimentos controlados",
     pain:"produto antigo, falta de praticidade, necessidade de função rápida ou solução tecnológica simples",
     desire:"ter mais praticidade, testar funções e melhorar o uso no dia a dia",
     demo:"ligar o produto, mostrar tela, botões, cabos, conexões, funcionamento, encaixe, som ou luzes",
     details:"tela, botões, entrada USB, cabo, acabamento, luzes, conexões, tamanho real, estojo ou encaixe",
-    camera:"smartphone camera, vertical 9:16, close-up no eletrônico, foco alternando entre mão, produto e funcionamento",
+    camera:"smartphone camera, vertical 9:16, close-up no eletrônico, foco alternando suavemente entre mão, produto e funcionamento",
     style:"UGC tecnológico realista, teste rápido de produto, ambiente doméstico"
   },
   beauty:{
     label:"Beleza / Cuidados",
     productType:"produto de beleza, skincare ou cuidado pessoal",
     scene:"banheiro ou penteadeira brasileira simples, espelho, luz natural suave, ambiente limpo e realista",
-    subject:"pessoa brasileira adulta aplicando ou mostrando o produto com movimentos suaves e naturais",
+    subject:"pessoa brasileira adulta aplicando ou mostrando o produto com movimentos suaves e controlados",
     pain:"pele sem cuidado, rotina corrida, falta de praticidade ou desejo de melhorar aparência",
     desire:"cuidar da aparência, melhorar a rotina e ter sensação de autocuidado",
     demo:"mostrar embalagem, textura, aplicação, quantidade usada e resultado visual sem exagero",
     details:"embalagem, textura, tampa, rótulo não legível, cor, consistência e modo de uso",
-    camera:"smartphone camera, vertical 9:16, close-up nas mãos, produto e rosto de forma natural",
+    camera:"smartphone camera, vertical 9:16, close-up nas mãos, produto e rosto de forma natural e estável",
     style:"UGC realista de beleza, rotina caseira, luz natural, sem filtro de beleza"
   },
   tools:{
     label:"Ferramentas",
     productType:"ferramenta ou item técnico",
     scene:"bancada de oficina brasileira, garagem ou área de trabalho simples, ambiente realista",
-    subject:"mãos de trabalhador brasileiro usando ou mostrando a ferramenta com segurança",
+    subject:"mãos de trabalhador brasileiro usando ou mostrando a ferramenta com segurança e movimento simples",
     pain:"trabalho difícil, improviso, falta de ferramenta adequada ou perda de tempo",
     desire:"facilitar o trabalho, ganhar precisão e resolver serviço com mais eficiência",
     demo:"segurar a ferramenta, mostrar função, material, pegada, encaixe, resistência e uso prático",
     details:"cabo, ponta, encaixe, corpo, material, função, tamanho e acabamento",
-    camera:"smartphone camera, vertical 9:16, close-up na ferramenta e na mão usando, movimento de bancada",
+    camera:"smartphone camera, vertical 9:16, close-up na ferramenta e na mão usando, enquadramento estável",
     style:"UGC técnico realista, oficina brasileira, demonstração prática"
   },
   kids:{
     label:"Infantil",
     productType:"produto infantil",
     scene:"quarto infantil brasileiro, sala de casa ou ambiente familiar seguro e realista",
-    subject:"adulto brasileiro mostrando o produto infantil com cuidado, sem exposição desnecessária de criança",
+    subject:"adulto brasileiro mostrando o produto infantil com cuidado, postura simples e segura",
     pain:"organização infantil, conforto, praticidade para pais ou rotina com criança",
     desire:"mais praticidade, conforto, segurança e organização na rotina familiar",
     demo:"mostrar o produto, detalhes, material, tamanho, função e uso seguro",
@@ -614,36 +563,36 @@ const categoryProfiles = {
     label:"Pets",
     productType:"produto para pets",
     scene:"casa brasileira com área de pet, sala ou quintal simples, ambiente realista",
-    subject:"adulto brasileiro mostrando o produto para uso com cachorro ou gato, movimentos naturais",
+    subject:"adulto brasileiro mostrando o produto para uso com cachorro ou gato, movimentos controlados",
     pain:"bagunça, falta de conforto para o pet, rotina difícil ou necessidade de praticidade",
     desire:"cuidar melhor do pet, organizar rotina e trazer conforto",
     demo:"mostrar tamanho, material, uso, resistência e interação segura com pet",
     details:"material, tamanho, textura, resistência, cor e função",
-    camera:"smartphone camera, vertical 9:16, close-up no produto e no uso real com pet",
+    camera:"smartphone camera, vertical 9:16, close-up no produto e no uso real com pet, enquadramento estável",
     style:"UGC realista de pet, caseiro e natural"
   },
   autoParts:{
     label:"Automotivo",
     productType:"produto automotivo ou acessório para carro",
     scene:"garagem brasileira, interior de carro ou área externa simples, ambiente realista",
-    subject:"mãos adultas mostrando o produto no carro, instalando ou testando com cuidado",
+    subject:"mãos adultas mostrando o produto no carro, instalando ou testando com cuidado e movimento simples",
     pain:"carro desorganizado, peça desgastada, falta de praticidade ou necessidade de acessório útil",
     desire:"melhorar o carro, deixar mais prático, bonito ou funcional",
     demo:"mostrar encaixe, instalação, acabamento, função e antes/depois no veículo",
     details:"encaixe, material, formato, acabamento, compatibilidade visual e função",
-    camera:"smartphone camera, vertical 9:16, close-up no produto e no carro, movimento natural",
+    camera:"smartphone camera, vertical 9:16, close-up no produto e no carro, enquadramento estável",
     style:"UGC automotivo realista, demonstração prática em carro brasileiro"
   },
   generic:{
     label:"Produto Geral",
     productType:"produto físico de e-commerce",
     scene:"ambiente brasileiro realista, mesa simples, luz natural, produto sendo mostrado de perto",
-    subject:"pessoa brasileira adulta mostrando o produto com movimentos naturais",
+    subject:"pessoa brasileira adulta mostrando o produto com postura natural e movimentos simples",
     pain:"necessidade prática do dia a dia, falta de solução simples ou compra por oportunidade",
     desire:"resolver uma necessidade, ter praticidade e aproveitar uma boa compra",
-    demo:"mostrar produto perto da câmera, destacar material, tamanho, função, acabamento e uso real",
+    demo:"mostrar o produto perto da câmera, destacar material, tamanho, função, acabamento e uso real",
     details:"material, tamanho, cor, formato, acabamento e função",
-    camera:"smartphone camera, vertical 9:16, close-up no produto, leve movimento de mão e foco natural",
+    camera:"smartphone camera, vertical 9:16, close-up no produto, leve movimento de mão, foco estável",
     style:"UGC realista de e-commerce, caseiro e autêntico"
   }
 };
@@ -721,16 +670,14 @@ function renderModels(){
   creativeModels.forEach(model => {
     const div = document.createElement("div");
     div.className = "model";
-    div.id = "model-card-" + model.id;
-    div.onclick = () => selectSingleModel(model.id);
 
     div.innerHTML = `
       <div class="model-top">
         <div class="model-info">
           <div class="model-name">${model.name}</div>
-          <div class="model-desc">${model.desc} · ${model.scenes} cenas · adaptável por categoria</div>
+          <div class="model-desc">${model.desc} · ${model.scenes} cenas</div>
         </div>
-        <div class="counter" onclick="event.stopPropagation()">
+        <div class="counter">
           <button onclick="changeCount('${model.id}', -1)">−</button>
           <span id="count-${model.id}">${counts[model.id]}</span>
           <button onclick="changeCount('${model.id}', 1)">+</button>
@@ -741,18 +688,7 @@ function renderModels(){
     modelList.appendChild(div);
   });
 
-  selectSingleModel(selectedModelForSingle);
   updateTotal();
-}
-
-function selectSingleModel(id){
-  selectedModelForSingle = id;
-  creativeModels.forEach(m => {
-    const el = document.getElementById("model-card-" + m.id);
-    if(el) el.classList.remove("active");
-  });
-  const active = document.getElementById("model-card-" + id);
-  if(active) active.classList.add("active");
 }
 
 function changeCount(id, delta){
@@ -790,8 +726,6 @@ document.getElementById("imageUpload").addEventListener("change", function(e){
     };
     reader.readAsDataURL(file);
   });
-
-  autoDetect();
 });
 
 function normalizeText(text){
@@ -837,112 +771,72 @@ function detectCategory(full){
   return "generic";
 }
 
-function autoDetect(){
-  const title = document.getElementById("productTitle").value.trim();
-  const desc = document.getElementById("productDescription").value.trim();
-  const color = document.getElementById("productColor").value.trim();
-  const materialInput = document.getElementById("productMaterial").value.trim();
-  const finishInput = document.getElementById("productFinish").value.trim();
+function getCategoryProfile(){
   const manualCategory = document.getElementById("manualCategory").value;
-
-  const full = normalizeText(title + " " + desc + " " + color + " " + materialInput + " " + finishInput + " " + uploadedFileNames.join(" "));
-
-  const detectedCategory = detectCategory(full);
-  const categoryId = manualCategory === "auto" ? detectedCategory : manualCategory;
-  const profile = categoryProfiles[categoryId] || categoryProfiles.generic;
-
-  let productType = profile.productType;
-
-  if(categoryId === "fashion"){
-    if(full.includes("jaqueta") || full.includes("casaco") || full.includes("bobojaco") || full.includes("puffer")){
-      productType = "jaqueta ou casaco";
-    }
-    if(full.includes("camiseta") || full.includes("camisa")){
-      productType = "camisa ou camiseta";
-    }
-    if(full.includes("calca") || full.includes("calça")){
-      productType = "calça";
-    }
-    if(full.includes("tenis") || full.includes("tênis") || full.includes("sapato") || full.includes("sandalia") || full.includes("sandália")){
-      productType = "calçado";
-    }
-  }
-
-  if(categoryId === "electronics"){
-    if(full.includes("fone")){
-      productType = "fone de ouvido";
-    }
-    if(full.includes("bluetooth") || full.includes("radio") || full.includes("rádio") || full.includes("caixa de som")){
-      productType = "rádio, caixa de som ou eletrônico bluetooth";
-    }
-  }
-
-  if(categoryId === "home"){
-    if(full.includes("prateleira") || full.includes("nicho")){
-      productType = "prateleira decorativa";
-    }
-    if(full.includes("porta chave") || full.includes("porta-chave")){
-      productType = "porta-chaves de parede";
-    }
-    if(full.includes("peso de porta")){
-      productType = "peso de porta decorativo";
-    }
-  }
-
-  document.getElementById("detected").innerHTML = `
-    <div class="chip"><strong>Categoria:</strong> ${profile.label}</div>
-    <div class="chip"><strong>Produto:</strong> ${productType}</div>
-    <div class="chip"><strong>Demonstração:</strong> ${profile.demo}</div>
-    <div class="chip"><strong>Ambiente:</strong> ${profile.scene}</div>
-  `;
-
-  return { categoryId, profile, productType };
-}
-
-["productTitle","productDescription","productColor","productMaterial","productFinish","manualCategory","customEnvironment"].forEach(id=>{
-  document.getElementById(id).addEventListener("input", autoDetect);
-  document.getElementById(id).addEventListener("change", autoDetect);
-});
-
-function getProductData(){
   const title = document.getElementById("productTitle").value.trim();
   const description = document.getElementById("productDescription").value.trim();
-  const color = document.getElementById("productColor").value.trim();
-  const materialInput = document.getElementById("productMaterial").value.trim();
-  const finishInput = document.getElementById("productFinish").value.trim();
-  const customEnvironment = document.getElementById("customEnvironment").value.trim();
+  const full = normalizeText(title + " " + description + " " + uploadedFileNames.join(" "));
+  const categoryId = manualCategory === "auto" ? detectCategory(full) : manualCategory;
+
+  return {
+    id: categoryId,
+    ...categoryProfiles[categoryId]
+  };
+}
+
+function extractHints(text){
+  const full = normalizeText(text);
+
+  let color = "cor conforme imagem e descrição";
+  let material = "material conforme imagem e descrição";
+  let finish = "acabamento conforme imagem e descrição";
+
+  const colors = ["preta","preto","branca","branco","azul","vermelha","vermelho","verde","rosa","cinza","bege","marrom","inox","dourado","prata","madeira"];
+  colors.forEach(c => {
+    if(full.includes(c)) color = c;
+  });
+
+  if(full.includes("mdf")) material = "MDF";
+  if(full.includes("acrilico") || full.includes("acrílico")) material = "acrílico";
+  if(full.includes("metal")) material = "metal";
+  if(full.includes("plastico") || full.includes("plástico")) material = "plástico";
+  if(full.includes("tecido acolchoado")) material = "tecido acolchoado";
+  if(full.includes("algodao") || full.includes("algodão")) material = "algodão";
+  if(full.includes("couro")) material = "couro";
+
+  if(full.includes("fosco")) finish = "acabamento fosco";
+  if(full.includes("brilhante")) finish = "acabamento brilhante";
+  if(full.includes("acolchoado") || full.includes("acolchoada")) finish = "acabamento acolchoado";
+  if(full.includes("texturizado") || full.includes("texturizada")) finish = "acabamento texturizado";
+
+  return { color, material, finish };
+}
+
+function getProductData(){
+  const productName = document.getElementById("productTitle").value.trim();
+  const description = document.getElementById("productDescription").value.trim();
   const duration = document.getElementById("duration").value;
 
-  if(!title){
+  if(!productName){
     showMessage("Digite o nome do produto.");
     document.getElementById("result").textContent = "ERRO: o nome do produto é obrigatório.";
     return null;
   }
 
-  const detected = autoDetect();
-  const profile = detected.profile;
+  const profile = getCategoryProfile();
+  const hints = extractHints(productName + " " + description + " " + uploadedFileNames.join(" "));
+  const finalDescription = description || "produto físico de e-commerce com características conforme imagem e título";
 
-  const material = materialInput || "material/tecido conforme imagem e descrição";
-  const finish = finishInput || "acabamento conforme imagem e descrição";
-  const safeColor = color || "cor conforme imagem";
-  const safeDescription = description || "produto físico de e-commerce com características conforme imagem";
-  const environment = customEnvironment || profile.scene;
-
-  const productLine = `${title}, categoria ${profile.label}, ${detected.productType}, cor ${safeColor}, material/tecido: ${material}, acabamento/detalhes: ${finish}, descrição: ${safeDescription}`;
+  const productLine = `${productName}, categoria ${profile.label}, ${profile.productType}, ${hints.color}, ${hints.material}, ${hints.finish}, descrição: ${finalDescription}`;
 
   const refImages = uploadedFileNames.length
     ? uploadedFileNames.map((n,i)=>`Imagem de referência ${i+1}: ${n}`).join("; ")
     : "Nenhuma imagem enviada; usar título e descrição como referência principal.";
 
   return {
-    productName:title,
-    description:safeDescription,
-    color:safeColor,
-    material,
-    finish,
-    environment,
+    productName,
+    description: finalDescription,
     duration,
-    detected,
     profile,
     productLine,
     refImages
@@ -950,17 +844,19 @@ function getProductData(){
 }
 
 function commonNegative(data){
-  let base = "beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone interface elements, recording UI, battery icon, signal icon, notification icons, app overlays, TikTok interface, readable private customer data, product redesign, product modification, invented features, extra parts, wrong color, wrong material, wrong quantity, unrealistic hands, distorted product, fake labels, professional studio background, luxury showroom, cartoon style";
+  let base = "beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone interface elements, recording UI, battery icon, signal icon, notification icons, app overlays, TikTok interface, readable private customer data, product redesign, product modification, invented features, extra parts, wrong color, wrong material, wrong quantity, distorted product, fake labels, professional studio background, luxury showroom, cartoon style";
 
-  if(data.detected.categoryId === "fashion"){
-    base += ", changing clothing type, wrong garment, extra sleeves, missing zipper, wrong hood, unrealistic fabric, deformed body, exaggerated body shape, sexualized pose, turning clothing into home decor";
+  base += ", extra arms, extra hands, extra fingers, missing fingers, fused fingers, malformed hands, duplicated limbs, broken wrists, dislocated elbows, twisted arms, floating hands, deformed anatomy, cloned body parts, overlapping limbs, mutated hands, incorrect grip, distorted pose, impossible pose, wrong hand position, bent fingers, stretched hands, merged arms, extra person, duplicate body";
+
+  if(data.profile.id === "fashion"){
+    base += ", changing clothing type, wrong garment, extra sleeves, missing zipper, wrong hood, unrealistic fabric, turning clothing into home decor";
   }
 
-  if(data.detected.categoryId === "electronics"){
+  if(data.profile.id === "electronics"){
     base += ", wrong device, fake screen interface, invented buttons, extra cables, unrealistic glowing effects, changing device category";
   }
 
-  if(data.detected.categoryId === "home"){
+  if(data.profile.id === "home"){
     base += ", model wearing the decor product, changing decor product into clothing, floating shelf without support, unrealistic wall, impossible installation";
   }
 
@@ -968,9 +864,102 @@ function commonNegative(data){
 }
 
 function productLock(data){
-  return `[PRODUCT LOCK]: O produto principal deve ser exatamente: ${data.productName}. Categoria correta: ${data.profile.label}. Usar as imagens enviadas como referência visual do ${data.productName}. Não substituir por outro produto. Não redesenhar. Não alterar formato, cor, material, acabamento, proporção, quantidade ou categoria. O ${data.productName} deve aparecer fiel ao título, descrição e imagens de referência.
+  return `[PRODUCT LOCK]:
+The main product must be exactly: ${data.productName}.
+Correct category: ${data.profile.label}.
+Use the uploaded images as the visual reference for ${data.productName}.
+Do not replace it with another product.
+Do not redesign it.
+Do not change shape, color, material, finish, proportion, quantity, or category.
+The product must remain faithful to the title, description, and reference images.
 
-[REFERENCE IMAGES]: ${data.refImages}`;
+[REFERENCE IMAGES]:
+${data.refImages}`;
+}
+
+function anatomyLock(modelId){
+  if(modelId === "povHands" || modelId === "embalando"){
+    return `[HUMAN ANATOMY LOCK]:
+Exactly two hands only must appear in frame.
+Exactly five fingers on each hand.
+No extra hands, no extra fingers, no merged fingers, no duplicated limbs, no distorted wrists.
+Hands must look natural and anatomically correct.`;
+  }
+
+  return `[HUMAN ANATOMY LOCK]:
+Only one adult person in frame.
+Exactly two arms, two hands, and five fingers on each hand.
+No extra limbs, no duplicated hands, no merged fingers, no distorted anatomy, no additional people.`;
+}
+
+function motionLock(modelId){
+  if(modelId === "povHands" || modelId === "embalando"){
+    return `[MOTION LOCK]:
+Only one simple hand action at a time.
+Slow, controlled hand movement only.
+No abrupt gestures.
+No hand switching too fast.
+No overlapping hand motion.`;
+  }
+
+  return `[MOTION LOCK]:
+Only one simple action at a time.
+Slow, controlled movement only.
+No abrupt gestures.
+No fast arm switching.
+No overlapping arm motion.
+No complex multi-step body action.`;
+}
+
+function handLock(modelId){
+  if(modelId === "povHands"){
+    return `[HAND LOCK]:
+The product stays centered between two visible hands or in one main hand with the other lightly supporting.
+Hands must remain fully visible.
+No crossing arms.
+No hidden fingers covering the product awkwardly.`;
+  }
+
+  if(modelId === "embalando"){
+    return `[HAND LOCK]:
+Use two visible hands in a simple packing action.
+One hand positions the product while the other hand supports or packs it.
+Hands must remain fully visible and anatomically correct.`;
+  }
+
+  return `[HAND LOCK]:
+The product is held steadily in one main hand, with the other hand relaxed or lightly supporting from below.
+Hands must remain fully visible and anatomically correct.
+Avoid awkward grip or extreme finger bending.`;
+}
+
+function cameraLock(){
+  return `[CAMERA LOCK]:
+Stable framing.
+Slight handheld movement only.
+No aggressive shake.
+No sudden zoom.
+No abrupt reframing.
+No extreme close-up distortion.`;
+}
+
+function actionLock(modelId, data){
+  let action = `showing the product clearly to the camera`;
+
+  if(modelId === "ugc") action = `slowly raising the product once and holding it steady near the camera`;
+  if(modelId === "povHands") action = `showing the product with slow hand movement only`;
+  if(modelId === "demoRapida") action = `demonstrating one core function of the product in a simple way`;
+  if(modelId === "embalando") action = `packing the product with one simple step at a time`;
+  if(modelId === "premium") action = `holding the product still and rotating it gently once`;
+  if(modelId === "antesDepois") action = `showing the before and then one simple reveal of the after state`;
+  if(modelId === "problemaSolucao") action = `showing the problem briefly and then one clear solution action`;
+  if(modelId === "usoReal") action = `using the product in one natural and simple way`;
+  if(modelId === "electronics") action = `testing one function of the product in a controlled way`;
+
+  return `[ACTION LOCK]:
+The subject performs one simple action only: ${action}.
+Do not combine multiple complex gestures at the same time.
+Keep the pose stable and readable.`;
 }
 
 function fillText(text, data){
@@ -987,85 +976,105 @@ function getVariation(modelId, occurrence){
   return arr[(occurrence - 1) % arr.length];
 }
 
+function getSceneLabel2(modelId){
+  if(modelId === "comparacao") return "Comparação";
+  if(modelId === "povFabrica") return "Bastidor";
+  if(modelId === "problemaSolucao") return "Problema";
+  if(modelId === "antesDepois") return "Antes";
+  return "Desenvolvimento";
+}
+
+function getSceneLabel3(modelId){
+  if(modelId === "premium") return "Close Premium";
+  if(modelId === "demoRapida") return "Uso / Teste";
+  return "Demonstração";
+}
+
 function makePrompt(modelId, data, globalIndex, occurrence){
   const model = creativeModels.find(m => m.id === modelId) || creativeModels[0];
   const variation = getVariation(modelId, occurrence);
-
-  const name = data.productName;
-  const profile = data.profile;
-  const line = data.productLine;
-  const duration = data.duration;
-  const negative = commonNegative(data);
 
   const hook = fillText(variation.hook, data);
   const scene2 = fillText(variation.scene2, data);
   const scene3 = fillText(variation.scene3, data);
   const cta = fillText(variation.cta, data);
-  const angle = variation.angle;
 
-  const baseHeader = `━━━━ PROMPT ${globalIndex} — ${model.name.toUpperCase()} · VARIAÇÃO ${occurrence}: ${angle.toUpperCase()} ━━━━`;
-
-  let sceneLabel2 = "Desenvolvimento";
-  let sceneLabel3 = "Demonstração";
-
-  if(modelId === "comparacao") sceneLabel2 = "Comparação";
-  if(modelId === "povFabrica") sceneLabel2 = "Bastidor";
-  if(modelId === "premium") sceneLabel3 = "Close Premium";
-  if(modelId === "problemaSolucao") sceneLabel2 = "Problema";
-  if(modelId === "demoRapida") sceneLabel3 = "Uso / Teste";
-  if(modelId === "antesDepois") sceneLabel2 = "Antes";
-
-  let subject = profile.subject;
-  let scene = data.environment;
-  let camera = profile.camera;
-  let style = profile.style;
-  let demoAction = profile.demo;
+  let scene = data.profile.scene;
+  let subject = data.profile.subject;
 
   if(modelId === "povHands"){
-    subject = `somente mãos adultas brasileiras demonstrando o ${name}, sem mostrar rosto, movimentos naturais`;
+    subject = `somente duas mãos adultas brasileiras demonstrando o ${data.productName}, sem mostrar rosto, movimentos lentos e controlados`;
   }
 
   if(modelId === "povFabrica"){
-    scene = `bastidor brasileiro realista: bancada, estoque, mesa de conferência, embalagem ou pequena produção adequada para a categoria ${profile.label}`;
-    subject = `mãos de trabalhador brasileiro conferindo, separando e mostrando o ${name}`;
+    scene = `bastidor brasileiro realista: bancada, estoque, mesa de conferência, embalagem ou pequena produção adequada para a categoria ${data.profile.label}`;
+    subject = `mãos de trabalhador brasileiro conferindo, separando e mostrando o ${data.productName} com movimentos simples`;
   }
 
   if(modelId === "loja"){
-    scene = `loja brasileira realista adequada à categoria ${profile.label}, ambiente popular, prateleiras, araras, balcão ou mesa de exposição ao fundo, iluminação simples`;
+    scene = `loja brasileira realista adequada à categoria ${data.profile.label}, ambiente popular, prateleiras, araras, balcão ou mesa de exposição ao fundo, iluminação simples`;
   }
 
   if(modelId === "bras"){
-    scene = `feira shop brasileira estilo Brás ou comércio popular adequado à categoria ${profile.label}, movimento natural ao fundo`;
+    scene = `feira shop brasileira estilo Brás ou comércio popular adequado à categoria ${data.profile.label}, movimento natural ao fundo`;
   }
 
   if(modelId === "embalando"){
-    scene = `mesa de embalagem de loja online brasileira, caixas simples, plástico bolha ou embalagem adequada ao ${name}, etiquetas sem dados legíveis`;
-    subject = `mãos embalando pedidos, conferindo o ${name} e mostrando o produto antes do envio`;
+    scene = `mesa de embalagem de loja online brasileira, caixas simples, plástico bolha ou embalagem adequada ao ${data.productName}, etiquetas sem dados legíveis`;
+    subject = `duas mãos embalando pedidos, conferindo o ${data.productName} e mostrando o produto antes do envio, com movimentos simples`;
   }
 
-  return `${baseHeader}
+  return `━━━━ PROMPT ${globalIndex} — ${model.name.toUpperCase()} · VARIAÇÃO ${occurrence}: ${variation.angle.toUpperCase()} ━━━━
 
 ━━━━ CENA 1 — Scroll Stop ━━━━
 ${hook}
 
-━━━━ CENA 2 — ${sceneLabel2} ━━━━
+━━━━ CENA 2 — ${getSceneLabel2(modelId)} ━━━━
 ${scene2}
 
-━━━━ CENA 3 — ${sceneLabel3} ━━━━
+━━━━ CENA 3 — ${getSceneLabel3(modelId)} ━━━━
 ${scene3}
 
 ━━━━ CENA 4 — CTA · CTA ━━━━
 ${cta}
 
-[SCENE]: ${scene}.
-[SUBJECT]: ${subject}.
-[PRODUCT]: ${line}. A demonstração correta para essa categoria é: ${demoAction}. O ${name} deve aparecer fiel à imagem enviada e ocupar destaque visual no frame.
-[CAMERA]: ${camera}.
-[LIGHTING]: luz natural realista misturada com iluminação interna comum, sem aparência de estúdio.
-[STYLE]: ${style}.
-[DURATION]: ${duration}
+[SCENE]:
+${scene}.
+
+[SUBJECT]:
+${subject}.
+
+[PRODUCT]:
+${data.productLine}.
+The correct demonstration for this category is: ${data.profile.demo}.
+The product must remain faithful to the uploaded image and stay visually clear in frame.
+
+[CAMERA]:
+${data.profile.camera}.
+
+[LIGHTING]:
+natural daylight mixed with normal indoor lighting, realistic and non-studio.
+
+[STYLE]:
+${data.profile.style}.
+
+[DURATION]:
+${data.duration}
+
 ${productLock(data)}
-[NEGATIVE PROMPT]: ${negative}.`;
+
+${anatomyLock(modelId)}
+
+${motionLock(modelId)}
+
+${handLock(modelId)}
+
+${cameraLock()}
+
+${actionLock(modelId, data)}
+
+[NEGATIVE PROMPT]:
+${commonNegative(data)}.`;
 }
 
 function generateCampaign(){
@@ -1073,6 +1082,7 @@ function generateCampaign(){
   if(!data) return;
 
   const selected = [];
+
   creativeModels.forEach(model => {
     for(let i=1;i<=counts[model.id];i++){
       selected.push({
@@ -1087,19 +1097,18 @@ function generateCampaign(){
     return;
   }
 
-  let output = `PROMPTFLOW V4.1 — PACOTE DE CAMPANHA COM CATEGORIA INTELIGENTE
+  let output = `PROMPTFLOW V4.4 — PACOTE DE CAMPANHA COM VIDEO SAFETY LOCK
 
 PRODUTO PRINCIPAL: ${data.productName}
-CATEGORIA DETECTADA: ${data.profile.label}
-DESCRIÇÃO: ${data.description}
+CATEGORIA: ${data.profile.label}
+DURAÇÃO: ${data.duration}
 TOTAL DE PROMPTS: ${selected.length}
 
 INSTRUÇÃO GERAL:
 Todos os prompts abaixo devem respeitar a categoria correta do produto.
-Se o produto for moda/vestuário, mostrar pessoa vestindo, calçando ou experimentando, com foco em tecido, caimento, zíper, capuz, costura, solado ou detalhes da peça.
-Se o produto for casa/decoração, mostrar ambiente doméstico, organização, instalação ou uso no espaço.
-Se o produto for eletrônico, mostrar teste, função, tela, botão, cabo, conexão, som, luz ou funcionamento.
-Não trocar a categoria do produto.
+Esta versão usa travas extras para reduzir erros de vídeo como braços duplicados, mãos tortas, dedos extras e movimentos corporais confusos.
+Cada cena deve priorizar apenas uma ação principal por vez.
+Evite gestos complexos e sobreposição de braços.
 
 `;
 
@@ -1109,41 +1118,45 @@ Não trocar a categoria do produto.
 
   document.getElementById("result").textContent = output;
   saveHistory(data.productName, output);
-  showMessage("Campanha gerada com categoria correta!");
+  showMessage("Campanha gerada!");
 }
 
 function resetCounts(show=true){
   Object.keys(counts).forEach(k=>counts[k]=0);
+
   creativeModels.forEach(m=>{
     const el = document.getElementById("count-" + m.id);
     if(el) el.textContent = 0;
   });
+
   updateTotal();
+
   if(show) showMessage("Modelos zerados.");
 }
 
 function copyAll(){
   const text = document.getElementById("result").textContent;
+
   if(!text || text.includes("Preencha o nome")){
     showMessage("Gere uma campanha primeiro.");
     return;
   }
 
-  navigator.clipboard.writeText(text).then(()=>{
-    showMessage("Copiado!");
-  }).catch(()=>{
-    showMessage("Não foi possível copiar.");
-  });
+  navigator.clipboard.writeText(text)
+    .then(()=>showMessage("Copiado!"))
+    .catch(()=>showMessage("Não foi possível copiar."));
 }
 
 function downloadTxt(){
   const text = document.getElementById("result").textContent;
+
   if(!text || text.includes("Preencha o nome")){
     showMessage("Gere uma campanha primeiro.");
     return;
   }
 
   const title = document.getElementById("productTitle").value.trim() || "promptflow-campanha";
+
   const safe = title.toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g,"")
@@ -1155,12 +1168,13 @@ function downloadTxt(){
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = safe + "-promptflow-v4-1.txt";
+  a.download = safe + "-promptflow-v4-4.txt";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
 
   URL.revokeObjectURL(url);
+
   showMessage("Arquivo baixado.");
 }
 
@@ -1168,35 +1182,36 @@ function clearAll(){
   document.getElementById("imageUpload").value = "";
   document.getElementById("productTitle").value = "";
   document.getElementById("productDescription").value = "";
-  document.getElementById("productColor").value = "";
-  document.getElementById("productMaterial").value = "";
-  document.getElementById("productFinish").value = "";
-  document.getElementById("customEnvironment").value = "";
   document.getElementById("manualCategory").value = "auto";
   document.getElementById("duration").selectedIndex = 0;
+
   uploadedFileNames = [];
+
   document.getElementById("previewGrid").innerHTML = `<div class="preview-item">Sem imagem</div>`;
   document.getElementById("result").textContent = "Preencha o nome do produto, escolha os modelos criativos com + e clique em GERAR CAMPANHA.";
+
   resetCounts(false);
-  autoDetect();
+
   showMessage("Tudo limpo.");
 }
 
 function saveHistory(title, content){
-  const history = JSON.parse(localStorage.getItem("promptflow_history_v41") || "[]");
+  const history = JSON.parse(localStorage.getItem("promptflow_history_v44") || "[]");
+
   history.unshift({
     title,
     date:new Date().toLocaleString("pt-BR"),
     content
   });
 
-  localStorage.setItem("promptflow_history_v41", JSON.stringify(history.slice(0,10)));
+  localStorage.setItem("promptflow_history_v44", JSON.stringify(history.slice(0,10)));
+
   renderHistory();
 }
 
 function renderHistory(){
   const list = document.getElementById("historyList");
-  const history = JSON.parse(localStorage.getItem("promptflow_history_v41") || "[]");
+  const history = JSON.parse(localStorage.getItem("promptflow_history_v44") || "[]");
 
   if(history.length === 0){
     list.textContent = "Nenhuma campanha salva ainda.";
@@ -1204,7 +1219,8 @@ function renderHistory(){
   }
 
   list.innerHTML = "";
-  history.forEach((item)=>{
+
+  history.forEach(item=>{
     const div = document.createElement("div");
     div.className = "history-item";
     div.innerHTML = `<strong>${item.title}</strong><br>${item.date}`;
@@ -1220,14 +1236,16 @@ function showMessage(msg){
   const toast = document.getElementById("toast");
   toast.textContent = msg;
   toast.style.display = "block";
-  setTimeout(()=>toast.style.display="none",1800);
+
+  setTimeout(()=>{
+    toast.style.display="none";
+  },1800);
 }
 
 window.addEventListener("load", ()=>{
   renderModels();
   renderHistory();
   resetCounts(false);
-  autoDetect();
 });
 </script>
 
