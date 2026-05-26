@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PromptFLOW V4.8 - Prompt Exclusivo</title>
+<title>PromptFLOW V4.9 - Botões de Cópia Rápida</title>
 
 <style>
 *{box-sizing:border-box}
@@ -317,6 +317,16 @@ button.main:hover,button.secondary:hover,button.danger:hover,button.exclusive:ho
   margin:12px 0;
 }
 
+.prompt-tab-wrap{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:999px;
+  padding:3px;
+}
+
 .tab{
   border:1px solid #333;
   background:#101010;
@@ -332,6 +342,59 @@ button.main:hover,button.secondary:hover,button.danger:hover,button.exclusive:ho
   color:#111;
   border-color:#ff9b35;
   font-weight:bold;
+}
+
+.copy-mini{
+  border:1px solid #333;
+  background:#151515;
+  color:#ffb870;
+  border-radius:999px;
+  padding:8px 10px;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.copy-mini:hover{
+  background:#ff9b35;
+  color:#111;
+}
+
+.copy-bar{
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:18px;
+  padding:12px;
+  margin:10px 0 12px;
+}
+
+.copy-bar-title{
+  color:#ff9b35;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.copy-bar-buttons{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.copy-bar-buttons button{
+  border:1px solid #333;
+  background:#101010;
+  color:#fff;
+  border-radius:14px;
+  padding:10px 12px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.copy-bar-buttons button:hover{
+  background:#ff9b35;
+  color:#111;
 }
 
 .prompt-panel{
@@ -418,10 +481,10 @@ button.main:hover,button.secondary:hover,button.danger:hover,button.exclusive:ho
 <div class="app">
 
   <div class="header">
-    <div class="badge">PROMPTFLOW V4.8 · PROMPT EXCLUSIVO</div>
+    <div class="badge">PROMPTFLOW V4.9 · CÓPIA RÁPIDA</div>
     <h1>Gerador de Campanhas Criativas para Flow</h1>
     <div class="subtitle">
-      Gere campanhas completas ou crie um prompt exclusivo por estilo: UGC detalhado, POV, Fábrica, Comparação, Antes/Depois, Problema/Solução e Produto Premium.
+      Gere campanhas completas ou prompts exclusivos. Agora cada prompt e cada cena têm botões rápidos para copiar sem precisar selecionar texto manualmente.
     </div>
   </div>
 
@@ -510,7 +573,6 @@ button.main:hover,button.secondary:hover,button.danger:hover,button.exclusive:ho
         </div>
 
         <div class="actions" style="margin-top:0;">
-          <button class="main" onclick="copyCurrent()">Copiar Atual</button>
           <button class="secondary" onclick="copyAll()">Copiar Tudo</button>
           <button class="secondary" onclick="downloadTxt()">Baixar .TXT</button>
           <button class="danger" onclick="clearAll()">Limpar Tudo</button>
@@ -520,13 +582,22 @@ button.main:hover,button.secondary:hover,button.danger:hover,button.exclusive:ho
       <div id="promptTabs" class="prompt-tabs"></div>
       <div id="sceneTabs" class="scene-tabs"></div>
 
+      <div class="copy-bar" id="copyBar" style="display:none;">
+        <div class="copy-bar-title">Cópia rápida do item selecionado</div>
+        <div class="copy-bar-buttons">
+          <button onclick="copyCurrentPromptFull()">Copiar Prompt Completo Atual</button>
+          <button onclick="copyCurrentSceneOnly()">Copiar Cena Atual</button>
+          <button onclick="copySceneWithTechnical()">Copiar Cena Atual + Técnico</button>
+          <button onclick="copyCurrentView()">Copiar Aba Atual</button>
+        </div>
+      </div>
+
       <div id="promptViewer" class="empty">
         Preencha o nome do produto e gere um prompt exclusivo ou uma campanha.
       </div>
 
       <div class="actions">
         <button class="secondary" onclick="approveCurrent()">Aprovar Prompt Atual</button>
-        <button class="secondary" onclick="copySceneWithTechnical()">Copiar Cena + Técnico</button>
       </div>
 
       <div class="history">
@@ -1046,6 +1117,7 @@ function generateExclusive(modelId){
   renderPromptTabs();
   renderSceneTabs();
   renderViewer();
+  showCopyBar();
 
   saveHistory(`${data.productName} - ${styleName(modelId)}`,generatedPrompts);
   showMessage("Prompt exclusivo gerado!");
@@ -1075,6 +1147,7 @@ function generateCampaign(){
   renderPromptTabs();
   renderSceneTabs();
   renderViewer();
+  showCopyBar();
   saveHistory(data.productName,generatedPrompts);
   showMessage("Campanha gerada!");
 }
@@ -1082,7 +1155,11 @@ function generateCampaign(){
 function renderPromptTabs(){
   const tabs=document.getElementById("promptTabs");
   tabs.innerHTML="";
+
   generatedPrompts.forEach((p,i)=>{
+    const wrap=document.createElement("div");
+    wrap.className="prompt-tab-wrap";
+
     const btn=document.createElement("button");
     btn.className="tab"+(i===currentPromptIndex?" active":"");
     btn.innerHTML=`Prompt ${p.id}${p.approved?'<span class="approved">OK</span>':''}`;
@@ -1093,7 +1170,18 @@ function renderPromptTabs(){
       renderSceneTabs();
       renderViewer();
     };
-    tabs.appendChild(btn);
+
+    const copy=document.createElement("button");
+    copy.className="copy-mini";
+    copy.textContent="Copiar";
+    copy.onclick=(event)=>{
+      event.stopPropagation();
+      copyPromptByIndex(i);
+    };
+
+    wrap.appendChild(btn);
+    wrap.appendChild(copy);
+    tabs.appendChild(wrap);
   });
 }
 
@@ -1129,26 +1217,86 @@ function renderViewer(){
   if(!generatedPrompts.length){
     viewer.className="empty";
     viewer.textContent="Preencha o nome do produto e gere um prompt exclusivo ou uma campanha.";
+    hideCopyBar();
     return;
   }
   viewer.className="prompt-panel";
   const p=generatedPrompts[currentPromptIndex];
   viewer.textContent=p.scenes[currentSceneKey]||p.scenes.full;
+  showCopyBar();
 }
 
-function getCurrentText(){
-  if(!generatedPrompts.length)return "";
-  const p=generatedPrompts[currentPromptIndex];
+function showCopyBar(){
+  document.getElementById("copyBar").style.display = generatedPrompts.length ? "block" : "none";
+}
+
+function hideCopyBar(){
+  document.getElementById("copyBar").style.display = "none";
+}
+
+function getCurrentPrompt(){
+  if(!generatedPrompts.length)return null;
+  return generatedPrompts[currentPromptIndex];
+}
+
+function getCurrentViewText(){
+  const p=getCurrentPrompt();
+  if(!p)return "";
   return p.scenes[currentSceneKey]||p.scenes.full;
 }
 
-function copyCurrent(){
-  const text=getCurrentText();
+function getCurrentSceneOnlyText(){
+  const p=getCurrentPrompt();
+  if(!p)return "";
+
+  if(currentSceneKey==="full"){
+    return p.scenes.full;
+  }
+
+  if(currentSceneKey==="technical"){
+    return p.scenes.technical;
+  }
+
+  return p.scenes[currentSceneKey]||"";
+}
+
+function copyText(text,msg){
   if(!text){
     showMessage("Nada para copiar.");
     return;
   }
-  navigator.clipboard.writeText(text).then(()=>showMessage("Copiado!"));
+
+  navigator.clipboard.writeText(text)
+    .then(()=>showMessage(msg || "Copiado!"))
+    .catch(()=>showMessage("Não foi possível copiar."));
+}
+
+function copyPromptByIndex(index){
+  const p=generatedPrompts[index];
+  if(!p){
+    showMessage("Prompt não encontrado.");
+    return;
+  }
+  copyText(p.scenes.full,`Prompt ${p.id} copiado!`);
+}
+
+function copyCurrentPromptFull(){
+  const p=getCurrentPrompt();
+  if(!p){
+    showMessage("Gere um prompt primeiro.");
+    return;
+  }
+  copyText(p.scenes.full,"Prompt completo atual copiado!");
+}
+
+function copyCurrentSceneOnly(){
+  const text=getCurrentSceneOnlyText();
+  copyText(text,"Cena atual copiada!");
+}
+
+function copyCurrentView(){
+  const text=getCurrentViewText();
+  copyText(text,"Aba atual copiada!");
 }
 
 function copyAll(){
@@ -1157,7 +1305,7 @@ function copyAll(){
     return;
   }
   const all=generatedPrompts.map(p=>p.scenes.full).join("\n\n");
-  navigator.clipboard.writeText(all).then(()=>showMessage("Tudo copiado!"));
+  copyText(all,"Todos os prompts copiados!");
 }
 
 function copySceneWithTechnical(){
@@ -1166,16 +1314,18 @@ function copySceneWithTechnical(){
     return;
   }
 
-  const p=generatedPrompts[currentPromptIndex];
+  const p=getCurrentPrompt();
   let text="";
 
-  if(currentSceneKey==="full" || currentSceneKey==="technical"){
+  if(currentSceneKey==="full"){
     text=p.scenes.full;
+  }else if(currentSceneKey==="technical"){
+    text=p.scenes.technical;
   }else{
     text=(p.scenes[currentSceneKey]||"")+"\n\n"+p.scenes.technical;
   }
 
-  navigator.clipboard.writeText(text).then(()=>showMessage("Cena + técnico copiado!"));
+  copyText(text,"Cena atual + técnico copiado!");
 }
 
 function approveCurrent(){
@@ -1201,7 +1351,7 @@ function downloadTxt(){
   const url=URL.createObjectURL(blob);
   const a=document.createElement("a");
   a.href=url;
-  a.download=safe+"-promptflow-v4-8.txt";
+  a.download=safe+"-promptflow-v4-9.txt";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1234,23 +1384,24 @@ function clearAll(){
   document.getElementById("sceneTabs").innerHTML="";
   resetCounts(false);
   renderViewer();
+  hideCopyBar();
   showMessage("Tudo limpo.");
 }
 
 function saveHistory(title,prompts){
-  const history=JSON.parse(localStorage.getItem("promptflow_history_v48")||"[]");
+  const history=JSON.parse(localStorage.getItem("promptflow_history_v49")||"[]");
   history.unshift({
     title,
     date:new Date().toLocaleString("pt-BR"),
     prompts
   });
-  localStorage.setItem("promptflow_history_v48",JSON.stringify(history.slice(0,10)));
+  localStorage.setItem("promptflow_history_v49",JSON.stringify(history.slice(0,10)));
   renderHistory();
 }
 
 function renderHistory(){
   const list=document.getElementById("historyList");
-  const history=JSON.parse(localStorage.getItem("promptflow_history_v48")||"[]");
+  const history=JSON.parse(localStorage.getItem("promptflow_history_v49")||"[]");
 
   if(history.length===0){
     list.textContent="Nenhuma campanha salva ainda.";
@@ -1269,6 +1420,7 @@ function renderHistory(){
       renderPromptTabs();
       renderSceneTabs();
       renderViewer();
+      showCopyBar();
       showMessage("Histórico carregado.");
     };
     list.appendChild(div);
