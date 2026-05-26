@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>PromptFLOW V5.2 - Copy Bank Real</title>
 
 <style>
 *{box-sizing:border-box}
 :root{
-  --bg:#070707;--panel:#101010;--panel2:#080808;--line:#292929;
-  --text:#fff;--muted:#aaa;--orange:#ff9b35;--orange2:#ff7900;
-  --green:#35ff8a;--red:#ff8a8a;
+  --bg:#070707;
+  --panel:#101010;
+  --panel2:#080808;
+  --line:#292929;
+  --text:#fff;
+  --muted:#aaa;
+  --orange:#ff9b35;
+  --orange2:#ff7900;
+  --green:#35ff8a;
+  --red:#ff8a8a;
 }
 body{
-  margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--text);
   background:
     radial-gradient(circle at top left,rgba(255,120,0,.18),transparent 30%),
     radial-gradient(circle at top right,rgba(0,150,255,.12),transparent 34%),
@@ -22,58 +31,115 @@ body{
 .app{max-width:1540px;margin:auto;padding:18px}
 .header{
   background:linear-gradient(135deg,#181818,#070707);
-  border:1px solid var(--line);border-radius:28px;padding:24px;margin-bottom:18px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:24px;
+  margin-bottom:18px;
   box-shadow:0 18px 55px rgba(0,0,0,.45)
 }
 .badge{
-  display:inline-block;padding:7px 13px;border-radius:999px;
-  background:rgba(255,155,53,.12);border:1px solid rgba(255,155,53,.35);
-  color:var(--orange);font-size:12px;font-weight:bold;margin-bottom:12px
+  display:inline-block;
+  padding:7px 13px;
+  border-radius:999px;
+  background:rgba(255,155,53,.12);
+  border:1px solid rgba(255,155,53,.35);
+  color:var(--orange);
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:12px
 }
 h1{margin:0;font-size:31px;letter-spacing:-.7px}
 .subtitle{color:#c9c9c9;font-size:14px;line-height:1.5;margin-top:8px}
 .shell{display:grid;grid-template-columns:430px 1fr;gap:18px}
 .card{
-  background:rgba(16,16,16,.96);border:1px solid var(--line);
-  border-radius:24px;padding:18px;box-shadow:0 14px 42px rgba(0,0,0,.34)
+  background:rgba(16,16,16,.96);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:18px;
+  box-shadow:0 14px 42px rgba(0,0,0,.34)
 }
 .section-title{font-size:16px;font-weight:bold;margin-bottom:12px}
 .sub-title{color:var(--orange);font-size:13px;font-weight:bold;margin:18px 0 8px}
 label{display:block;color:#bdbdbd;font-size:12px;margin:13px 0 6px}
 input,textarea,select{
-  width:100%;background:#090909;border:1px solid #333;color:#fff;
-  border-radius:15px;padding:13px;outline:none;font-size:14px
+  width:100%;
+  background:#090909;
+  border:1px solid #333;
+  color:#fff;
+  border-radius:15px;
+  padding:13px;
+  outline:none;
+  font-size:14px
 }
 textarea{resize:vertical;min-height:92px}
-input:focus,textarea:focus,select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,155,53,.12)}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--orange);
+  box-shadow:0 0 0 3px rgba(255,155,53,.12)
+}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.upload-box{background:#0b0b0b;border:1px dashed #555;border-radius:18px;padding:14px}
+.upload-box{
+  background:#0b0b0b;
+  border:1px dashed #555;
+  border-radius:18px;
+  padding:14px
+}
 .help{color:var(--muted);font-size:12px;line-height:1.42;margin-top:8px}
 .preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
 .preview-item{
-  background:#050505;border:1px solid #282828;border-radius:14px;min-height:90px;
-  display:flex;align-items:center;justify-content:center;color:#777;font-size:11px;overflow:hidden
+  background:#050505;
+  border:1px solid #282828;
+  border-radius:14px;
+  min-height:90px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+  font-size:11px;
+  overflow:hidden
 }
 .preview-item img{width:100%;height:100%;max-height:115px;object-fit:cover}
 .forge-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 .forge-tab{
-  border:1px solid #333;background:#0d0d0d;color:#ddd;border-radius:999px;
-  padding:10px 13px;font-size:12px;font-weight:bold;cursor:pointer
+  border:1px solid #333;
+  background:#0d0d0d;
+  color:#ddd;
+  border-radius:999px;
+  padding:10px 13px;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer
 }
 .forge-tab.active{background:var(--orange);color:#111;border-color:var(--orange)}
 .style-grid{display:grid;grid-template-columns:1fr;gap:10px}
 .style-card{
   background:linear-gradient(135deg,#0d0d0d,#080808);
-  border:1px solid #2d2d2d;border-radius:19px;padding:13px
+  border:1px solid #2d2d2d;
+  border-radius:19px;
+  padding:13px
 }
 .style-card:hover{border-color:rgba(255,155,53,.55)}
 .style-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .style-name{font-size:14px;font-weight:bold}
 .style-sub{color:var(--orange);font-size:11px;font-weight:bold;margin-top:3px}
 .style-desc{color:#aaa;font-size:11px;line-height:1.35;margin-top:5px}
-.counter{display:flex;align-items:center;gap:7px;background:#050505;border:1px solid #272727;border-radius:999px;padding:5px}
+.counter{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  background:#050505;
+  border:1px solid #272727;
+  border-radius:999px;
+  padding:5px
+}
 .counter button{
-  width:29px;height:29px;border:none;border-radius:50%;background:#171717;color:#fff;font-weight:bold;cursor:pointer
+  width:29px;
+  height:29px;
+  border:none;
+  border-radius:50%;
+  background:#171717;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer
 }
 .counter button:hover{background:var(--orange);color:#111}
 .counter span{min-width:22px;text-align:center;color:var(--orange);font-weight:bold}
@@ -81,78 +147,241 @@ input:focus,textarea:focus,select:focus{border-color:var(--orange);box-shadow:0 
 button{cursor:pointer;font-weight:bold;transition:.15s}
 button:hover{filter:brightness(1.08)}
 button.main{
-  flex:1;min-width:150px;border:none;background:linear-gradient(135deg,var(--orange2),#ffb13b);
-  color:#111;border-radius:16px;padding:14px;font-size:14px
+  flex:1;
+  min-width:150px;
+  border:none;
+  background:linear-gradient(135deg,var(--orange2),#ffb13b);
+  color:#111;
+  border-radius:16px;
+  padding:14px;
+  font-size:14px
 }
-button.secondary{border:1px solid #333;background:#101010;color:#fff;border-radius:16px;padding:14px;font-size:14px}
-button.danger{border:1px solid rgba(255,70,70,.45);background:rgba(255,70,70,.08);color:var(--red);border-radius:16px;padding:14px;font-size:14px}
-button.exclusive{border:1px solid rgba(255,155,53,.45);background:rgba(255,155,53,.10);color:#ffbf7c;border-radius:14px;padding:11px;font-size:12px}
+button.secondary{
+  border:1px solid #333;
+  background:#101010;
+  color:#fff;
+  border-radius:16px;
+  padding:14px;
+  font-size:14px
+}
+button.danger{
+  border:1px solid rgba(255,70,70,.45);
+  background:rgba(255,70,70,.08);
+  color:var(--red);
+  border-radius:16px;
+  padding:14px;
+  font-size:14px
+}
+button.exclusive{
+  border:1px solid rgba(255,155,53,.45);
+  background:rgba(255,155,53,.10);
+  color:#ffbf7c;
+  border-radius:14px;
+  padding:11px;
+  font-size:12px
+}
 .exclusive-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .switch-row{
-  display:flex;gap:10px;align-items:center;background:#090909;border:1px solid #292929;
-  border-radius:16px;padding:10px;margin-top:10px
+  display:flex;
+  gap:10px;
+  align-items:center;
+  background:#090909;
+  border:1px solid #292929;
+  border-radius:16px;
+  padding:10px;
+  margin-top:10px
 }
 .switch-row input{width:auto}
 .dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-.metric{background:#080808;border:1px solid #292929;border-radius:17px;padding:12px}
+.metric{
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:17px;
+  padding:12px
+}
 .metric strong{display:block;color:var(--orange);font-size:22px;margin-bottom:4px}
 .metric span{color:#aaa;font-size:12px}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:12px
+}
 .count-total{color:var(--orange);font-size:13px;font-weight:bold}
 .prompt-tabs,.scene-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.prompt-tab-wrap{display:flex;align-items:center;gap:4px;background:#080808;border:1px solid #292929;border-radius:999px;padding:3px}
-.tab{border:1px solid #333;background:#101010;color:#fff;border-radius:999px;padding:9px 12px;font-size:12px;cursor:pointer}
-.tab.active{background:var(--orange);color:#111;border-color:var(--orange);font-weight:bold}
-.copy-mini{border:1px solid #333;background:#151515;color:#ffbf7c;border-radius:999px;padding:8px 10px;cursor:pointer;font-size:11px;font-weight:bold}
+.prompt-tab-wrap{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:999px;
+  padding:3px
+}
+.tab{
+  border:1px solid #333;
+  background:#101010;
+  color:#fff;
+  border-radius:999px;
+  padding:9px 12px;
+  font-size:12px;
+  cursor:pointer
+}
+.tab.active{
+  background:var(--orange);
+  color:#111;
+  border-color:var(--orange);
+  font-weight:bold
+}
+.copy-mini{
+  border:1px solid #333;
+  background:#151515;
+  color:#ffbf7c;
+  border-radius:999px;
+  padding:8px 10px;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:bold
+}
 .copy-mini:hover{background:var(--orange);color:#111}
-.copy-bar{display:none;background:#080808;border:1px solid #292929;border-radius:18px;padding:12px;margin:10px 0 12px}
-.copy-bar-title{color:var(--orange);font-size:12px;font-weight:bold;margin-bottom:8px}
+.copy-bar{
+  display:none;
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:18px;
+  padding:12px;
+  margin:10px 0 12px
+}
+.copy-bar-title{
+  color:var(--orange);
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:8px
+}
 .copy-bar-buttons{display:flex;gap:8px;flex-wrap:wrap}
-.copy-bar-buttons button{border:1px solid #333;background:#101010;color:#fff;border-radius:14px;padding:10px 12px;font-size:12px}
+.copy-bar-buttons button{
+  border:1px solid #333;
+  background:#101010;
+  color:#fff;
+  border-radius:14px;
+  padding:10px 12px;
+  font-size:12px
+}
 .copy-bar-buttons button:hover{background:var(--orange);color:#111}
 .viewer{
-  background:#050505;border:1px solid #292929;border-radius:20px;padding:16px;
-  min-height:540px;max-height:70vh;overflow:auto;white-space:pre-wrap;
-  line-height:1.48;color:#f1f1f1;font-size:14px
+  background:#050505;
+  border:1px solid #292929;
+  border-radius:20px;
+  padding:16px;
+  min-height:540px;
+  max-height:70vh;
+  overflow:auto;
+  white-space:pre-wrap;
+  line-height:1.48;
+  color:#f1f1f1;
+  font-size:14px
 }
-.empty{color:#999;background:#050505;border:1px solid #292929;border-radius:20px;padding:18px;min-height:320px}
+.empty{
+  color:#999;
+  background:#050505;
+  border:1px solid #292929;
+  border-radius:20px;
+  padding:18px;
+  min-height:320px
+}
 .variation-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.variation-card{background:#080808;border:1px solid #292929;border-radius:17px;padding:12px;cursor:pointer}
+.variation-card{
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:17px;
+  padding:12px;
+  cursor:pointer
+}
 .variation-card:hover{border-color:var(--orange)}
-.variation-card strong{color:var(--orange);display:block;font-size:13px;margin-bottom:5px}
+.variation-card strong{
+  color:var(--orange);
+  display:block;
+  font-size:13px;
+  margin-bottom:5px
+}
 .variation-card span{color:#aaa;font-size:12px;line-height:1.35}
-.history,.favorites{margin-top:14px;background:#080808;border:1px solid #292929;border-radius:18px;padding:12px}
-.history-item{border-bottom:1px solid #222;padding:10px 0;font-size:12px;color:#bbb;cursor:pointer}
+.history,.favorites{
+  margin-top:14px;
+  background:#080808;
+  border:1px solid #292929;
+  border-radius:18px;
+  padding:12px
+}
+.history-item{
+  border-bottom:1px solid #222;
+  padding:10px 0;
+  font-size:12px;
+  color:#bbb;
+  cursor:pointer
+}
 .history-item:last-child{border-bottom:none}
 .history-item:hover{color:var(--orange)}
-.approved{display:inline-block;margin-left:8px;color:var(--green);font-size:12px;font-weight:bold}
-.ref-box{background:#090909;border:1px solid #292929;border-radius:18px;padding:12px;margin-top:12px}
-.ref-item{border-bottom:1px solid #222;padding:8px 0;color:#bbb;font-size:12px}
+.approved{
+  display:inline-block;
+  margin-left:8px;
+  color:var(--green);
+  font-size:12px;
+  font-weight:bold
+}
+.ref-box{
+  background:#090909;
+  border:1px solid #292929;
+  border-radius:18px;
+  padding:12px;
+  margin-top:12px
+}
+.ref-item{
+  border-bottom:1px solid #222;
+  padding:8px 0;
+  color:#bbb;
+  font-size:12px
+}
 .ref-item:last-child{border-bottom:none}
 .toast{
-  display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
-  background:var(--orange);color:#111;font-weight:bold;padding:12px 18px;
-  border-radius:999px;z-index:99;box-shadow:0 10px 35px rgba(0,0,0,.4)
+  display:none;
+  position:fixed;
+  bottom:18px;
+  left:50%;
+  transform:translateX(-50%);
+  background:var(--orange);
+  color:#111;
+  font-weight:bold;
+  padding:12px 18px;
+  border-radius:999px;
+  z-index:99;
+  box-shadow:0 10px 35px rgba(0,0,0,.4)
 }
-@media(max-width:980px){.shell{grid-template-columns:1fr}h1{font-size:25px}.dashboard{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.two,.exclusive-grid,.variation-preview{grid-template-columns:1fr}.preview-grid{grid-template-columns:repeat(2,1fr)}.dashboard{grid-template-columns:1fr}}
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr}
+  h1{font-size:25px}
+  .dashboard{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  .two,.exclusive-grid,.variation-preview{grid-template-columns:1fr}
+  .preview-grid{grid-template-columns:repeat(2,1fr)}
+  .dashboard{grid-template-columns:1fr}
+}
 </style>
 </head>
-
 <body>
 
 <div class="app">
-
   <div class="header">
     <div class="badge">PROMPTFLOW V5.2 · COPY BANK REAL</div>
     <h1>Forge Pro · Gerador de Prompts para Flow</h1>
     <div class="subtitle">
-      Agora cada variação tem copy própria real: não muda só o título, muda Cena 1, Cena 2, Cena 3, Cena 4 e Cena 5 conforme o estilo.
+      Agora cada variação tem copy própria real. E o modelo FÁBRICA foi corrigido para seguir o padrão de confecção real: mesa de produção, peças abertas, trabalhadores ao fundo e visual de celular dentro da fábrica.
     </div>
   </div>
 
   <div class="shell">
-
     <div class="card">
       <div class="section-title">1. Produto Principal</div>
 
@@ -250,7 +479,6 @@ button.exclusive{border:1px solid rgba(255,155,53,.45);background:rgba(255,155,5
     </div>
 
     <div class="card">
-
       <div class="dashboard">
         <div class="metric">
           <strong id="metricGenerated">0</strong>
@@ -326,7 +554,6 @@ button.exclusive{border:1px solid rgba(255,155,53,.45);background:rgba(255,155,5
         <div class="section-title">Histórico Local</div>
         <div id="historyList" class="history">Nenhuma campanha salva ainda.</div>
       </div>
-
     </div>
   </div>
 </div>
@@ -341,7 +568,7 @@ let currentSceneKey = "full";
 
 const STYLE_LIBRARY = {
   comparacao:{title:"COMPARAÇÃO",subtitle:"PRICE COMPARE",scenes:4,icon:"⚖️",desc:"Preço, alternativa comum, produto melhor e decisão de compra."},
-  fabrica:{title:"FÁBRICA",subtitle:"WAREHOUSE / FACTORY",scenes:5,icon:"🏭",desc:"Estoque, conferência, embalagem, lote saindo e bastidor real."},
+  fabrica:{title:"FÁBRICA",subtitle:"WAREHOUSE / FACTORY",scenes:5,icon:"🏭",desc:"Agora com padrão real de confecção: mesa de produção, peças abertas e trabalhadores ao fundo."},
   bras:{title:"BRÁS",subtitle:"FEIRA SHOP / BRÁS SP",scenes:5,icon:"🛍️",desc:"Box popular, vendedor, sacolas, araras, promoção e movimento real."},
   loja:{title:"LOJA",subtitle:"BRAZILIAN RETAIL",scenes:5,icon:"🏬",desc:"Loja brasileira, prateleira, balcão, atendente e produto em exposição."},
   pov:{title:"POV",subtitle:"HANDS ONLY",scenes:4,icon:"🤲",desc:"Mãos apenas, sem rosto, close, unboxing, teste e detalhe satisfatório."},
@@ -350,77 +577,78 @@ const STYLE_LIBRARY = {
 
 const COPY_BANK = {
   fabrica:[
-    {v:"Lote Saindo",s:[
-      n=>`Olha esse lote de ${n} acabando de ser separado. Tá saindo muito rápido!`,
-      n=>`A câmera mostra uma bancada de separação com várias unidades do ${n}, caixas simples e mãos organizando os pedidos.`,
-      (n,p)=>`O ${n} aparece sendo aberto, conferido e mostrado sobre a bancada, com close em ${p.details}. As mãos mostram o produto com calma antes da embalagem.`,
-      n=>`As mãos dobram, protegem ou posicionam o produto na embalagem, mostrando que o pedido está sendo preparado para envio.`,
-      n=>`Se você quer garantir o seu ${n}, aproveita agora enquanto esse lote ainda está disponível.`
+    {v:"Confecção Real",s:[
+      n=>`Olha esse lote de ${n} direto na mesa da confecção. É assim que ele aparece antes de ir para venda.`,
+      n=>`A câmera mostra uma mesa grande de produção com várias unidades do ${n} abertas, dobradas ou empilhadas, trabalhadores ao fundo manuseando peças e ambiente simples de fábrica brasileira.`,
+      (n,p)=>`O ${n} aparece ocupando boa parte do frame sobre a mesa, com close em ${p.details}. A câmera mostra a peça real, textura, volume, costura e acabamento sem parecer estúdio.`,
+      n=>`As mãos ajustam uma unidade do ${n} sobre a mesa, abrindo, alinhando ou virando a peça para mostrar o produto como em uma produção real.`,
+      n=>`Se você quer garantir o seu ${n}, aproveita enquanto esse lote ainda está disponível.`
     ]},
-    {v:"Conferência de Qualidade",s:[
-      n=>`Antes de enviar, olha como o ${n} é conferido de perto.`,
-      n=>`O produto é retirado de uma pilha organizada e colocado em uma bancada simples de conferência.`,
-      (n,p)=>`O ${n} passa por uma conferência visual, com close em ${p.details}, reforçando acabamento, material e aparência real.`,
-      n=>`Depois da conferência, as mãos posicionam o produto na embalagem de forma limpa e organizada.`,
-      n=>`Quer receber o seu ${n} também? Clica no carrinho antes que esse lote acabe.`
+    {v:"Mesa de Produção",s:[
+      n=>`Essa mesa de produção está cheia de ${n}. Olha de perto como ele é preparado.`,
+      n=>`A cena mostra uma bancada longa de confecção com várias peças iguais ou parecidas, tecido sobre a mesa, trabalhadores ao fundo e iluminação simples de fábrica.`,
+      (n,p)=>`Uma unidade do ${n} é puxada para perto da câmera e mostrada em detalhes: ${p.details}. O produto deve parecer real, com volume, textura e proporção correta.`,
+      n=>`As mãos passam pela peça, ajustam o tecido e mostram o acabamento antes de ela ser dobrada ou separada.`,
+      n=>`Gostou do ${n}? Clica no carrinho e garante o seu antes que acabe.`
     ]},
-    {v:"Embalando Pedidos",s:[
-      n=>`Pedido do ${n} sendo preparado agora. Olha os detalhes antes de embalar.`,
-      n=>`A cena mostra caixas, sacolas e embalagens simples sobre a bancada, sem dados pessoais visíveis.`,
-      (n,p)=>`O ${n} aparece sendo posicionado para envio, com close em ${p.details}. O foco é mostrar o produto real antes de fechar o pedido.`,
-      n=>`As mãos fecham a embalagem e colocam o pedido junto de outros itens prontos para sair.`,
-      n=>`Se quiser receber o seu também, clica no carrinho e garante o ${n}.`
+    {v:"Lote de Jaquetas",s:[
+      n=>`Olha esse lote de ${n} sendo separado na fábrica. Tá saindo rápido.`,
+      n=>`A câmera mostra várias peças espalhadas sobre uma mesa de produção, com algumas unidades dobradas, outras abertas, e pessoas trabalhando ao fundo em ambiente de confecção.`,
+      (n,p)=>`O ${n} aparece aberto sobre a mesa, com close no tecido, costuras, zíper, capuz, mangas, bolsos, textura e acabamento. A peça precisa ocupar pelo menos 45% do frame.`,
+      n=>`As mãos levantam levemente uma parte da peça e depois colocam de volta na mesa, mostrando volume e acabamento real.`,
+      n=>`Se quiser o seu ${n}, aproveita o lote atual no carrinho.`
     ]},
-    {v:"Estoque Acabando",s:[
-      n=>`Esse ${n} está saindo muito. Olha o estoque sendo separado.`,
-      n=>`A câmera mostra poucas unidades restantes em uma prateleira ou bancada de estoque simples.`,
-      (n,p)=>`Uma unidade do ${n} é pega do estoque e mostrada de perto, com foco em ${p.details}.`,
-      n=>`O produto é colocado na embalagem, reforçando sensação de últimas unidades sem exagero.`,
-      n=>`Se quiser aproveitar, clica no carrinho antes que acabe.`
+    {v:"Costura e Acabamento",s:[
+      n=>`Antes de sair, o ${n} passa por conferência de acabamento. Olha isso.`,
+      n=>`A cena mostra ambiente de confecção com mesa grande, peças de roupa, trabalhadores ao fundo e clima real de produção têxtil brasileira.`,
+      (n,p)=>`O ${n} aparece sendo conferido sobre a mesa, com close em ${p.details}. A câmera valoriza costura, tecido, volume, zíper, capuz, bolsos e acabamento.`,
+      n=>`As mãos verificam uma costura, alinham a peça e mostram o acabamento sem movimentos rápidos.`,
+      n=>`Se você quer uma peça desse lote, clica no carrinho antes que acabe.`
     ]},
-    {v:"Direto da Fábrica",s:[
-      n=>`Direto do bastidor: olha o ${n} sendo preparado antes de sair.`,
-      n=>`A câmera mostra um ambiente simples de fábrica, estoque ou pequena operação de e-commerce.`,
-      (n,p)=>`O ${n} aparece em close na bancada, sendo manuseado com foco em ${p.details}.`,
-      n=>`As mãos organizam o produto para entrega, mantendo o item visível e fiel à referência.`,
-      n=>`Se você quer o seu ${n}, aproveita o lote atual no carrinho.`
-    ]},
-    {v:"Bancada de Produção",s:[
-      n=>`Olha esse ${n} na bancada antes de ir para embalagem.`,
-      n=>`A cena mostra uma bancada realista com produto, ferramentas simples de conferência e embalagem ao redor.`,
-      (n,p)=>`O ${n} é mostrado em cima da bancada, com close em ${p.details}, aparência real e textura visível.`,
-      n=>`As mãos alinham, dobram ou protegem o produto para envio.`,
+    {v:"Produção Têxtil",s:[
+      n=>`Direto da produção: olha o ${n} na mesa antes de ser separado.`,
+      n=>`A câmera mostra fábrica têxtil simples, mesa grande com roupas, trabalhadores sentados ao fundo, peças empilhadas e luz fria de galpão.`,
+      (n,p)=>`O ${n} aparece em primeiro plano sobre a mesa, com foco em ${p.details}. A cena mostra material, acabamento, estrutura e aparência real da peça.`,
+      n=>`As mãos dobram parcialmente a peça e aproximam a câmera dos detalhes principais.`,
       n=>`Clica no carrinho e garante o seu ${n} enquanto ainda tem.`
     ]},
-    {v:"Separação em Massa",s:[
-      n=>`Quando começa a sair assim, o ${n} não fica parado no estoque.`,
-      n=>`A câmera mostra várias unidades sendo separadas em sequência para pedidos diferentes.`,
-      (n,p)=>`Uma unidade do ${n} é destacada da pilha e mostrada em detalhes: ${p.details}.`,
-      n=>`O pedido é separado, colocado ao lado de outras embalagens e pronto para sair.`,
-      n=>`Se você quer entrar nesse lote, clica no carrinho agora.`
+    {v:"Peça Sobre a Mesa",s:[
+      n=>`Esse ${n} em cima da mesa da fábrica mostra melhor os detalhes.`,
+      n=>`A câmera começa mostrando a mesa com várias peças e depois aproxima uma unidade principal do ${n}.`,
+      (n,p)=>`O ${n} fica centralizado sobre a mesa, ocupando grande parte da imagem, com close em ${p.details}. O visual precisa ser realista, sem fundo de estúdio.`,
+      n=>`As mãos abrem a peça devagar, mostram o acabamento e deixam o produto bem visível.`,
+      n=>`Se gostou desse ${n}, clica no carrinho e aproveita.`
     ]},
-    {v:"Pedido Viral Saindo",s:[
-      n=>`Esse ${n} virou pedido atrás de pedido. Olha um saindo agora.`,
-      n=>`A câmera mostra uma bancada de pedidos com o produto sendo separado como item de alta procura.`,
-      (n,p)=>`O ${n} é aproximado da câmera, mostrando ${p.details}, sem mudar formato, cor ou acabamento.`,
-      n=>`As mãos embalam o produto de forma rápida, mas organizada e realista.`,
-      n=>`Se também quer o seu ${n}, aproveita antes que o lote acabe.`
+    {v:"Separação de Lote",s:[
+      n=>`Esse lote de ${n} já está sendo separado. Olha o movimento na mesa.`,
+      n=>`A cena mostra trabalhadores ao fundo, peças sobre a bancada e uma unidade do produto sendo puxada para demonstração.`,
+      (n,p)=>`O ${n} aparece em close sobre a mesa, com foco em ${p.details}. A cena precisa parecer gravação de celular dentro de uma confecção real.`,
+      n=>`As mãos alinham a peça junto às outras unidades, mostrando que faz parte de um lote em produção.`,
+      n=>`Se quiser garantir o seu ${n}, clica no carrinho antes que acabe.`
     ]},
-    {v:"Produto Inspecionado",s:[
-      n=>`Olha essa inspeção rápida no ${n} antes de enviar.`,
-      n=>`A câmera acompanha as mãos abrindo, virando ou posicionando o produto para verificar os detalhes.`,
-      (n,p)=>`O ${n} é inspecionado com close em ${p.details}, mostrando aparência real de produto pronto para envio.`,
-      n=>`Depois da inspeção, o item é colocado na embalagem junto aos materiais de envio.`,
-      n=>`Gostou do ${n}? Clica no carrinho e garante o seu.`
+    {v:"Fábrica Movimentada",s:[
+      n=>`A fábrica está movimentada com esse ${n}. Olha como ele aparece de perto.`,
+      n=>`A câmera mostra mesa de produção com várias peças, pessoas trabalhando ao fundo e ambiente de confecção sem luxo, realista e brasileiro.`,
+      (n,p)=>`O ${n} aparece em primeiro plano, com close no tecido, costuras, zíper, capuz, mangas, bolsos, textura e acabamento conforme o produto.`,
+      n=>`As mãos levantam uma parte da peça, mostram o volume e colocam novamente sobre a mesa.`,
+      n=>`Se você quer o seu, aproveita agora no carrinho.`
     ]},
-    {v:"Últimas Unidades na Bancada",s:[
-      n=>`Últimas unidades do ${n} aparecendo na bancada. Olha de perto.`,
-      n=>`A cena mostra poucas unidades organizadas, embalagem pronta e mãos separando uma delas.`,
-      (n,p)=>`O ${n} aparece em close, com foco em ${p.details}, reforçando acabamento e valor visual.`,
-      n=>`A unidade é embalada como pedido final daquele lote.`,
-      n=>`Se quiser garantir o seu, clica no carrinho antes que suma.`
+    {v:"Produto Antes do Envio",s:[
+      n=>`Antes de ir para o envio, o ${n} passa pela mesa de separação. Olha de perto.`,
+      n=>`A cena mostra ambiente de confecção com mesa grande, peças empilhadas, sacos simples ao lado e trabalhadores ao fundo.`,
+      (n,p)=>`O ${n} aparece aberto sobre a bancada, com close em ${p.details}. O foco é mostrar o produto real antes de ser dobrado e separado.`,
+      n=>`As mãos dobram a peça parcialmente, mantendo o produto visível e sem esconder os detalhes principais.`,
+      n=>`Se quiser receber o seu ${n}, clica no carrinho.`
+    ]},
+    {v:"Últimas Peças da Mesa",s:[
+      n=>`Últimas peças do ${n} ainda na mesa da fábrica. Olha antes de acabar.`,
+      n=>`A câmera mostra poucas unidades sobre a bancada, trabalhadores ao fundo e uma peça principal sendo trazida para perto.`,
+      (n,p)=>`O ${n} aparece em destaque, ocupando grande parte do frame, com foco em ${p.details}. A cena passa sensação real de lote final na confecção.`,
+      n=>`As mãos ajustam a peça, mostram o acabamento e deixam ela pronta para separação.`,
+      n=>`Corre no carrinho e garante o seu antes que esse lote acabe.`
     ]}
   ],
+
   bras:[
     {v:"Box Movimentado",s:[
       n=>`Achado de feira shop: olha esse ${n} no meio do movimento.`,
@@ -493,6 +721,7 @@ const COPY_BANK = {
       n=>`Se quiser o seu, aproveita antes que acabe.`
     ]}
   ],
+
   loja:[
     {v:"Atendente Mostrando",s:[
       n=>`A atendente pegou esse ${n} para mostrar de perto.`,
@@ -565,6 +794,7 @@ const COPY_BANK = {
       n=>`Quer testar também? Clica no carrinho.`
     ]}
   ],
+
   ugc:[
     {v:"Descoberta Real",s:[
       n=>`Eu quase deixei passar esse ${n}, mas olha os detalhes dele de perto.`,
@@ -627,6 +857,7 @@ const COPY_BANK = {
       n=>`Se você também gostou, clica no carrinho e aproveita.`
     ]}
   ],
+
   pov:[
     {v:"Hands Only Close",s:[
       n=>`POV: suas mãos pegam o ${n} e mostram por que ele chama atenção.`,
@@ -689,6 +920,7 @@ const COPY_BANK = {
       n=>`Se gostou do que viu, clica no carrinho.`
     ]}
   ],
+
   comparacao:[
     {v:"TikTok Shop x Loja Física",s:[
       n=>`Antes de pagar mais caro em loja física, olha esse ${n}.`,
@@ -754,13 +986,69 @@ const COPY_BANK = {
 };
 
 const CATEGORY = {
-  fashion:{label:"Moda / Vestuário",scene:"quarto brasileiro com espelho, loja de roupas popular ou ambiente urbano simples",subject:"pessoa brasileira adulta vestindo ou experimentando a peça, postura natural e movimentos simples",pain:"frio, falta de estilo, roupa desconfortável ou peça bonita difícil de achar",desire:"vestir melhor, ficar confortável e valorizar o visual",details:"tecido, costuras, zíper, botões, capuz, mangas, bolsos, textura, caimento, acabamento e aparência no corpo",demo:"A peça aparece sendo vestida e mostrada no corpo da personagem, com close no tecido, costuras, zíper, botões, capuz, mangas, bolsos, textura e caimento. A pessoa mostra a roupa em uso real, destacando conforto, estilo, acabamento e aparência no corpo."},
-  home:{label:"Casa / Decoração",scene:"casa brasileira realista, cozinha, sala ou quarto simples, luz natural de janela",subject:"pessoa brasileira adulta mostrando o produto no ambiente, postura relaxada e movimentos simples",pain:"bagunça, canto sem graça, falta de espaço ou ambiente sem organização",desire:"organizar, decorar e aproveitar melhor o espaço",details:"material, acabamento, bordas, estrutura, formato, tamanho, encaixe, cor, proporção e utilidade no ambiente",demo:"O produto aparece sendo mostrado e posicionado no ambiente real, com close no acabamento, estrutura, material, tamanho, bordas, proporção e utilidade no espaço. A pessoa demonstra o uso real e o valor visual do produto no contexto da casa."},
-  electronics:{label:"Eletrônicos",scene:"mesa brasileira simples, quarto ou escritório doméstico, produto sendo testado em ambiente real",subject:"pessoa brasileira adulta segurando, ligando ou testando o eletrônico com movimentos controlados",pain:"falta de praticidade, produto antigo, necessidade de função rápida ou solução tecnológica simples",desire:"ter mais praticidade, testar funções e melhorar o uso no dia a dia",details:"botões, tela, luzes, conexões, entrada USB, cabo, acabamento, encaixe, som, função e tamanho real",demo:"O produto aparece sendo segurado e testado pela pessoa, com close nos botões, conexões, tela, luzes, acabamento, encaixe, cabo e funcionamento real. A cena mostra o uso prático e os detalhes principais do produto em ação."},
-  beauty:{label:"Beleza",scene:"banheiro ou penteadeira brasileira simples, espelho, luz natural suave, ambiente limpo e realista",subject:"pessoa brasileira adulta mostrando ou aplicando o produto com movimentos suaves e controlados",pain:"rotina corrida, falta de praticidade ou desejo de melhorar aparência",desire:"cuidar da aparência e melhorar a rotina de autocuidado",details:"embalagem, tampa, textura, consistência, cor, aplicação, quantidade usada e modo de uso",demo:"O produto aparece sendo mostrado e aplicado em rotina real, com close na embalagem, textura, tampa, rótulo não legível, consistência e modo de uso. A pessoa demonstra o produto com movimentos suaves, sem exagero e sem filtro de beleza."},
-  tools:{label:"Ferramentas",scene:"bancada de oficina brasileira, garagem ou área de trabalho simples, ambiente realista",subject:"mãos de trabalhador brasileiro usando ou mostrando a ferramenta com segurança e movimento simples",pain:"trabalho difícil, improviso, falta de ferramenta adequada ou perda de tempo",desire:"facilitar o serviço, ganhar precisão e resolver com mais eficiência",details:"cabo, ponta, encaixe, corpo, material, resistência, função, tamanho e acabamento",demo:"A ferramenta aparece sendo segurada e usada pela pessoa, com close no material, pegada, cabo, encaixe, pontas, corpo, resistência e funcionamento real. A cena destaca praticidade, utilidade e aplicação no trabalho."},
-  pets:{label:"Pets",scene:"casa brasileira com área de pet, sala ou quintal simples, ambiente realista",subject:"adulto brasileiro mostrando o produto para uso com cachorro ou gato, movimentos controlados",pain:"bagunça, falta de conforto para o pet ou rotina difícil",desire:"cuidar melhor do pet e trazer conforto",details:"material, tamanho, textura, resistência, cor, função, conforto e uso com pet",demo:"O produto aparece sendo mostrado e usado em rotina real com pet, com close no material, tamanho, textura, resistência, cor e função. A cena destaca conforto, praticidade e interação segura."},
-  generic:{label:"Produto Geral",scene:"ambiente brasileiro realista, mesa simples, luz natural, produto sendo mostrado de perto",subject:"pessoa brasileira adulta mostrando o produto com postura natural e movimentos simples",pain:"necessidade prática do dia a dia ou compra por oportunidade",desire:"resolver uma necessidade com praticidade",details:"material, acabamento, textura, formato, tamanho, função, proporção e uso real",demo:"O produto aparece em uso real, sendo mostrado pela pessoa, com foco nos detalhes visuais mais importantes. A cena destaca acabamento, material, estrutura, tamanho, proporção, função e utilidade real no contexto certo."}
+  fashion:{
+    label:"Moda / Vestuário",
+    scene:"quarto brasileiro com espelho, loja de roupas popular ou ambiente urbano simples",
+    subject:"pessoa brasileira adulta vestindo ou experimentando a peça, postura natural e movimentos simples",
+    pain:"frio, falta de estilo, roupa desconfortável ou peça bonita difícil de achar",
+    desire:"vestir melhor, ficar confortável e valorizar o visual",
+    details:"tecido, costuras, zíper, botões, capuz, mangas, bolsos, textura, caimento, acabamento e aparência no corpo",
+    demo:"A peça aparece sendo vestida e mostrada no corpo da personagem, com close no tecido, costuras, zíper, botões, capuz, mangas, bolsos, textura e caimento. A pessoa mostra a roupa em uso real, destacando conforto, estilo, acabamento e aparência no corpo."
+  },
+  home:{
+    label:"Casa / Decoração",
+    scene:"casa brasileira realista, cozinha, sala ou quarto simples, luz natural de janela",
+    subject:"pessoa brasileira adulta mostrando o produto no ambiente, postura relaxada e movimentos simples",
+    pain:"bagunça, canto sem graça, falta de espaço ou ambiente sem organização",
+    desire:"organizar, decorar e aproveitar melhor o espaço",
+    details:"material, acabamento, bordas, estrutura, formato, tamanho, encaixe, cor, proporção e utilidade no ambiente",
+    demo:"O produto aparece sendo mostrado e posicionado no ambiente real, com close no acabamento, estrutura, material, tamanho, bordas, proporção e utilidade no espaço. A pessoa demonstra o uso real e o valor visual do produto no contexto da casa."
+  },
+  electronics:{
+    label:"Eletrônicos",
+    scene:"mesa brasileira simples, quarto ou escritório doméstico, produto sendo testado em ambiente real",
+    subject:"pessoa brasileira adulta segurando, ligando ou testando o eletrônico com movimentos controlados",
+    pain:"falta de praticidade, produto antigo, necessidade de função rápida ou solução tecnológica simples",
+    desire:"ter mais praticidade, testar funções e melhorar o uso no dia a dia",
+    details:"botões, tela, luzes, conexões, entrada USB, cabo, acabamento, encaixe, som, função e tamanho real",
+    demo:"O produto aparece sendo segurado e testado pela pessoa, com close nos botões, conexões, tela, luzes, acabamento, encaixe, cabo e funcionamento real. A cena mostra o uso prático e os detalhes principais do produto em ação."
+  },
+  beauty:{
+    label:"Beleza",
+    scene:"banheiro ou penteadeira brasileira simples, espelho, luz natural suave, ambiente limpo e realista",
+    subject:"pessoa brasileira adulta mostrando ou aplicando o produto com movimentos suaves e controlados",
+    pain:"rotina corrida, falta de praticidade ou desejo de melhorar aparência",
+    desire:"cuidar da aparência e melhorar a rotina de autocuidado",
+    details:"embalagem, tampa, textura, consistência, cor, aplicação, quantidade usada e modo de uso",
+    demo:"O produto aparece sendo mostrado e aplicado em rotina real, com close na embalagem, textura, tampa, rótulo não legível, consistência e modo de uso. A pessoa demonstra o produto com movimentos suaves, sem exagero e sem filtro de beleza."
+  },
+  tools:{
+    label:"Ferramentas",
+    scene:"bancada de oficina brasileira, garagem ou área de trabalho simples, ambiente realista",
+    subject:"mãos de trabalhador brasileiro usando ou mostrando a ferramenta com segurança e movimento simples",
+    pain:"trabalho difícil, improviso, falta de ferramenta adequada ou perda de tempo",
+    desire:"facilitar o serviço, ganhar precisão e resolver com mais eficiência",
+    details:"cabo, ponta, encaixe, corpo, material, resistência, função, tamanho e acabamento",
+    demo:"A ferramenta aparece sendo segurada e usada pela pessoa, com close no material, pegada, cabo, encaixe, pontas, corpo, resistência e funcionamento real. A cena destaca praticidade, utilidade e aplicação no trabalho."
+  },
+  pets:{
+    label:"Pets",
+    scene:"casa brasileira com área de pet, sala ou quintal simples, ambiente realista",
+    subject:"adulto brasileiro mostrando o produto para uso com cachorro ou gato, movimentos controlados",
+    pain:"bagunça, falta de conforto para o pet ou rotina difícil",
+    desire:"cuidar melhor do pet e trazer conforto",
+    details:"material, tamanho, textura, resistência, cor, função, conforto e uso com pet",
+    demo:"O produto aparece sendo mostrado e usado em rotina real com pet, com close no material, tamanho, textura, resistência, cor e função. A cena destaca conforto, praticidade e interação segura."
+  },
+  generic:{
+    label:"Produto Geral",
+    scene:"ambiente brasileiro realista, mesa simples, luz natural, produto sendo mostrado de perto",
+    subject:"pessoa brasileira adulta mostrando o produto com postura natural e movimentos simples",
+    pain:"necessidade prática do dia a dia ou compra por oportunidade",
+    desire:"resolver uma necessidade com praticidade",
+    details:"material, acabamento, textura, formato, tamanho, função, proporção e uso real",
+    demo:"O produto aparece em uso real, sendo mostrado pela pessoa, com foco nos detalhes visuais mais importantes. A cena destaca acabamento, material, estrutura, tamanho, proporção, função e utilidade real no contexto certo."
+  }
 };
 
 const counts = {};
@@ -773,13 +1061,14 @@ function renderStyles(){
   exclusive.innerHTML="";
 
   Object.entries(STYLE_LIBRARY).forEach(([id,s])=>{
+    const copies = COPY_BANK[id] ? COPY_BANK[id].length : 0;
     const card=document.createElement("div");
     card.className="style-card";
     card.innerHTML=`
       <div class="style-top">
         <div>
           <div class="style-name">${s.icon} ${s.title}</div>
-          <div class="style-sub">${s.subtitle} · ${s.scenes} cenas · 10 copies reais</div>
+          <div class="style-sub">${s.subtitle} · ${s.scenes} cenas · ${copies} copies reais</div>
           <div class="style-desc">${s.desc}</div>
         </div>
         <div class="counter">
@@ -852,10 +1141,10 @@ function resetCounts(show=true){
   Object.keys(counts).forEach(k=>counts[k]=0);
   Object.keys(STYLE_LIBRARY).forEach(k=>{
     const el=document.getElementById("count-"+k);
-    if(el)el.textContent=0;
+    if(el) el.textContent=0;
   });
   updateTotal();
-  if(show)showMessage("Modelos zerados.");
+  if(show) showMessage("Modelos zerados.");
 }
 
 document.getElementById("imageUpload").addEventListener("change",function(e){
@@ -884,41 +1173,46 @@ function normalizeText(t){
 
 function detectCategory(text){
   const t=normalizeText(text);
-  if(t.match(/jaqueta|casaco|bobojaco|puffer|moletom|camisa|camiseta|calça|calca|vestido|blusa|tenis|tênis|sapato|sandalia|sandália|roupa|moda|capuz|ziper|zíper/))return"fashion";
-  if(t.match(/prateleira|nicho|mesa|decoracao|decoração|mdf|casa|cozinha|sala|quarto|organizador|parede/))return"home";
-  if(t.match(/fone|bluetooth|radio|rádio|caixa de som|smartwatch|teclado|mouse|camera|câmera|led|usb|eletrônico|eletronico|bateria/))return"electronics";
-  if(t.match(/creme|serum|sérum|shampoo|maquiagem|batom|base|hidratante|skincare|beleza|perfume/))return"beauty";
-  if(t.match(/ferramenta|furadeira|parafusadeira|alicate|martelo|serra|broca|oficina/))return"tools";
-  if(t.match(/pet|cachorro|gato|comedouro|bebedouro|coleira/))return"pets";
-  return"generic";
+  if(t.match(/jaqueta|casaco|bobojaco|puffer|moletom|camisa|camiseta|calça|calca|vestido|blusa|tenis|tênis|sapato|sandalia|sandália|roupa|moda|capuz|ziper|zíper/)) return "fashion";
+  if(t.match(/prateleira|nicho|mesa|decoracao|decoração|mdf|casa|cozinha|sala|quarto|organizador|parede/)) return "home";
+  if(t.match(/fone|bluetooth|radio|rádio|caixa de som|smartwatch|teclado|mouse|camera|câmera|led|usb|eletrônico|eletronico|bateria/)) return "electronics";
+  if(t.match(/creme|serum|sérum|shampoo|maquiagem|batom|base|hidratante|skincare|beleza|perfume/)) return "beauty";
+  if(t.match(/ferramenta|furadeira|parafusadeira|alicate|martelo|serra|broca|oficina/)) return "tools";
+  if(t.match(/pet|cachorro|gato|comedouro|bebedouro|coleira/)) return "pets";
+  return "generic";
 }
 
 function getProductData(){
   const name=document.getElementById("productTitle").value.trim();
   const desc=document.getElementById("productDescription").value.trim();
+
   if(!name){
     showMessage("Digite o nome do produto.");
     return null;
   }
+
   let cat=document.getElementById("category").value;
-  if(cat==="auto")cat=detectCategory(name+" "+desc+" "+uploadedFileNames.join(" "));
-  const profile=CATEGORY[cat]||CATEGORY.generic;
-  return{
+  if(cat==="auto") cat=detectCategory(name+" "+desc+" "+uploadedFileNames.join(" "));
+  const profile=CATEGORY[cat] || CATEGORY.generic;
+
+  return {
     name,
-    desc:desc||"produto físico de e-commerce com características conforme imagem e título",
+    desc:desc || "produto físico de e-commerce com características conforme imagem e título",
     categoryId:cat,
     profile,
     duration:document.getElementById("duration").value,
     wardrobe:document.getElementById("wardrobe").value.trim(),
     manualScene:document.getElementById("manualScene").value.trim(),
     secondary:document.getElementById("secondaryProducts").value.trim(),
-    refImages:uploadedFileNames.length?uploadedFileNames.map((n,i)=>`Imagem de referência ${i+1}: ${n}`).join("; "):"Nenhuma imagem enviada; usar título e descrição como referência principal."
+    refImages:uploadedFileNames.length
+      ? uploadedFileNames.map((n,i)=>`Imagem de referência ${i+1}: ${n}`).join("; ")
+      : "Nenhuma imagem enviada; usar título e descrição como referência principal."
   };
 }
 
 function generateExclusive(styleId){
   const d=getProductData();
-  if(!d)return;
+  if(!d) return;
   generatedPrompts=[makePrompt(styleId,d,1,1)];
   currentPromptIndex=0;
   currentSceneKey="full";
@@ -929,7 +1223,7 @@ function generateExclusive(styleId){
 
 function generateVariation(styleId,variationIndex){
   const d=getProductData();
-  if(!d)return;
+  if(!d) return;
   generatedPrompts=[makePrompt(styleId,d,1,variationIndex)];
   currentPromptIndex=0;
   currentSceneKey="full";
@@ -941,7 +1235,8 @@ function generateVariation(styleId,variationIndex){
 
 function generateCampaign(){
   const d=getProductData();
-  if(!d)return;
+  if(!d) return;
+
   generatedPrompts=[];
   let index=1;
 
@@ -949,6 +1244,7 @@ function generateCampaign(){
     const total=Number(document.getElementById("mixedTotal").value||5);
     const order=getSmartMix(document.getElementById("campaignGoal").value);
     const used={};
+
     for(let i=0;i<total;i++){
       const styleId=order[i%order.length];
       used[styleId]=(used[styleId]||0)+1;
@@ -978,10 +1274,10 @@ function generateCampaign(){
 }
 
 function getSmartMix(goal){
-  if(goal==="sales")return["ugc","comparacao","pov","loja","bras","fabrica"];
-  if(goal==="proof")return["fabrica","loja","bras","pov","ugc","comparacao"];
-  if(goal==="viral")return["ugc","bras","pov","comparacao","loja","fabrica"];
-  return["ugc","pov","comparacao","fabrica","bras","loja"];
+  if(goal==="sales") return ["ugc","comparacao","pov","loja","bras","fabrica"];
+  if(goal==="proof") return ["fabrica","loja","bras","pov","ugc","comparacao"];
+  if(goal==="viral") return ["ugc","bras","pov","comparacao","loja","fabrica"];
+  return ["ugc","pov","comparacao","fabrica","bras","loja"];
 }
 
 function makePrompt(styleId,d,index,occurrence){
@@ -990,12 +1286,14 @@ function makePrompt(styleId,d,index,occurrence){
   const item=bank[(occurrence-1)%bank.length];
   const scenes=buildScenesFromBank(item,d);
   const technical=buildTechnical(styleId,d,item.v);
+
   const full=`━━━━ PROMPT ${index} — ${style.title} · ${style.subtitle} · ${item.v.toUpperCase()} ━━━━
 
 ${scenes.join("\n\n")}
 
 ${technical}`;
-  return{
+
+  return {
     id:index,
     styleId,
     styleTitle:style.title,
@@ -1015,32 +1313,64 @@ ${technical}`;
 
 function buildScenesFromBank(item,d){
   return item.s.map((fn,i)=>{
-    const title=i===0?"CENA 1 — Scroll Stop":i===1?"CENA 2 — Desenvolvimento":i===2?"CENA 3 — Demonstração Detalhada":i===3?"CENA 4 — Reforço / Ação":"CENA 5 — CTA · CTA";
+    const title=i===0
+      ? "CENA 1 — Scroll Stop"
+      : i===1
+      ? "CENA 2 — Desenvolvimento"
+      : i===2
+      ? "CENA 3 — Demonstração Detalhada"
+      : i===3
+      ? "CENA 4 — Reforço / Ação"
+      : "CENA 5 — CTA · CTA";
+
     const raw=fn(d.name,d.profile);
-    return raw.startsWith("━━━━")?raw:`━━━━ ${title} ━━━━\n${raw}`;
+    return raw.startsWith("━━━━") ? raw : `━━━━ ${title} ━━━━\n${raw}`;
   });
 }
 
 function buildTechnical(styleId,d,variation){
   const p=d.profile;
-  let scene=d.manualScene||p.scene;
+  let scene=d.manualScene || p.scene;
 
-  if(styleId==="fabrica")scene=d.manualScene||"bastidor brasileiro realista de fábrica, estoque ou pequena operação de e-commerce, com bancada de conferência, caixas simples, produtos separados, embalagem básica, etiquetas sem dados legíveis, luz natural misturada com iluminação interna simples";
-  if(styleId==="bras")scene=d.manualScene||"feira shop brasileira estilo Brás, box popular movimentado, araras, prateleiras, sacolas, vendedores ao fundo, produtos expostos, ambiente comercial realista, luz simples de loja popular";
-  if(styleId==="loja")scene=d.manualScene||"loja brasileira popular de varejo, prateleiras, balcão simples, cartazes promocionais sem textos legíveis, produto sendo mostrado por atendente ou cliente, iluminação interna realista";
-  if(styleId==="pov")scene=d.manualScene||"ambiente brasileiro realista adequado ao produto, mesa simples, bancada, quarto, loja ou superfície neutra, com foco total nas mãos e no produto";
-  if(styleId==="comparacao")scene=d.manualScene||"ambiente brasileiro realista de comparação, podendo ser loja popular, bancada simples, mesa doméstica ou cenário neutro, mostrando alternativa comum e o produto principal lado a lado";
-  if(styleId==="ugc")scene=d.manualScene||"ambiente doméstico brasileiro realista adequado ao produto, com luz natural, aparência de gravação de smartphone, sem cara de estúdio";
+  if(styleId==="fabrica"){
+    scene=d.manualScene || "fábrica têxtil brasileira realista ou pequena confecção, mesa grande de produção, várias peças do produto abertas e empilhadas sobre a bancada, trabalhadores ao fundo manuseando roupas, ambiente simples de galpão, luz fria/fluorescente misturada com luz natural, aparência de gravação real de celular dentro da produção";
+  }
+  if(styleId==="bras"){
+    scene=d.manualScene || "feira shop brasileira estilo Brás, box popular movimentado, araras, prateleiras, sacolas, vendedores ao fundo, produtos expostos, ambiente comercial realista, luz simples de loja popular";
+  }
+  if(styleId==="loja"){
+    scene=d.manualScene || "loja brasileira popular de varejo, prateleiras, balcão simples, cartazes promocionais sem textos legíveis, produto sendo mostrado por atendente ou cliente, iluminação interna realista";
+  }
+  if(styleId==="pov"){
+    scene=d.manualScene || "ambiente brasileiro realista adequado ao produto, mesa simples, bancada, quarto, loja ou superfície neutra, com foco total nas mãos e no produto";
+  }
+  if(styleId==="comparacao"){
+    scene=d.manualScene || "ambiente brasileiro realista de comparação, podendo ser loja popular, bancada simples, mesa doméstica ou cenário neutro, mostrando alternativa comum e o produto principal lado a lado";
+  }
+  if(styleId==="ugc"){
+    scene=d.manualScene || "ambiente doméstico brasileiro realista adequado ao produto, com luz natural, aparência de gravação de smartphone, sem cara de estúdio";
+  }
 
   let subject=p.subject;
-  if(styleId==="pov")subject=`POV hands only, no face, two realistic adult hands showing the ${d.name}.`;
-  if(styleId==="fabrica")subject=`two realistic adult hands working in a warehouse/factory-style packing table, checking, handling and preparing the ${d.name}. No face required.`;
-  if(styleId==="bras")subject=`Brazilian seller or adult hands showing the ${d.name} in a busy popular feira shop environment, natural sales gesture, realistic movement.`;
-  if(styleId==="loja")subject=`Brazilian retail attendant or customer hands showing the ${d.name} in a simple store environment, natural product demonstration.`;
-  if(styleId==="comparacao")subject=`one Brazilian adult person or two realistic hands comparing the ${d.name} with a common alternative, simple and clear demonstration.`;
 
-  const wardrobe=d.wardrobe?`Wardrobe: ${d.wardrobe}.`:getDefaultWardrobe(styleId);
-  const props=d.secondary?`Secondary products / props: ${d.secondary}.`:getDefaultProps(styleId);
+  if(styleId==="pov"){
+    subject=`POV hands only, no face, two realistic adult hands showing the ${d.name}.`;
+  }
+  if(styleId==="fabrica"){
+    subject=`two realistic adult hands showing and adjusting the ${d.name} on a large textile production table, with workers in the background handling similar pieces. No face required, product must dominate the frame.`;
+  }
+  if(styleId==="bras"){
+    subject=`Brazilian seller or adult hands showing the ${d.name} in a busy popular feira shop environment, natural sales gesture, realistic movement.`;
+  }
+  if(styleId==="loja"){
+    subject=`Brazilian retail attendant or customer hands showing the ${d.name} in a simple store environment, natural product demonstration.`;
+  }
+  if(styleId==="comparacao"){
+    subject=`one Brazilian adult person or two realistic hands comparing the ${d.name} with a common alternative, simple and clear demonstration.`;
+  }
+
+  const wardrobe=d.wardrobe ? `Wardrobe: ${d.wardrobe}.` : getDefaultWardrobe(styleId);
+  const props=d.secondary ? `Secondary products / props: ${d.secondary}.` : getDefaultProps(styleId);
 
   return `[SCENE]:
 ${scene}.
@@ -1075,6 +1405,7 @@ Selected style: ${STYLE_LIBRARY[styleId].title} / ${STYLE_LIBRARY[styleId].subti
 Variation: ${variation}.
 Follow the scene structure exactly.
 Do not mix this style with another environment.
+If selected style is FÁBRICA, the scene must look like a real textile production environment with a large production table, several pieces visible and workers in the background.
 
 [PRODUCT LOCK]:
 Do not replace the product.
@@ -1097,21 +1428,21 @@ beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone in
 }
 
 function getDefaultWardrobe(styleId){
-  if(styleId==="fabrica")return"Wardrobe: simple warehouse/packing worker outfit, neutral t-shirt or apron, realistic and not branded.";
-  if(styleId==="bras")return"Wardrobe: popular Brazilian seller outfit, casual clothes or simple store uniform, realistic feira shop style.";
-  if(styleId==="loja")return"Wardrobe: simple Brazilian retail store uniform or casual attendant outfit, realistic and not branded.";
-  if(styleId==="pov")return"Wardrobe: not visible, hands only.";
-  if(styleId==="comparacao")return"Wardrobe: simple realistic UGC outfit suitable for comparing products.";
-  return"Wardrobe: simple realistic UGC outfit suitable for the scene.";
+  if(styleId==="fabrica") return "Wardrobe: simple textile factory or garment workshop outfit, neutral t-shirt, dark clothing or basic workwear, realistic and not branded.";
+  if(styleId==="bras") return "Wardrobe: popular Brazilian seller outfit, casual clothes or simple store uniform, realistic feira shop style.";
+  if(styleId==="loja") return "Wardrobe: simple Brazilian retail store uniform or casual attendant outfit, realistic and not branded.";
+  if(styleId==="pov") return "Wardrobe: not visible, hands only.";
+  if(styleId==="comparacao") return "Wardrobe: simple realistic UGC outfit suitable for comparing products.";
+  return "Wardrobe: simple realistic UGC outfit suitable for the scene.";
 }
 
 function getDefaultProps(styleId){
-  if(styleId==="fabrica")return"Secondary products / props: packing table, cardboard boxes, simple plastic packaging, product units, shipping bags, labels without readable personal data.";
-  if(styleId==="bras")return"Secondary products / props: feira shop box, simple racks, shelves, bags, product stacks, popular commerce background, no readable brand signs.";
-  if(styleId==="loja")return"Secondary products / props: retail shelves, counter, simple promotional signs without readable text, product display, shopping bag.";
-  if(styleId==="pov")return"Secondary products / props: simple table, neutral surface, product packaging if useful, no distracting objects.";
-  if(styleId==="comparacao")return"Secondary products / props: common alternative product, simple table or store shelf, side-by-side comparison setup.";
-  return"Secondary products / props: simple packaging, table, shelf or neutral realistic items only when useful.";
+  if(styleId==="fabrica") return "Secondary products / props: large production table, multiple units of the same product, stacked or opened pieces, garment bundles, simple textile factory background, workers behind the table, no readable brand signs.";
+  if(styleId==="bras") return "Secondary products / props: feira shop box, simple racks, shelves, bags, product stacks, popular commerce background, no readable brand signs.";
+  if(styleId==="loja") return "Secondary products / props: retail shelves, counter, simple promotional signs without readable text, product display, shopping bag.";
+  if(styleId==="pov") return "Secondary products / props: simple table, neutral surface, product packaging if useful, no distracting objects.";
+  if(styleId==="comparacao") return "Secondary products / props: common alternative product, simple table or store shelf, side-by-side comparison setup.";
+  return "Secondary products / props: simple packaging, table, shelf or neutral realistic items only when useful.";
 }
 
 function renderOutput(){
@@ -1125,17 +1456,28 @@ function renderOutput(){
 function renderPromptTabs(){
   const tabs=document.getElementById("promptTabs");
   tabs.innerHTML="";
+
   generatedPrompts.forEach((p,i)=>{
     const wrap=document.createElement("div");
     wrap.className="prompt-tab-wrap";
+
     const btn=document.createElement("button");
     btn.className="tab"+(i===currentPromptIndex?" active":"");
     btn.innerHTML=`${p.styleTitle} ${p.id}${p.approved?'<span class="approved">OK</span>':''}`;
-    btn.onclick=()=>{currentPromptIndex=i;currentSceneKey="full";renderOutput();};
+    btn.onclick=()=>{
+      currentPromptIndex=i;
+      currentSceneKey="full";
+      renderOutput();
+    };
+
     const copy=document.createElement("button");
     copy.className="copy-mini";
     copy.textContent="Copiar";
-    copy.onclick=(e)=>{e.stopPropagation();copyText(p.scenes.full,`Prompt ${p.id} copiado!`);};
+    copy.onclick=(e)=>{
+      e.stopPropagation();
+      copyText(p.scenes.full,`Prompt ${p.id} copiado!`);
+    };
+
     wrap.appendChild(btn);
     wrap.appendChild(copy);
     tabs.appendChild(wrap);
@@ -1145,57 +1487,93 @@ function renderPromptTabs(){
 function renderSceneTabs(){
   const tabs=document.getElementById("sceneTabs");
   tabs.innerHTML="";
-  if(!generatedPrompts.length)return;
+  if(!generatedPrompts.length) return;
+
   const p=generatedPrompts[currentPromptIndex];
   const keys=[["scene1","Cena 1"],["scene2","Cena 2"],["scene3","Cena 3"],["scene4","Cena 4"]];
-  if(p.scenes.scene5)keys.push(["scene5","Cena 5"]);
+  if(p.scenes.scene5) keys.push(["scene5","Cena 5"]);
   keys.push(["technical","Técnico"],["full","Prompt Completo"]);
+
   keys.forEach(([key,label])=>{
     const btn=document.createElement("button");
     btn.className="tab"+(key===currentSceneKey?" active":"");
     btn.textContent=label;
-    btn.onclick=()=>{currentSceneKey=key;renderSceneTabs();renderViewer();};
+    btn.onclick=()=>{
+      currentSceneKey=key;
+      renderSceneTabs();
+      renderViewer();
+    };
     tabs.appendChild(btn);
   });
 }
 
 function renderViewer(){
   const viewer=document.getElementById("viewer");
+
   if(!generatedPrompts.length){
     viewer.className="empty";
     viewer.textContent="Preencha os dados e gere um prompt exclusivo ou uma campanha.";
     document.getElementById("copyBar").style.display="none";
     return;
   }
+
   viewer.className="viewer";
   const p=generatedPrompts[currentPromptIndex];
-  viewer.textContent=p.scenes[currentSceneKey]||p.scenes.full;
+  viewer.textContent=p.scenes[currentSceneKey] || p.scenes.full;
 }
 
-function getCurrentPrompt(){return generatedPrompts[currentPromptIndex]||null;}
+function getCurrentPrompt(){
+  return generatedPrompts[currentPromptIndex] || null;
+}
 
 function copyText(text,msg){
-  if(!text){showMessage("Nada para copiar.");return;}
-  navigator.clipboard.writeText(text).then(()=>showMessage(msg||"Copiado!")).catch(()=>showMessage("Não foi possível copiar."));
+  if(!text){
+    showMessage("Nada para copiar.");
+    return;
+  }
+  navigator.clipboard.writeText(text)
+    .then(()=>showMessage(msg||"Copiado!"))
+    .catch(()=>showMessage("Não foi possível copiar."));
 }
 
-function copyCurrentPromptFull(){const p=getCurrentPrompt();if(!p)return showMessage("Gere um prompt primeiro.");copyText(p.scenes.full,"Prompt completo copiado!");}
-function copyCurrentSceneOnly(){const p=getCurrentPrompt();if(!p)return showMessage("Gere um prompt primeiro.");copyText(p.scenes[currentSceneKey]||p.scenes.full,"Cena atual copiada!");}
+function copyCurrentPromptFull(){
+  const p=getCurrentPrompt();
+  if(!p) return showMessage("Gere um prompt primeiro.");
+  copyText(p.scenes.full,"Prompt completo copiado!");
+}
+
+function copyCurrentSceneOnly(){
+  const p=getCurrentPrompt();
+  if(!p) return showMessage("Gere um prompt primeiro.");
+  copyText(p.scenes[currentSceneKey]||p.scenes.full,"Cena atual copiada!");
+}
+
 function copySceneWithTechnical(){
   const p=getCurrentPrompt();
-  if(!p)return showMessage("Gere um prompt primeiro.");
+  if(!p) return showMessage("Gere um prompt primeiro.");
+
   let text="";
-  if(currentSceneKey==="full")text=p.scenes.full;
-  else if(currentSceneKey==="technical")text=p.scenes.technical;
+  if(currentSceneKey==="full") text=p.scenes.full;
+  else if(currentSceneKey==="technical") text=p.scenes.technical;
   else text=(p.scenes[currentSceneKey]||"")+"\n\n"+p.scenes.technical;
+
   copyText(text,"Cena + técnico copiado!");
 }
-function copyCurrentView(){const p=getCurrentPrompt();if(!p)return showMessage("Gere um prompt primeiro.");copyText(p.scenes[currentSceneKey]||p.scenes.full,"Aba atual copiada!");}
-function copyAll(){if(!generatedPrompts.length)return showMessage("Gere uma campanha primeiro.");copyText(generatedPrompts.map(p=>p.scenes.full).join("\n\n"),"Tudo copiado!");}
+
+function copyCurrentView(){
+  const p=getCurrentPrompt();
+  if(!p) return showMessage("Gere um prompt primeiro.");
+  copyText(p.scenes[currentSceneKey]||p.scenes.full,"Aba atual copiada!");
+}
+
+function copyAll(){
+  if(!generatedPrompts.length) return showMessage("Gere uma campanha primeiro.");
+  copyText(generatedPrompts.map(p=>p.scenes.full).join("\n\n"),"Tudo copiado!");
+}
 
 function approveCurrent(){
   const p=getCurrentPrompt();
-  if(!p)return showMessage("Gere um prompt primeiro.");
+  if(!p) return showMessage("Gere um prompt primeiro.");
   p.approved=true;
   renderOutput();
   showMessage("Prompt aprovado!");
@@ -1203,9 +1581,14 @@ function approveCurrent(){
 
 function favoriteCurrent(){
   const p=getCurrentPrompt();
-  if(!p)return showMessage("Gere um prompt primeiro.");
+  if(!p) return showMessage("Gere um prompt primeiro.");
+
   const favs=JSON.parse(localStorage.getItem("promptflow_v52_favorites")||"[]");
-  favs.unshift({title:`${p.styleTitle} · ${p.variation}`,date:new Date().toLocaleString("pt-BR"),prompt:p});
+  favs.unshift({
+    title:`${p.styleTitle} · ${p.variation}`,
+    date:new Date().toLocaleString("pt-BR"),
+    prompt:p
+  });
   localStorage.setItem("promptflow_v52_favorites",JSON.stringify(favs.slice(0,30)));
   renderFavorites();
   updateAnalytics();
@@ -1213,11 +1596,14 @@ function favoriteCurrent(){
 }
 
 function downloadTxt(){
-  if(!generatedPrompts.length)return showMessage("Gere uma campanha primeiro.");
+  if(!generatedPrompts.length) return showMessage("Gere uma campanha primeiro.");
+
   const title=document.getElementById("productTitle").value.trim()||"promptflow";
   const safe=title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+
   const blob=new Blob([generatedPrompts.map(p=>p.scenes.full).join("\n\n")],{type:"text/plain;charset=utf-8"});
   const url=URL.createObjectURL(blob);
+
   const a=document.createElement("a");
   a.href=url;
   a.download=safe+"-promptflow-v5-2.txt";
@@ -1225,12 +1611,17 @@ function downloadTxt(){
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+
   showMessage("Arquivo baixado.");
 }
 
 function saveHistory(title,prompts){
   const history=JSON.parse(localStorage.getItem("promptflow_v52_history")||"[]");
-  history.unshift({title,date:new Date().toLocaleString("pt-BR"),prompts});
+  history.unshift({
+    title,
+    date:new Date().toLocaleString("pt-BR"),
+    prompts
+  });
   localStorage.setItem("promptflow_v52_history",JSON.stringify(history.slice(0,20)));
   renderHistory();
 }
@@ -1238,7 +1629,12 @@ function saveHistory(title,prompts){
 function renderHistory(){
   const list=document.getElementById("historyList");
   const history=JSON.parse(localStorage.getItem("promptflow_v52_history")||"[]");
-  if(!history.length){list.innerHTML="Nenhuma campanha salva ainda.";return;}
+
+  if(!history.length){
+    list.innerHTML="Nenhuma campanha salva ainda.";
+    return;
+  }
+
   list.innerHTML="";
   history.forEach(item=>{
     const div=document.createElement("div");
@@ -1259,7 +1655,12 @@ function renderHistory(){
 function renderFavorites(){
   const list=document.getElementById("favoritesList");
   const favs=JSON.parse(localStorage.getItem("promptflow_v52_favorites")||"[]");
-  if(!favs.length){list.innerHTML="Nenhum favorito ainda.";return;}
+
+  if(!favs.length){
+    list.innerHTML="Nenhum favorito ainda.";
+    return;
+  }
+
   list.innerHTML="";
   favs.forEach(item=>{
     const div=document.createElement("div");
@@ -1280,8 +1681,10 @@ function renderFavorites(){
 function updateAnalytics(){
   document.getElementById("metricGenerated").textContent=generatedPrompts.length;
   document.getElementById("metricApproved").textContent=generatedPrompts.filter(p=>p.approved).length;
+
   const favs=JSON.parse(localStorage.getItem("promptflow_v52_favorites")||"[]");
   document.getElementById("metricFavorites").textContent=favs.length;
+
   const styleCount={};
   generatedPrompts.forEach(p=>styleCount[p.styleTitle]=(styleCount[p.styleTitle]||0)+1);
   const top=Object.entries(styleCount).sort((a,b)=>b[1]-a[1])[0];
@@ -1293,8 +1696,9 @@ function setRightTab(tab){
     document.getElementById("panel-"+t).style.display=t===tab?"block":"none";
     document.getElementById("tab-"+t).classList.toggle("active",t===tab);
   });
-  if(tab==="favorites")renderFavorites();
-  if(tab==="history")renderHistory();
+
+  if(tab==="favorites") renderFavorites();
+  if(tab==="history") renderHistory();
 }
 
 function clearResults(){
