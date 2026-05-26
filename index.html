@@ -8,28 +8,41 @@
 <style>
 *{box-sizing:border-box}
 :root{
-  --bg:#070707;--panel:#101010;--line:#292929;--muted:#aaa;--orange:#ff9b35;--orange2:#ff7900;--green:#35ff8a;--red:#ff8a8a;
+  --bg:#070707;--panel:#101010;--panel2:#080808;--line:#292929;
+  --text:#fff;--muted:#aaa;--orange:#ff9b35;--orange2:#ff7900;
+  --green:#35ff8a;--red:#ff8a8a;
 }
 body{
-  margin:0;font-family:Arial,Helvetica,sans-serif;color:#fff;
-  background:radial-gradient(circle at top left,rgba(255,120,0,.18),transparent 30%),
-  radial-gradient(circle at top right,rgba(0,150,255,.12),transparent 32%),#070707;
+  margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);
+  background:
+    radial-gradient(circle at top left,rgba(255,120,0,.18),transparent 30%),
+    radial-gradient(circle at top right,rgba(0,150,255,.12),transparent 34%),
+    #070707;
 }
 .app{max-width:1540px;margin:auto;padding:18px}
 .header{
-  background:linear-gradient(135deg,#181818,#070707);border:1px solid var(--line);
-  border-radius:28px;padding:24px;margin-bottom:18px;box-shadow:0 18px 55px rgba(0,0,0,.45)
+  background:linear-gradient(135deg,#181818,#070707);
+  border:1px solid var(--line);border-radius:28px;padding:24px;margin-bottom:18px;
+  box-shadow:0 18px 55px rgba(0,0,0,.45)
 }
-.badge{display:inline-block;padding:7px 13px;border-radius:999px;background:rgba(255,155,53,.12);border:1px solid rgba(255,155,53,.35);color:var(--orange);font-size:12px;font-weight:bold;margin-bottom:12px}
+.badge{
+  display:inline-block;padding:7px 13px;border-radius:999px;
+  background:rgba(255,155,53,.12);border:1px solid rgba(255,155,53,.35);
+  color:var(--orange);font-size:12px;font-weight:bold;margin-bottom:12px
+}
 h1{margin:0;font-size:31px;letter-spacing:-.7px}
 .subtitle{color:#c9c9c9;font-size:14px;line-height:1.5;margin-top:8px}
 .shell{display:grid;grid-template-columns:430px 1fr;gap:18px}
-.card{background:rgba(16,16,16,.96);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 14px 42px rgba(0,0,0,.34)}
+.card{
+  background:rgba(16,16,16,.96);border:1px solid var(--line);
+  border-radius:24px;padding:18px;box-shadow:0 14px 42px rgba(0,0,0,.34)
+}
 .section-title{font-size:16px;font-weight:bold;margin-bottom:12px}
 .sub-title{color:var(--orange);font-size:13px;font-weight:bold;margin:18px 0 8px}
 label{display:block;color:#bdbdbd;font-size:12px;margin:13px 0 6px}
 input,textarea,select{
-  width:100%;background:#090909;border:1px solid #333;color:#fff;border-radius:15px;padding:13px;outline:none;font-size:14px
+  width:100%;background:#090909;border:1px solid #333;color:#fff;
+  border-radius:15px;padding:13px;outline:none;font-size:14px
 }
 textarea{resize:vertical;min-height:92px}
 input:focus,textarea:focus,select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,155,53,.12)}
@@ -37,31 +50,48 @@ input:focus,textarea:focus,select:focus{border-color:var(--orange);box-shadow:0 
 .upload-box{background:#0b0b0b;border:1px dashed #555;border-radius:18px;padding:14px}
 .help{color:var(--muted);font-size:12px;line-height:1.42;margin-top:8px}
 .preview-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
-.preview-item{background:#050505;border:1px solid #282828;border-radius:14px;min-height:90px;display:flex;align-items:center;justify-content:center;color:#777;font-size:11px;overflow:hidden}
+.preview-item{
+  background:#050505;border:1px solid #282828;border-radius:14px;min-height:90px;
+  display:flex;align-items:center;justify-content:center;color:#777;font-size:11px;overflow:hidden
+}
 .preview-item img{width:100%;height:100%;max-height:115px;object-fit:cover}
 .forge-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.forge-tab{border:1px solid #333;background:#0d0d0d;color:#ddd;border-radius:999px;padding:10px 13px;font-size:12px;font-weight:bold;cursor:pointer}
+.forge-tab{
+  border:1px solid #333;background:#0d0d0d;color:#ddd;border-radius:999px;
+  padding:10px 13px;font-size:12px;font-weight:bold;cursor:pointer
+}
 .forge-tab.active{background:var(--orange);color:#111;border-color:var(--orange)}
-.style-grid{display:grid;gap:10px}
-.style-card{background:linear-gradient(135deg,#0d0d0d,#080808);border:1px solid #2d2d2d;border-radius:19px;padding:13px}
+.style-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.style-card{
+  background:linear-gradient(135deg,#0d0d0d,#080808);
+  border:1px solid #2d2d2d;border-radius:19px;padding:13px
+}
 .style-card:hover{border-color:rgba(255,155,53,.55)}
 .style-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .style-name{font-size:14px;font-weight:bold}
 .style-sub{color:var(--orange);font-size:11px;font-weight:bold;margin-top:3px}
 .style-desc{color:#aaa;font-size:11px;line-height:1.35;margin-top:5px}
 .counter{display:flex;align-items:center;gap:7px;background:#050505;border:1px solid #272727;border-radius:999px;padding:5px}
-.counter button{width:29px;height:29px;border:none;border-radius:50%;background:#171717;color:#fff;font-weight:bold;cursor:pointer}
+.counter button{
+  width:29px;height:29px;border:none;border-radius:50%;background:#171717;color:#fff;font-weight:bold;cursor:pointer
+}
 .counter button:hover{background:var(--orange);color:#111}
 .counter span{min-width:22px;text-align:center;color:var(--orange);font-weight:bold}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 button{cursor:pointer;font-weight:bold;transition:.15s}
 button:hover{filter:brightness(1.08)}
-button.main{flex:1;min-width:150px;border:none;background:linear-gradient(135deg,var(--orange2),#ffb13b);color:#111;border-radius:16px;padding:14px;font-size:14px}
+button.main{
+  flex:1;min-width:150px;border:none;background:linear-gradient(135deg,var(--orange2),#ffb13b);
+  color:#111;border-radius:16px;padding:14px;font-size:14px
+}
 button.secondary{border:1px solid #333;background:#101010;color:#fff;border-radius:16px;padding:14px;font-size:14px}
 button.danger{border:1px solid rgba(255,70,70,.45);background:rgba(255,70,70,.08);color:var(--red);border-radius:16px;padding:14px;font-size:14px}
 button.exclusive{border:1px solid rgba(255,155,53,.45);background:rgba(255,155,53,.10);color:#ffbf7c;border-radius:14px;padding:11px;font-size:12px}
 .exclusive-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.switch-row{display:flex;gap:10px;align-items:center;background:#090909;border:1px solid #292929;border-radius:16px;padding:10px;margin-top:10px}
+.switch-row{
+  display:flex;gap:10px;align-items:center;background:#090909;border:1px solid #292929;
+  border-radius:16px;padding:10px;margin-top:10px
+}
 .switch-row input{width:auto}
 .dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
 .metric{background:#080808;border:1px solid #292929;border-radius:17px;padding:12px}
@@ -80,7 +110,11 @@ button.exclusive{border:1px solid rgba(255,155,53,.45);background:rgba(255,155,5
 .copy-bar-buttons{display:flex;gap:8px;flex-wrap:wrap}
 .copy-bar-buttons button{border:1px solid #333;background:#101010;color:#fff;border-radius:14px;padding:10px 12px;font-size:12px}
 .copy-bar-buttons button:hover{background:var(--orange);color:#111}
-.viewer{background:#050505;border:1px solid #292929;border-radius:20px;padding:16px;min-height:540px;max-height:70vh;overflow:auto;white-space:pre-wrap;line-height:1.48;color:#f1f1f1;font-size:14px}
+.viewer{
+  background:#050505;border:1px solid #292929;border-radius:20px;padding:16px;
+  min-height:540px;max-height:70vh;overflow:auto;white-space:pre-wrap;
+  line-height:1.48;color:#f1f1f1;font-size:14px
+}
 .empty{color:#999;background:#050505;border:1px solid #292929;border-radius:20px;padding:18px;min-height:320px}
 .variation-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .variation-card{background:#080808;border:1px solid #292929;border-radius:17px;padding:12px;cursor:pointer}
@@ -95,20 +129,25 @@ button.exclusive{border:1px solid rgba(255,155,53,.45);background:rgba(255,155,5
 .ref-box{background:#090909;border:1px solid #292929;border-radius:18px;padding:12px;margin-top:12px}
 .ref-item{border-bottom:1px solid #222;padding:8px 0;color:#bbb;font-size:12px}
 .ref-item:last-child{border-bottom:none}
-.toast{display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--orange);color:#111;font-weight:bold;padding:12px 18px;border-radius:999px;z-index:99;box-shadow:0 10px 35px rgba(0,0,0,.4)}
+.toast{
+  display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  background:var(--orange);color:#111;font-weight:bold;padding:12px 18px;
+  border-radius:999px;z-index:99;box-shadow:0 10px 35px rgba(0,0,0,.4)
+}
 @media(max-width:980px){.shell{grid-template-columns:1fr}h1{font-size:25px}.dashboard{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.two,.exclusive-grid,.variation-preview{grid-template-columns:1fr}.preview-grid{grid-template-columns:repeat(2,1fr)}.dashboard{grid-template-columns:1fr}}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
   <div class="header">
     <div class="badge">PROMPTFLOW V5.2 · COPY BANK REAL</div>
     <h1>Forge Pro · Gerador de Prompts para Flow</h1>
     <div class="subtitle">
-      Agora cada variação tem roteiro próprio real. Gerar 10 prompts do mesmo estilo não repete a mesma copy.
+      Agora cada variação tem copy própria real: não muda só o título, muda Cena 1, Cena 2, Cena 3, Cena 4 e Cena 5 conforme o estilo.
     </div>
   </div>
 
@@ -145,6 +184,7 @@ button.exclusive{border:1px solid rgba(255,155,53,.45);background:rgba(255,155,5
             <option value="generic">Produto Geral</option>
           </select>
         </div>
+
         <div>
           <label>Duração</label>
           <select id="duration">
@@ -212,10 +252,22 @@ button.exclusive{border:1px solid rgba(255,155,53,.45);background:rgba(255,155,5
     <div class="card">
 
       <div class="dashboard">
-        <div class="metric"><strong id="metricGenerated">0</strong><span>Prompts gerados</span></div>
-        <div class="metric"><strong id="metricApproved">0</strong><span>Aprovados</span></div>
-        <div class="metric"><strong id="metricFavorites">0</strong><span>Favoritos</span></div>
-        <div class="metric"><strong id="metricTopStyle">--</strong><span>Estilo mais usado</span></div>
+        <div class="metric">
+          <strong id="metricGenerated">0</strong>
+          <span>Prompts gerados</span>
+        </div>
+        <div class="metric">
+          <strong id="metricApproved">0</strong>
+          <span>Aprovados</span>
+        </div>
+        <div class="metric">
+          <strong id="metricFavorites">0</strong>
+          <span>Favoritos</span>
+        </div>
+        <div class="metric">
+          <strong id="metricTopStyle">--</strong>
+          <span>Estilo mais usado</span>
+        </div>
       </div>
 
       <div class="forge-tabs">
@@ -231,6 +283,7 @@ button.exclusive{border:1px solid rgba(255,155,53,.45);background:rgba(255,155,5
             <div class="section-title" style="margin-bottom:4px;">Prompts Gerados</div>
             <div class="count-total" id="totalCounter">Total selecionado: 0 vídeos</div>
           </div>
+
           <div class="actions" style="margin-top:0;">
             <button class="secondary" onclick="copyAll()">Copiar Tudo</button>
             <button class="secondary" onclick="downloadTxt()">Baixar .TXT</button>
@@ -287,12 +340,417 @@ let currentPromptIndex = 0;
 let currentSceneKey = "full";
 
 const STYLE_LIBRARY = {
-  ugc:{title:"UGC",subtitle:"USER GENERATED",scenes:4,icon:"🎥",desc:"Pessoa real em smartphone: descoberta, dor, demonstração e CTA.",variations:["Descoberta Real","Dor + Solução","Arrependimento de Esperar","Produto Bombando","Compra Inteligente","Quase Fiquei Sem","Mostrando Para Amiga","Chegou Hoje","Testei e Gostei","Achado Que Vale"]},
-  pov:{title:"POV",subtitle:"HANDS ONLY",scenes:4,icon:"🤲",desc:"Mãos apenas, sem rosto, close, unboxing, teste e detalhe satisfatório.",variations:["Hands Only Close","Unboxing Simples","Teste de Uso","Produto na Mão","Detalhe Satisfatório","Recebido em Casa","Abrindo a Embalagem","Mostrando Textura","Teste em Mesa","Close de Compra Real"]},
-  comparacao:{title:"COMPARAÇÃO",subtitle:"PRICE COMPARE",scenes:4,icon:"⚖️",desc:"Preço, alternativa comum, produto melhor e decisão de compra.",variations:["TikTok Shop x Loja Física","Antes de Comprar","Produto Comum x Produto Melhor","Preço Antigo x Achado Atual","Visual Fraco x Visual Forte","Barato que Parece Caro","Comparação de Acabamento","Escolha Inteligente","Produto Errado x Produto Certo","Vale Mais a Pena"]},
-  fabrica:{title:"FÁBRICA",subtitle:"WAREHOUSE / FACTORY",scenes:5,icon:"🏭",desc:"Estoque, conferência, embalagem, lote saindo e bastidor real.",variations:["Lote Saindo","Conferência de Qualidade","Embalando Pedidos","Estoque Acabando","Direto da Fábrica","Bancada de Produção","Separação em Massa","Pedido Viral Saindo","Produto Inspecionado","Últimas Unidades na Bancada"]},
-  bras:{title:"BRÁS",subtitle:"FEIRA SHOP / BRÁS SP",scenes:5,icon:"🛍️",desc:"Box popular, vendedor, sacolas, araras, promoção e movimento real.",variations:["Box Movimentado","Vendedor Mostrando","Sacola Cheia","Oferta de Banca","Feira Shop Lotada","Produto no Balcão","Achado Popular","Último Lote no Box","Cliente Olhando","Estoque de Loja Popular"]},
-  loja:{title:"LOJA",subtitle:"BRAZILIAN RETAIL",scenes:5,icon:"🏬",desc:"Loja brasileira, prateleira, balcão, atendente e produto em exposição.",variations:["Atendente Mostrando","Produto na Prateleira","Achado no Corredor","Balcão Promocional","Comparação de Preço","Cliente Pegando","Vitrine Simples","Últimas Peças","Loja Popular Realista","Produto Sendo Testado"]}
+  comparacao:{title:"COMPARAÇÃO",subtitle:"PRICE COMPARE",scenes:4,icon:"⚖️",desc:"Preço, alternativa comum, produto melhor e decisão de compra."},
+  fabrica:{title:"FÁBRICA",subtitle:"WAREHOUSE / FACTORY",scenes:5,icon:"🏭",desc:"Estoque, conferência, embalagem, lote saindo e bastidor real."},
+  bras:{title:"BRÁS",subtitle:"FEIRA SHOP / BRÁS SP",scenes:5,icon:"🛍️",desc:"Box popular, vendedor, sacolas, araras, promoção e movimento real."},
+  loja:{title:"LOJA",subtitle:"BRAZILIAN RETAIL",scenes:5,icon:"🏬",desc:"Loja brasileira, prateleira, balcão, atendente e produto em exposição."},
+  pov:{title:"POV",subtitle:"HANDS ONLY",scenes:4,icon:"🤲",desc:"Mãos apenas, sem rosto, close, unboxing, teste e detalhe satisfatório."},
+  ugc:{title:"UGC",subtitle:"USER GENERATED",scenes:4,icon:"🎥",desc:"Pessoa real em smartphone: descoberta, dor, demonstração e CTA."}
+};
+
+const COPY_BANK = {
+  fabrica:[
+    {v:"Lote Saindo",s:[
+      n=>`Olha esse lote de ${n} acabando de ser separado. Tá saindo muito rápido!`,
+      n=>`A câmera mostra uma bancada de separação com várias unidades do ${n}, caixas simples e mãos organizando os pedidos.`,
+      (n,p)=>`O ${n} aparece sendo aberto, conferido e mostrado sobre a bancada, com close em ${p.details}. As mãos mostram o produto com calma antes da embalagem.`,
+      n=>`As mãos dobram, protegem ou posicionam o produto na embalagem, mostrando que o pedido está sendo preparado para envio.`,
+      n=>`Se você quer garantir o seu ${n}, aproveita agora enquanto esse lote ainda está disponível.`
+    ]},
+    {v:"Conferência de Qualidade",s:[
+      n=>`Antes de enviar, olha como o ${n} é conferido de perto.`,
+      n=>`O produto é retirado de uma pilha organizada e colocado em uma bancada simples de conferência.`,
+      (n,p)=>`O ${n} passa por uma conferência visual, com close em ${p.details}, reforçando acabamento, material e aparência real.`,
+      n=>`Depois da conferência, as mãos posicionam o produto na embalagem de forma limpa e organizada.`,
+      n=>`Quer receber o seu ${n} também? Clica no carrinho antes que esse lote acabe.`
+    ]},
+    {v:"Embalando Pedidos",s:[
+      n=>`Pedido do ${n} sendo preparado agora. Olha os detalhes antes de embalar.`,
+      n=>`A cena mostra caixas, sacolas e embalagens simples sobre a bancada, sem dados pessoais visíveis.`,
+      (n,p)=>`O ${n} aparece sendo posicionado para envio, com close em ${p.details}. O foco é mostrar o produto real antes de fechar o pedido.`,
+      n=>`As mãos fecham a embalagem e colocam o pedido junto de outros itens prontos para sair.`,
+      n=>`Se quiser receber o seu também, clica no carrinho e garante o ${n}.`
+    ]},
+    {v:"Estoque Acabando",s:[
+      n=>`Esse ${n} está saindo muito. Olha o estoque sendo separado.`,
+      n=>`A câmera mostra poucas unidades restantes em uma prateleira ou bancada de estoque simples.`,
+      (n,p)=>`Uma unidade do ${n} é pega do estoque e mostrada de perto, com foco em ${p.details}.`,
+      n=>`O produto é colocado na embalagem, reforçando sensação de últimas unidades sem exagero.`,
+      n=>`Se quiser aproveitar, clica no carrinho antes que acabe.`
+    ]},
+    {v:"Direto da Fábrica",s:[
+      n=>`Direto do bastidor: olha o ${n} sendo preparado antes de sair.`,
+      n=>`A câmera mostra um ambiente simples de fábrica, estoque ou pequena operação de e-commerce.`,
+      (n,p)=>`O ${n} aparece em close na bancada, sendo manuseado com foco em ${p.details}.`,
+      n=>`As mãos organizam o produto para entrega, mantendo o item visível e fiel à referência.`,
+      n=>`Se você quer o seu ${n}, aproveita o lote atual no carrinho.`
+    ]},
+    {v:"Bancada de Produção",s:[
+      n=>`Olha esse ${n} na bancada antes de ir para embalagem.`,
+      n=>`A cena mostra uma bancada realista com produto, ferramentas simples de conferência e embalagem ao redor.`,
+      (n,p)=>`O ${n} é mostrado em cima da bancada, com close em ${p.details}, aparência real e textura visível.`,
+      n=>`As mãos alinham, dobram ou protegem o produto para envio.`,
+      n=>`Clica no carrinho e garante o seu ${n} enquanto ainda tem.`
+    ]},
+    {v:"Separação em Massa",s:[
+      n=>`Quando começa a sair assim, o ${n} não fica parado no estoque.`,
+      n=>`A câmera mostra várias unidades sendo separadas em sequência para pedidos diferentes.`,
+      (n,p)=>`Uma unidade do ${n} é destacada da pilha e mostrada em detalhes: ${p.details}.`,
+      n=>`O pedido é separado, colocado ao lado de outras embalagens e pronto para sair.`,
+      n=>`Se você quer entrar nesse lote, clica no carrinho agora.`
+    ]},
+    {v:"Pedido Viral Saindo",s:[
+      n=>`Esse ${n} virou pedido atrás de pedido. Olha um saindo agora.`,
+      n=>`A câmera mostra uma bancada de pedidos com o produto sendo separado como item de alta procura.`,
+      (n,p)=>`O ${n} é aproximado da câmera, mostrando ${p.details}, sem mudar formato, cor ou acabamento.`,
+      n=>`As mãos embalam o produto de forma rápida, mas organizada e realista.`,
+      n=>`Se também quer o seu ${n}, aproveita antes que o lote acabe.`
+    ]},
+    {v:"Produto Inspecionado",s:[
+      n=>`Olha essa inspeção rápida no ${n} antes de enviar.`,
+      n=>`A câmera acompanha as mãos abrindo, virando ou posicionando o produto para verificar os detalhes.`,
+      (n,p)=>`O ${n} é inspecionado com close em ${p.details}, mostrando aparência real de produto pronto para envio.`,
+      n=>`Depois da inspeção, o item é colocado na embalagem junto aos materiais de envio.`,
+      n=>`Gostou do ${n}? Clica no carrinho e garante o seu.`
+    ]},
+    {v:"Últimas Unidades na Bancada",s:[
+      n=>`Últimas unidades do ${n} aparecendo na bancada. Olha de perto.`,
+      n=>`A cena mostra poucas unidades organizadas, embalagem pronta e mãos separando uma delas.`,
+      (n,p)=>`O ${n} aparece em close, com foco em ${p.details}, reforçando acabamento e valor visual.`,
+      n=>`A unidade é embalada como pedido final daquele lote.`,
+      n=>`Se quiser garantir o seu, clica no carrinho antes que suma.`
+    ]}
+  ],
+  bras:[
+    {v:"Box Movimentado",s:[
+      n=>`Achado de feira shop: olha esse ${n} no meio do movimento.`,
+      n=>`A câmera mostra box popular, sacolas, araras ou prateleiras e vendedor mostrando o produto.`,
+      (n,p)=>`O ${n} aparece sendo mostrado no balcão, com close em ${p.details}.`,
+      n=>`O vendedor separa uma unidade como se estivesse atendendo cliente.`,
+      n=>`Se você quer esse ${n}, clica no carrinho antes que acabe.`
+    ]},
+    {v:"Vendedor Mostrando",s:[
+      n=>`O vendedor pegou esse ${n} para mostrar porque está saindo muito.`,
+      n=>`A cena mostra vendedor ou mãos em ambiente de loja popular segurando o produto perto da câmera.`,
+      (n,p)=>`O ${n} é apresentado com foco em ${p.details}, como demonstração rápida de balcão.`,
+      n=>`A câmera mostra algumas unidades no fundo, reforçando clima de comércio real.`,
+      n=>`Gostou? Clica no carrinho e garante o seu ${n}.`
+    ]},
+    {v:"Sacola Cheia",s:[
+      n=>`Olha esse ${n} saindo em sacola de feira shop.`,
+      n=>`A câmera mostra sacolas, produtos organizados e ambiente popular de compra rápida.`,
+      (n,p)=>`Uma unidade do ${n} é retirada da sacola e mostrada em detalhes: ${p.details}.`,
+      n=>`O produto volta para a sacola junto com outros itens, como pedido de cliente.`,
+      n=>`Se quiser aproveitar também, clica no carrinho.`
+    ]},
+    {v:"Oferta de Banca",s:[
+      n=>`Oferta de banca: esse ${n} chama atenção de perto.`,
+      n=>`A cena mostra produto exposto sobre balcão simples, com movimento ao fundo.`,
+      (n,p)=>`O ${n} aparece em close, destacando ${p.details}, aparência real e valor visual.`,
+      n=>`Mãos organizam o produto no balcão como se fosse reposição rápida.`,
+      n=>`Clica no carrinho e garante o seu ${n} enquanto tem.`
+    ]},
+    {v:"Feira Shop Lotada",s:[
+      n=>`No meio da feira shop lotada, esse ${n} se destaca.`,
+      n=>`A câmera passa por ambiente movimentado e para no produto sendo mostrado.`,
+      (n,p)=>`O ${n} aparece em destaque, com foco em ${p.details}, sem perder o clima popular do ambiente.`,
+      n=>`O vendedor separa uma unidade e mostra rapidamente o estoque.`,
+      n=>`Se quiser o seu, clica no carrinho antes que acabe.`
+    ]},
+    {v:"Produto no Balcão",s:[
+      n=>`Coloca esse ${n} no balcão e olha como ele aparece bem.`,
+      n=>`A cena mostra balcão simples de loja popular com o produto centralizado.`,
+      (n,p)=>`O ${n} é girado ou aberto sobre o balcão, com close em ${p.details}.`,
+      n=>`Mãos aproximam o produto da câmera para reforçar acabamento e proporção.`,
+      n=>`Gostou desse achado? Clica no carrinho.`
+    ]},
+    {v:"Achado Popular",s:[
+      n=>`Esse ${n} tem cara de achado popular que some rápido.`,
+      n=>`A câmera mostra ambiente de comércio popular, com vendedor pegando o produto do fundo.`,
+      (n,p)=>`O ${n} é mostrado de perto com foco em ${p.details}, reforçando o benefício visual.`,
+      n=>`O produto é colocado em sacola ou separado para cliente.`,
+      n=>`Se quiser aproveitar, clica no carrinho agora.`
+    ]},
+    {v:"Último Lote no Box",s:[
+      n=>`Último lote do ${n} no box. Olha antes de acabar.`,
+      n=>`A cena mostra poucas unidades restantes no box, com sacolas e prateleiras ao fundo.`,
+      (n,p)=>`Uma unidade do ${n} é mostrada em close, destacando ${p.details}.`,
+      n=>`O vendedor separa a peça como se fosse uma das últimas disponíveis.`,
+      n=>`Corre no carrinho e garante o seu.`
+    ]},
+    {v:"Cliente Olhando",s:[
+      n=>`Quando o cliente pega esse ${n}, o detalhe chama atenção.`,
+      n=>`A câmera mostra mãos de cliente segurando o produto em box popular.`,
+      (n,p)=>`O ${n} aparece em uso de balcão, com close em ${p.details}.`,
+      n=>`A pessoa compara rapidamente o produto com outros no fundo.`,
+      n=>`Se você também gostou, clica no carrinho.`
+    ]},
+    {v:"Estoque de Loja Popular",s:[
+      n=>`Olha o estoque desse ${n} na loja popular.`,
+      n=>`A cena mostra produtos empilhados ou organizados em prateleiras simples.`,
+      (n,p)=>`Uma unidade do ${n} é retirada do estoque e mostrada com foco em ${p.details}.`,
+      n=>`O produto é separado para venda e colocado sobre o balcão.`,
+      n=>`Se quiser o seu, aproveita antes que acabe.`
+    ]}
+  ],
+  loja:[
+    {v:"Atendente Mostrando",s:[
+      n=>`A atendente pegou esse ${n} para mostrar de perto.`,
+      n=>`A câmera mostra loja brasileira simples, balcão e produto sendo apresentado.`,
+      (n,p)=>`O ${n} aparece na mão da atendente, com close em ${p.details}.`,
+      n=>`O produto é colocado no balcão para mostrar tamanho e proporção.`,
+      n=>`Se gostou do ${n}, clica no carrinho e garante o seu.`
+    ]},
+    {v:"Produto na Prateleira",s:[
+      n=>`Olha esse ${n} na prateleira chamando atenção.`,
+      n=>`A câmera se aproxima da prateleira e retira o produto para mostrar melhor.`,
+      (n,p)=>`O ${n} aparece em close, mostrando ${p.details} em ambiente real de loja.`,
+      n=>`A pessoa coloca o produto de volta ao lado de outras unidades.`,
+      n=>`Quer o seu? Clica no carrinho antes que acabe.`
+    ]},
+    {v:"Achado no Corredor",s:[
+      n=>`Achei esse ${n} no corredor da loja e tive que mostrar.`,
+      n=>`A câmera mostra corredor simples de varejo, prateleiras e produto sendo retirado.`,
+      (n,p)=>`O ${n} é mostrado de perto, com foco em ${p.details}.`,
+      n=>`A pessoa compara rapidamente a aparência com outros produtos ao fundo.`,
+      n=>`Se gostou desse achado, clica no carrinho.`
+    ]},
+    {v:"Balcão Promocional",s:[
+      n=>`Produto no balcão promocional: olha esse ${n}.`,
+      n=>`A cena mostra balcão simples, iluminação de loja e produto centralizado.`,
+      (n,p)=>`O ${n} aparece sobre o balcão, com close em ${p.details}, reforçando valor percebido.`,
+      n=>`A câmera mostra a mão pegando o produto e posicionando para compra.`,
+      n=>`Clica no carrinho e garante o seu ${n}.`
+    ]},
+    {v:"Comparação de Preço",s:[
+      n=>`Antes de pagar mais caro, olha esse ${n}.`,
+      n=>`A cena mostra ambiente de loja e sugere comparação com produto parecido sem mostrar marca legível.`,
+      (n,p)=>`O ${n} aparece como opção mais interessante, com close em ${p.details}.`,
+      n=>`A pessoa mostra o produto no balcão com gesto de escolha inteligente.`,
+      n=>`Se quer escolher melhor, clica no carrinho.`
+    ]},
+    {v:"Cliente Pegando",s:[
+      n=>`Cliente pegando o ${n} na loja: dá para entender por que chama atenção.`,
+      n=>`A câmera mostra a mão retirando o produto da exposição.`,
+      (n,p)=>`O ${n} é aproximado da câmera, com foco em ${p.details}.`,
+      n=>`O produto é segurado em posição real de compra, mostrando tamanho e acabamento.`,
+      n=>`Gostou? Clica no carrinho e pega o seu.`
+    ]},
+    {v:"Vitrine Simples",s:[
+      n=>`Esse ${n} na vitrine simples já chama atenção.`,
+      n=>`A câmera mostra o produto exposto e se aproxima lentamente.`,
+      (n,p)=>`O ${n} aparece em destaque, com close em ${p.details}.`,
+      n=>`A pessoa retira o produto da vitrine e mostra de perto.`,
+      n=>`Se quiser o seu, clica no carrinho agora.`
+    ]},
+    {v:"Últimas Peças",s:[
+      n=>`Últimas peças do ${n} na loja. Olha de perto.`,
+      n=>`A câmera mostra poucas unidades restantes na prateleira ou balcão.`,
+      (n,p)=>`Uma unidade do ${n} é mostrada em close, destacando ${p.details}.`,
+      n=>`A pessoa separa a peça como se fosse uma das últimas disponíveis.`,
+      n=>`Corre no carrinho antes que acabe.`
+    ]},
+    {v:"Loja Popular Realista",s:[
+      n=>`Esse ${n} em loja popular parece achado bom.`,
+      n=>`A cena mostra varejo brasileiro realista, balcão, prateleiras e produto em exposição.`,
+      (n,p)=>`O ${n} aparece sendo mostrado com foco em ${p.details}.`,
+      n=>`A câmera alterna entre produto na mão e produto no balcão.`,
+      n=>`Se gostou, clica no carrinho.`
+    ]},
+    {v:"Produto Sendo Testado",s:[
+      n=>`Testando o ${n} rapidinho na loja.`,
+      n=>`A pessoa pega o produto e faz uma ação simples para demonstrar função ou aparência.`,
+      (n,p)=>`O ${n} aparece em uso real, com foco em ${p.details}.`,
+      n=>`A demonstração termina com o produto centralizado e pronto para compra.`,
+      n=>`Quer testar também? Clica no carrinho.`
+    ]}
+  ],
+  ugc:[
+    {v:"Descoberta Real",s:[
+      n=>`Eu quase deixei passar esse ${n}, mas olha os detalhes dele de perto.`,
+      (n,p)=>`A pessoa mostra o ${n} como uma descoberta real, explicando por que ele chama atenção e resolve: ${p.pain}.`,
+      (n,p)=>`${p.demo}`,
+      n=>`Se você também gostou do ${n}, clica no carrinho e garante o seu antes que acabe.`
+    ]},
+    {v:"Dor + Solução",s:[
+      (n,p)=>`Isso aqui resolve um problema que muita gente ignora: ${p.pain}.`,
+      n=>`A pessoa mostra a situação antes do produto entrar, criando identificação rápida.`,
+      (n,p)=>`O ${n} aparece em uso real, com close em ${p.details}, mostrando como ajuda a ${p.desire}.`,
+      n=>`Se isso faz sentido para você, clica no carrinho e garante o seu ${n}.`
+    ]},
+    {v:"Arrependimento de Esperar",s:[
+      n=>`Eu fiquei esperando promoção e quase fiquei sem o ${n}.`,
+      n=>`A pessoa segura o produto e mostra que ele está chamando atenção pelos detalhes e pela utilidade.`,
+      (n,p)=>`${p.demo}`,
+      n=>`Não espera demais. Se quiser o seu ${n}, clica no carrinho antes que acabe.`
+    ]},
+    {v:"Produto Bombando",s:[
+      n=>`Esse ${n} está aparecendo muito e agora eu entendi o motivo.`,
+      n=>`A pessoa mostra o produto como um achado visual, útil e fácil de entender em poucos segundos.`,
+      (n,p)=>`O ${n} aparece de perto, com foco em ${p.details}.`,
+      n=>`Se quiser testar também, clica no carrinho e aproveita.`
+    ]},
+    {v:"Compra Inteligente",s:[
+      n=>`Sabe aquele produto que parece simples, mas muda a experiência? Olha esse ${n}.`,
+      (n,p)=>`A pessoa explica por que o produto é uma compra inteligente para ${p.desire}.`,
+      (n,p)=>`${p.demo}`,
+      n=>`Se você quer uma compra prática, clica no carrinho e garante o ${n}.`
+    ]},
+    {v:"Quase Fiquei Sem",s:[
+      n=>`Eu fui olhar esse ${n} depois e quase não tinha mais.`,
+      n=>`A pessoa mostra o produto de perto, com tom de urgência natural e sem exagero.`,
+      (n,p)=>`O ${n} aparece em uso real, com close em ${p.details}.`,
+      n=>`Se quiser o seu, vai no carrinho antes que acabe.`
+    ]},
+    {v:"Mostrando Para Amiga",s:[
+      n=>`Amiga, olha esse ${n} que eu achei.`,
+      n=>`A pessoa fala de forma natural como se estivesse mostrando o produto para alguém próximo.`,
+      (n,p)=>`O ${n} é mostrado de perto, com foco em ${p.details} e uso real.`,
+      n=>`Eu deixei o carrinho aqui para você pegar também.`
+    ]},
+    {v:"Chegou Hoje",s:[
+      n=>`Chegou hoje o meu ${n}, olha isso de perto.`,
+      n=>`A pessoa mostra o produto recém-recebido em ambiente doméstico realista.`,
+      (n,p)=>`O ${n} aparece sendo aberto, segurado e mostrado com foco em ${p.details}.`,
+      n=>`Se você quiser o seu também, clica no carrinho.`
+    ]},
+    {v:"Testei e Gostei",s:[
+      n=>`Eu testei esse ${n} e gostei mais do que esperava.`,
+      n=>`A pessoa mostra o produto funcionando ou sendo usado de forma simples.`,
+      (n,p)=>`O ${n} aparece em demonstração real, com foco em ${p.details}.`,
+      n=>`Se quiser testar também, clica no carrinho.`
+    ]},
+    {v:"Achado Que Vale",s:[
+      n=>`Esse ${n} é daqueles achados que valem mostrar.`,
+      n=>`A pessoa apresenta o produto com entusiasmo natural, sem parecer propaganda de estúdio.`,
+      (n,p)=>`${p.demo}`,
+      n=>`Se você também gostou, clica no carrinho e aproveita.`
+    ]}
+  ],
+  pov:[
+    {v:"Hands Only Close",s:[
+      n=>`POV: suas mãos pegam o ${n} e mostram por que ele chama atenção.`,
+      n=>`A câmera aproxima lentamente, sem rosto, mostrando textura, formato e acabamento.`,
+      (n,p)=>`O ${n} aparece centralizado entre as mãos, com close em ${p.details}.`,
+      n=>`Gostou do ${n}? Clica no carrinho e garante o seu.`
+    ]},
+    {v:"Unboxing Simples",s:[
+      n=>`POV: você acabou de receber o ${n}.`,
+      n=>`As mãos retiram o produto da embalagem simples e colocam sobre a mesa.`,
+      (n,p)=>`O ${n} é mostrado de perto, com foco em ${p.details}.`,
+      n=>`Quer receber o seu também? Clica no carrinho.`
+    ]},
+    {v:"Teste de Uso",s:[
+      n=>`POV: você testa o ${n} em poucos segundos.`,
+      n=>`As mãos mostram o produto apoiado em ambiente realista e fazem uma ação simples.`,
+      (n,p)=>`O ${n} aparece em uso prático, com close em ${p.details}.`,
+      n=>`Se esse ${n} faz sentido para você, clica no carrinho.`
+    ]},
+    {v:"Produto na Mão",s:[
+      n=>`POV: olha esse ${n} na mão, de perto.`,
+      n=>`A câmera mostra tamanho real, proporção, material e acabamento.`,
+      (n,p)=>`O ${n} é girado lentamente uma vez, com foco em ${p.details}.`,
+      n=>`Se gostou, clica no carrinho e garante o seu ${n}.`
+    ]},
+    {v:"Detalhe Satisfatório",s:[
+      n=>`O detalhe desse ${n} de perto é o que chama atenção.`,
+      n=>`As mãos aproximam o produto, deixando a câmera focar na textura e acabamento.`,
+      (n,p)=>`O ${n} aparece em close satisfatório, com foco em ${p.details}.`,
+      n=>`Quer esse acabamento também? Clica no carrinho.`
+    ]},
+    {v:"Recebido em Casa",s:[
+      n=>`POV: o ${n} chegou em casa e você vai ver de perto.`,
+      n=>`As mãos colocam o produto sobre uma mesa simples e aproximam da câmera.`,
+      (n,p)=>`O ${n} é mostrado com calma, destacando ${p.details}.`,
+      n=>`Se quiser receber o seu também, clica no carrinho.`
+    ]},
+    {v:"Abrindo a Embalagem",s:[
+      n=>`Abrindo a embalagem do ${n} agora.`,
+      n=>`As mãos puxam o produto da embalagem sem mostrar dados pessoais.`,
+      (n,p)=>`O ${n} aparece limpo e centralizado, com close em ${p.details}.`,
+      n=>`Gostou? O carrinho está aqui para garantir o seu.`
+    ]},
+    {v:"Mostrando Textura",s:[
+      n=>`POV: olha a textura desse ${n}.`,
+      n=>`A câmera aproxima bastante sem distorcer, mostrando superfície e acabamento.`,
+      (n,p)=>`O ${n} aparece com foco em ${p.details}, mantendo as mãos estáveis.`,
+      n=>`Se esse detalhe te chamou atenção, clica no carrinho.`
+    ]},
+    {v:"Teste em Mesa",s:[
+      n=>`Testando o ${n} em uma mesa simples.`,
+      n=>`As mãos posicionam o produto e fazem uma demonstração curta.`,
+      (n,p)=>`O ${n} aparece em uso real, com close em ${p.details}.`,
+      n=>`Quer testar também? Clica no carrinho.`
+    ]},
+    {v:"Close de Compra Real",s:[
+      n=>`Esse é o close real do ${n} antes de decidir comprar.`,
+      n=>`As mãos mostram o produto sem filtro, com aparência realista.`,
+      (n,p)=>`O ${n} aparece em close com foco em ${p.details}.`,
+      n=>`Se gostou do que viu, clica no carrinho.`
+    ]}
+  ],
+  comparacao:[
+    {v:"TikTok Shop x Loja Física",s:[
+      n=>`Antes de pagar mais caro em loja física, olha esse ${n}.`,
+      n=>`A cena sugere comparação entre produto comum em loja e o achado online.`,
+      (n,p)=>`O ${n} aparece em comparação direta, com close em ${p.details}.`,
+      n=>`Se você quer escolher melhor, clica no carrinho e garante o seu ${n}.`
+    ]},
+    {v:"Antes de Comprar",s:[
+      n=>`Antes de comprar qualquer produto parecido, olha o ${n} de perto.`,
+      n=>`A pessoa mostra o que normalmente passa despercebido antes da compra.`,
+      (n,p)=>`O ${n} aparece em close, destacando ${p.details}.`,
+      n=>`Se quer evitar escolha errada, clica no carrinho.`
+    ]},
+    {v:"Produto Comum x Produto Melhor",s:[
+      n=>`Nem todo produto parecido entrega o mesmo resultado. Olha esse ${n}.`,
+      n=>`A cena mostra uma opção comum e depois apresenta o produto principal.`,
+      (n,p)=>`O ${n} é destacado com foco em ${p.details}.`,
+      n=>`Se prefere escolher melhor, aproveita no carrinho.`
+    ]},
+    {v:"Preço Antigo x Achado Atual",s:[
+      n=>`Eu vi coisa parecida mais cara, mas esse ${n} chamou atenção.`,
+      n=>`A cena mostra percepção de preço antigo versus oportunidade atual.`,
+      (n,p)=>`O ${n} aparece em uso real, com close em ${p.details}.`,
+      n=>`Se achou interessante, clica no carrinho.`
+    ]},
+    {v:"Visual Fraco x Visual Forte",s:[
+      n=>`Olha a diferença de visual quando o ${n} entra na cena.`,
+      n=>`A câmera mostra uma situação comum e depois o produto com melhor presença visual.`,
+      (n,p)=>`O ${n} aparece com foco em ${p.details}.`,
+      n=>`Quer esse resultado? Clica no carrinho.`
+    ]},
+    {v:"Barato que Parece Caro",s:[
+      n=>`Esse ${n} tem cara de produto muito mais caro.`,
+      n=>`A pessoa mostra o produto como achado de valor percebido alto.`,
+      (n,p)=>`O ${n} aparece em close, destacando ${p.details}.`,
+      n=>`Se quer aproveitar, clica no carrinho.`
+    ]},
+    {v:"Comparação de Acabamento",s:[
+      n=>`O acabamento desse ${n} é o que faz diferença.`,
+      n=>`A cena compara detalhe simples com o acabamento do produto principal.`,
+      (n,p)=>`O ${n} aparece com close em ${p.details}.`,
+      n=>`Se gostou do acabamento, clica no carrinho.`
+    ]},
+    {v:"Escolha Inteligente",s:[
+      n=>`Se fosse para escolher hoje, eu olharia esse ${n} primeiro.`,
+      n=>`A cena mostra uma decisão de compra mais prática e visual.`,
+      (n,p)=>`O ${n} aparece em uso real, com destaque em ${p.details}.`,
+      n=>`Clica no carrinho e garante o seu.`
+    ]},
+    {v:"Produto Errado x Produto Certo",s:[
+      n=>`Produto errado dá dor de cabeça. O ${n} parece uma escolha melhor.`,
+      n=>`A cena mostra alternativa fraca e depois o produto principal.`,
+      (n,p)=>`O ${n} aparece em close, com foco em ${p.details}.`,
+      n=>`Se quer acertar na escolha, clica no carrinho.`
+    ]},
+    {v:"Vale Mais a Pena",s:[
+      n=>`Esse ${n} parece valer mais a pena quando você vê de perto.`,
+      n=>`A pessoa mostra o produto e aponta visualmente seus diferenciais.`,
+      (n,p)=>`O ${n} aparece com foco em ${p.details}.`,
+      n=>`Se também achou que vale, clica no carrinho.`
+    ]}
+  ]
 };
 
 const CATEGORY = {
@@ -305,166 +763,6 @@ const CATEGORY = {
   generic:{label:"Produto Geral",scene:"ambiente brasileiro realista, mesa simples, luz natural, produto sendo mostrado de perto",subject:"pessoa brasileira adulta mostrando o produto com postura natural e movimentos simples",pain:"necessidade prática do dia a dia ou compra por oportunidade",desire:"resolver uma necessidade com praticidade",details:"material, acabamento, textura, formato, tamanho, função, proporção e uso real",demo:"O produto aparece em uso real, sendo mostrado pela pessoa, com foco nos detalhes visuais mais importantes. A cena destaca acabamento, material, estrutura, tamanho, proporção, função e utilidade real no contexto certo."}
 };
 
-const COPY_BANK = {
-  ugc:{
-    "Descoberta Real":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nEu quase deixei passar esse ${d.name}, mas olha os detalhes dele de perto.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa pega o ${d.name} como quem acabou de encontrar um achado real e mostra por que ele chama atenção logo nos primeiros segundos.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\n${d.profile.demo}`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe você também gostou do ${d.name}, clica no carrinho e garante o seu antes que acabe.`
-    ],
-    "Dor + Solução":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nIsso aqui resolve um problema que muita gente tem: ${d.profile.pain}.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa mostra rapidamente a situação sem o produto e cria identificação antes de apresentar o ${d.name}.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} entra em uso real, com close em ${d.profile.details}, mostrando como ajuda a ${d.profile.desire}.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe isso faz sentido para você, clica no carrinho e garante o seu ${d.name}.`
-    ],
-    "Arrependimento de Esperar":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nEu fiquei esperando promoção e quase fiquei sem o ${d.name}.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa mostra o produto com tom de arrependimento leve, explicando que demorou porque achou que ainda teria muito estoque.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece de perto, sendo mostrado com calma, destacando ${d.profile.details} e aparência real.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nNão espera demais. Se quiser o seu ${d.name}, clica no carrinho antes que acabe.`
-    ],
-    "Produto Bombando":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nEsse ${d.name} está aparecendo muito e agora eu entendi o motivo.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa mostra o produto como um achado que muita gente está comentando, com fala natural e sem parecer propaganda perfeita.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece em uso real, com close nos detalhes principais: ${d.profile.details}.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe quiser testar também, clica no carrinho e aproveita.`
-    ],
-    "Compra Inteligente":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nSabe aquele produto que parece simples, mas muda a experiência? Olha esse ${d.name}.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa explica de forma curta por que o produto é uma compra inteligente para ${d.profile.desire}.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\n${d.profile.demo}`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe você quer uma compra prática, clica no carrinho e garante o ${d.name}.`
-    ],
-    "Quase Fiquei Sem":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nEu coloquei no carrinho e quase perdi esse ${d.name}.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa mostra o produto rapidamente perto da câmera, com sensação de urgência e descoberta real.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} é mostrado em uso real, com close em ${d.profile.details}, reforçando por que valeu a compra.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe aparecer disponível para você, aproveita antes que suma.`
-    ],
-    "Mostrando Para Amiga":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nAmiga, olha esse ${d.name} que eu achei.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa fala como se estivesse mostrando para alguém próximo, aproximando o produto da câmera e destacando o primeiro detalhe que chama atenção.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece sendo mostrado com naturalidade, com foco em ${d.profile.details} e no uso real.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe você gostou também, clica no carrinho e pega o seu.`
-    ],
-    "Chegou Hoje":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nChegou hoje meu ${d.name} e eu precisava mostrar.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa mostra o produto recém-recebido, ainda com clima de unboxing simples e realista.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece sendo aberto, tocado e demonstrado, com close em ${d.profile.details}.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe você quer receber o seu também, clica no carrinho e aproveita.`
-    ],
-    "Testei e Gostei":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nEu testei o ${d.name} e gostei mais do que esperava.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa mostra o produto no contexto real de uso e explica o que mais chamou atenção.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece funcionando ou sendo usado, com foco nos detalhes principais: ${d.profile.details}.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe você estava em dúvida, vale olhar no carrinho agora.`
-    ],
-    "Achado Que Vale":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nEsse ${d.name} é aquele achado que vale mostrar.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA pessoa apresenta o produto com tom de recomendação espontânea, destacando visual, utilidade e acabamento.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece em uso real, com close em ${d.profile.details}, mostrando valor percebido.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe gostou do achado, clica no carrinho antes que acabe.`
-    ]
-  },
-
-  pov:{
-    "Hands Only Close":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nPOV: suas mãos pegam o ${d.name} e mostram por que ele chama atenção.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA câmera aproxima lentamente, sem rosto, mostrando textura, formato, acabamento e presença visual.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece centralizado entre as mãos, com close em ${d.profile.details}.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nGostou do ${d.name}? Clica no carrinho e garante o seu.`
-    ],
-    "Unboxing Simples":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nPOV: você acabou de receber o ${d.name}.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nAs mãos retiram o produto da embalagem simples, colocam sobre a mesa e aproximam da câmera.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece sendo retirado, posicionado e mostrado de perto, com foco em ${d.profile.details}.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nQuer receber o seu também? Clica no carrinho e aproveita.`
-    ],
-    "Teste de Uso":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nPOV: você testa o ${d.name} em poucos segundos.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nAs mãos mostram o produto apoiado em ambiente realista e fazem uma única ação simples para demonstrar a função.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece em uso prático, com close em ${d.profile.details}, mantendo o produto estável e visível.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe esse ${d.name} faz sentido para você, clica no carrinho.`
-    ],
-    "Produto na Mão":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nPOV: olha esse ${d.name} na mão, de perto.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nA câmera mostra o tamanho real, proporção, material e acabamento sem movimentos bruscos.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} é girado lentamente uma vez, com foco em ${d.profile.details}, mostrando aparência real e função.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe gostou, clica no carrinho e garante o seu ${d.name}.`
-    ],
-    "Detalhe Satisfatório":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nO detalhe desse ${d.name} de perto é o que chama atenção.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nAs mãos aproximam o produto, deixando a câmera focar na textura, acabamento e partes principais.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece em close satisfatório, com foco em ${d.profile.details}, sem rosto e sem distrações.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nQuer esse acabamento também? Clica no carrinho.`
-    ],
-    "Recebido em Casa":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nPOV: o ${d.name} chegou em casa e eu fui ver se valia a pena.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nAs mãos colocam o produto sobre uma mesa simples e mostram a primeira impressão.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece de perto, com foco em ${d.profile.details}, como vídeo real de compra recebida.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe você quer testar também, clica no carrinho.`
-    ],
-    "Abrindo a Embalagem":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nAbrindo o ${d.name} agora. Olha como ele vem.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nAs mãos abrem a embalagem simples, sem mostrar dados pessoais, e retiram o produto com cuidado.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} é colocado na mesa e mostrado em close, destacando ${d.profile.details}.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nGostou? Clica no carrinho e garante o seu.`
-    ],
-    "Mostrando Textura":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nPOV: olha a textura desse ${d.name} de perto.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nAs mãos aproximam o produto lentamente para a câmera, sem movimentos rápidos.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece em macro close, com foco em textura, acabamento e detalhes: ${d.profile.details}.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe você também repara nos detalhes, clica no carrinho.`
-    ],
-    "Teste em Mesa":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nPOV: testando o ${d.name} na mesa em poucos segundos.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nO produto é colocado em uma superfície simples, com mãos posicionando para mostrar proporção e uso.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} é demonstrado em uma única ação clara, com close em ${d.profile.details}.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe achou útil, clica no carrinho e aproveita.`
-    ],
-    "Close de Compra Real":d=>[
-      `━━━━ CENA 1 — Scroll Stop ━━━━\nClose real do ${d.name}, sem filtro e sem enrolação.`,
-      `━━━━ CENA 2 — Curiosidade ━━━━\nAs mãos seguram o produto perto da câmera para mostrar o que realmente chega para o cliente.`,
-      `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${d.name} aparece com foco em ${d.profile.details}, mantendo aparência real de compra online.`,
-      `━━━━ CENA 4 — CTA · CTA ━━━━\nSe era isso que você queria ver, clica no carrinho.`
-    ]
-  }
-};
-
-function getFallbackScenes(styleId,variation,d){
-  const n=d.name,p=d.profile;
-  if(styleId==="fabrica") return [
-    `━━━━ CENA 1 — Scroll Stop ━━━━\nOlha esse lote de ${n} sendo separado no bastidor.`,
-    `━━━━ CENA 2 — Bastidor / Estoque ━━━━\nA câmera mostra bancada, caixas simples, produtos separados e mãos conferindo o pedido.`,
-    `━━━━ CENA 3 — Conferência / Detalhes ━━━━\nO ${n} aparece sobre a bancada, com close em ${p.details}.`,
-    `━━━━ CENA 4 — Embalagem / Saída do Pedido ━━━━\nAs mãos embalam ou organizam o produto para envio, mantendo aparência realista.`,
-    `━━━━ CENA 5 — CTA · CTA ━━━━\nSe você quer garantir o seu ${n}, aproveita enquanto esse lote ainda está disponível.`
-  ];
-  if(styleId==="bras") return [
-    `━━━━ CENA 1 — Scroll Stop ━━━━\nAchado de feira shop: olha esse ${n}.`,
-    `━━━━ CENA 2 — Movimento / Box ━━━━\nA câmera mostra box popular movimentado, produtos expostos e vendedor mostrando o item.`,
-    `━━━━ CENA 3 — Demonstração / Detalhes ━━━━\nO ${n} aparece em ambiente comercial, com close em ${p.details}.`,
-    `━━━━ CENA 4 — Urgência / Lote ━━━━\nA cena mostra poucas unidades e clima de oportunidade.`,
-    `━━━━ CENA 5 — CTA · CTA ━━━━\nClica no carrinho antes que acabe.`
-  ];
-  if(styleId==="loja") return [
-    `━━━━ CENA 1 — Scroll Stop ━━━━\nAchei esse ${n} em loja e tive que mostrar.`,
-    `━━━━ CENA 2 — Loja / Prateleira ━━━━\nA câmera mostra prateleira, balcão simples e produto sendo retirado para demonstração.`,
-    `━━━━ CENA 3 — Demonstração / Detalhes ━━━━\nO ${n} aparece na mão ou sobre o balcão, com close em ${p.details}.`,
-    `━━━━ CENA 4 — Preço / Oportunidade ━━━━\nA pessoa mostra o produto como achado útil e visualmente interessante.`,
-    `━━━━ CENA 5 — CTA · CTA ━━━━\nSe gostou do ${n}, clica no carrinho.`
-  ];
-  if(styleId==="comparacao") return [
-    `━━━━ CENA 1 — Scroll Stop ━━━━\nAntes de comprar qualquer produto parecido, olha o ${n}.`,
-    `━━━━ CENA 2 — Comparação ━━━━\nA cena mostra uma alternativa comum e depois apresenta o ${n} como escolha melhor.`,
-    `━━━━ CENA 3 — Demonstração Detalhada ━━━━\nO ${n} aparece em comparação direta, com close em ${p.details}.`,
-    `━━━━ CENA 4 — CTA · CTA ━━━━\nSe você quer escolher melhor, clica no carrinho.`
-  ];
-  return COPY_BANK.ugc["Descoberta Real"](d);
-}
-
 const counts = {};
 Object.keys(STYLE_LIBRARY).forEach(k=>counts[k]=0);
 
@@ -473,6 +771,7 @@ function renderStyles(){
   const exclusive=document.getElementById("exclusiveButtons");
   grid.innerHTML="";
   exclusive.innerHTML="";
+
   Object.entries(STYLE_LIBRARY).forEach(([id,s])=>{
     const card=document.createElement("div");
     card.className="style-card";
@@ -480,7 +779,7 @@ function renderStyles(){
       <div class="style-top">
         <div>
           <div class="style-name">${s.icon} ${s.title}</div>
-          <div class="style-sub">${s.subtitle} · ${s.scenes} cenas · 10 variações</div>
+          <div class="style-sub">${s.subtitle} · ${s.scenes} cenas · 10 copies reais</div>
           <div class="style-desc">${s.desc}</div>
         </div>
         <div class="counter">
@@ -490,12 +789,14 @@ function renderStyles(){
         </div>
       </div>`;
     grid.appendChild(card);
+
     const btn=document.createElement("button");
     btn.className="exclusive";
     btn.textContent=`${s.icon} ${s.title}`;
     btn.onclick=()=>generateExclusive(id);
     exclusive.appendChild(btn);
   });
+
   updateTotal();
   renderVariationPreview();
 }
@@ -524,11 +825,12 @@ function renderRefs(){
 function renderVariationPreview(){
   const box=document.getElementById("variationPreview");
   box.innerHTML="";
-  Object.entries(STYLE_LIBRARY).forEach(([styleId,style])=>{
-    style.variations.forEach((v,i)=>{
+  Object.keys(COPY_BANK).forEach(styleId=>{
+    const style=STYLE_LIBRARY[styleId];
+    COPY_BANK[styleId].forEach((item,i)=>{
       const card=document.createElement("div");
       card.className="variation-card";
-      card.innerHTML=`<strong>${style.icon} ${style.title} · ${i+1}</strong><span>${v}<br>${style.subtitle} · ${style.scenes} cenas</span>`;
+      card.innerHTML=`<strong>${style.icon} ${style.title} · ${i+1}</strong><span>${item.v}<br>${style.subtitle} · copy real completa</span>`;
       card.onclick=()=>generateVariation(styleId,i+1);
       box.appendChild(card);
     });
@@ -550,10 +852,10 @@ function resetCounts(show=true){
   Object.keys(counts).forEach(k=>counts[k]=0);
   Object.keys(STYLE_LIBRARY).forEach(k=>{
     const el=document.getElementById("count-"+k);
-    if(el) el.textContent=0;
+    if(el)el.textContent=0;
   });
   updateTotal();
-  if(show) showMessage("Modelos zerados.");
+  if(show)showMessage("Modelos zerados.");
 }
 
 document.getElementById("imageUpload").addEventListener("change",function(e){
@@ -576,26 +878,32 @@ document.getElementById("imageUpload").addEventListener("change",function(e){
   });
 });
 
-function normalizeText(t){return (t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
+function normalizeText(t){
+  return (t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
+
 function detectCategory(text){
   const t=normalizeText(text);
-  if(t.match(/jaqueta|casaco|bobojaco|puffer|moletom|camisa|camiseta|calça|calca|vestido|blusa|tenis|tênis|sapato|sandalia|sandália|roupa|moda|capuz|ziper|zíper/)) return "fashion";
-  if(t.match(/prateleira|nicho|mesa|decoracao|decoração|mdf|casa|cozinha|sala|quarto|organizador|parede/)) return "home";
-  if(t.match(/fone|bluetooth|radio|rádio|caixa de som|smartwatch|teclado|mouse|camera|câmera|led|usb|eletrônico|eletronico|bateria/)) return "electronics";
-  if(t.match(/creme|serum|sérum|shampoo|maquiagem|batom|base|hidratante|skincare|beleza|perfume/)) return "beauty";
-  if(t.match(/ferramenta|furadeira|parafusadeira|alicate|martelo|serra|broca|oficina/)) return "tools";
-  if(t.match(/pet|cachorro|gato|comedouro|bebedouro|coleira/)) return "pets";
-  return "generic";
+  if(t.match(/jaqueta|casaco|bobojaco|puffer|moletom|camisa|camiseta|calça|calca|vestido|blusa|tenis|tênis|sapato|sandalia|sandália|roupa|moda|capuz|ziper|zíper/))return"fashion";
+  if(t.match(/prateleira|nicho|mesa|decoracao|decoração|mdf|casa|cozinha|sala|quarto|organizador|parede/))return"home";
+  if(t.match(/fone|bluetooth|radio|rádio|caixa de som|smartwatch|teclado|mouse|camera|câmera|led|usb|eletrônico|eletronico|bateria/))return"electronics";
+  if(t.match(/creme|serum|sérum|shampoo|maquiagem|batom|base|hidratante|skincare|beleza|perfume/))return"beauty";
+  if(t.match(/ferramenta|furadeira|parafusadeira|alicate|martelo|serra|broca|oficina/))return"tools";
+  if(t.match(/pet|cachorro|gato|comedouro|bebedouro|coleira/))return"pets";
+  return"generic";
 }
 
 function getProductData(){
   const name=document.getElementById("productTitle").value.trim();
   const desc=document.getElementById("productDescription").value.trim();
-  if(!name){showMessage("Digite o nome do produto.");return null;}
+  if(!name){
+    showMessage("Digite o nome do produto.");
+    return null;
+  }
   let cat=document.getElementById("category").value;
-  if(cat==="auto") cat=detectCategory(name+" "+desc+" "+uploadedFileNames.join(" "));
+  if(cat==="auto")cat=detectCategory(name+" "+desc+" "+uploadedFileNames.join(" "));
   const profile=CATEGORY[cat]||CATEGORY.generic;
-  return {
+  return{
     name,
     desc:desc||"produto físico de e-commerce com características conforme imagem e título",
     categoryId:cat,
@@ -609,33 +917,42 @@ function getProductData(){
 }
 
 function generateExclusive(styleId){
-  const d=getProductData(); if(!d)return;
+  const d=getProductData();
+  if(!d)return;
   generatedPrompts=[makePrompt(styleId,d,1,1)];
-  currentPromptIndex=0; currentSceneKey="full";
-  renderOutput(); saveHistory(`${d.name} - ${STYLE_LIBRARY[styleId].title}`,generatedPrompts);
+  currentPromptIndex=0;
+  currentSceneKey="full";
+  renderOutput();
+  saveHistory(`${d.name} - ${STYLE_LIBRARY[styleId].title}`,generatedPrompts);
   showMessage("Prompt exclusivo gerado!");
 }
 
 function generateVariation(styleId,variationIndex){
-  const d=getProductData(); if(!d)return;
+  const d=getProductData();
+  if(!d)return;
   generatedPrompts=[makePrompt(styleId,d,1,variationIndex)];
-  currentPromptIndex=0; currentSceneKey="full";
-  setRightTab("results"); renderOutput();
-  saveHistory(`${d.name} - ${STYLE_LIBRARY[styleId].title} - ${STYLE_LIBRARY[styleId].variations[variationIndex-1]}`,generatedPrompts);
+  currentPromptIndex=0;
+  currentSceneKey="full";
+  setRightTab("results");
+  renderOutput();
+  saveHistory(`${d.name} - ${STYLE_LIBRARY[styleId].title} - ${COPY_BANK[styleId][variationIndex-1].v}`,generatedPrompts);
   showMessage("Variação gerada!");
 }
 
 function generateCampaign(){
-  const d=getProductData(); if(!d)return;
+  const d=getProductData();
+  if(!d)return;
   generatedPrompts=[];
   let index=1;
+
   if(document.getElementById("mixedMode").checked){
     const total=Number(document.getElementById("mixedTotal").value||5);
     const order=getSmartMix(document.getElementById("campaignGoal").value);
+    const used={};
     for(let i=0;i<total;i++){
       const styleId=order[i%order.length];
-      const occurrence=Math.floor(i/order.length)+1;
-      generatedPrompts.push(makePrompt(styleId,d,index,occurrence));
+      used[styleId]=(used[styleId]||0)+1;
+      generatedPrompts.push(makePrompt(styleId,d,index,used[styleId]));
       index++;
     }
   }else{
@@ -646,49 +963,81 @@ function generateCampaign(){
       }
     });
   }
-  if(!generatedPrompts.length){showMessage("Escolha pelo menos 1 modelo ou ligue o modo variado.");return;}
-  currentPromptIndex=0; currentSceneKey="full";
-  setRightTab("results"); renderOutput(); saveHistory(d.name,generatedPrompts);
+
+  if(!generatedPrompts.length){
+    showMessage("Escolha pelo menos 1 modelo ou ligue o modo variado.");
+    return;
+  }
+
+  currentPromptIndex=0;
+  currentSceneKey="full";
+  setRightTab("results");
+  renderOutput();
+  saveHistory(d.name,generatedPrompts);
   showMessage("Campanha gerada com Copy Bank Real!");
 }
 
 function getSmartMix(goal){
-  if(goal==="sales") return ["ugc","comparacao","pov","loja","bras","fabrica"];
-  if(goal==="proof") return ["fabrica","loja","bras","pov","ugc","comparacao"];
-  if(goal==="viral") return ["ugc","bras","pov","comparacao","loja","fabrica"];
-  return ["ugc","pov","comparacao","fabrica","bras","loja"];
+  if(goal==="sales")return["ugc","comparacao","pov","loja","bras","fabrica"];
+  if(goal==="proof")return["fabrica","loja","bras","pov","ugc","comparacao"];
+  if(goal==="viral")return["ugc","bras","pov","comparacao","loja","fabrica"];
+  return["ugc","pov","comparacao","fabrica","bras","loja"];
 }
 
 function makePrompt(styleId,d,index,occurrence){
   const style=STYLE_LIBRARY[styleId];
-  const variation=style.variations[(occurrence-1)%style.variations.length];
-  const scenes=buildScenes(styleId,variation,d);
-  const technical=buildTechnical(styleId,d,variation);
-  const full=`━━━━ PROMPT ${index} — ${style.title} · ${style.subtitle} · ${variation.toUpperCase()} ━━━━\n\n${scenes.join("\n\n")}\n\n${technical}`;
-  return {id:index,styleId,styleTitle:style.title,variation,approved:false,scenes:{scene1:scenes[0]||"",scene2:scenes[1]||"",scene3:scenes[2]||"",scene4:scenes[3]||"",scene5:scenes[4]||"",technical,full}};
+  const bank=COPY_BANK[styleId]||COPY_BANK.ugc;
+  const item=bank[(occurrence-1)%bank.length];
+  const scenes=buildScenesFromBank(item,d);
+  const technical=buildTechnical(styleId,d,item.v);
+  const full=`━━━━ PROMPT ${index} — ${style.title} · ${style.subtitle} · ${item.v.toUpperCase()} ━━━━
+
+${scenes.join("\n\n")}
+
+${technical}`;
+  return{
+    id:index,
+    styleId,
+    styleTitle:style.title,
+    variation:item.v,
+    approved:false,
+    scenes:{
+      scene1:scenes[0]||"",
+      scene2:scenes[1]||"",
+      scene3:scenes[2]||"",
+      scene4:scenes[3]||"",
+      scene5:scenes[4]||"",
+      technical,
+      full
+    }
+  };
 }
 
-function buildScenes(styleId,variation,d){
-  if(COPY_BANK[styleId] && COPY_BANK[styleId][variation]) return COPY_BANK[styleId][variation](d);
-  return getFallbackScenes(styleId,variation,d);
+function buildScenesFromBank(item,d){
+  return item.s.map((fn,i)=>{
+    const title=i===0?"CENA 1 — Scroll Stop":i===1?"CENA 2 — Desenvolvimento":i===2?"CENA 3 — Demonstração Detalhada":i===3?"CENA 4 — Reforço / Ação":"CENA 5 — CTA · CTA";
+    const raw=fn(d.name,d.profile);
+    return raw.startsWith("━━━━")?raw:`━━━━ ${title} ━━━━\n${raw}`;
+  });
 }
 
 function buildTechnical(styleId,d,variation){
   const p=d.profile;
   let scene=d.manualScene||p.scene;
-  if(styleId==="fabrica") scene=d.manualScene||"bastidor brasileiro realista de fábrica, estoque ou pequena operação de e-commerce, com bancada de conferência, caixas simples, produtos separados, embalagem básica, etiquetas sem dados legíveis, luz natural misturada com iluminação interna simples";
-  if(styleId==="bras") scene=d.manualScene||"feira shop brasileira estilo Brás, box popular movimentado, araras, prateleiras, sacolas, vendedores ao fundo, produtos expostos, ambiente comercial realista, luz simples de loja popular";
-  if(styleId==="loja") scene=d.manualScene||"loja brasileira popular de varejo, prateleiras, balcão simples, cartazes promocionais sem textos legíveis, produto sendo mostrado por atendente ou cliente, iluminação interna realista";
-  if(styleId==="pov") scene=d.manualScene||"ambiente brasileiro realista adequado ao produto, mesa simples, bancada, quarto, loja ou superfície neutra, com foco total nas mãos e no produto";
-  if(styleId==="comparacao") scene=d.manualScene||"ambiente brasileiro realista de comparação, podendo ser loja popular, bancada simples, mesa doméstica ou cenário neutro, mostrando alternativa comum e o produto principal lado a lado";
-  if(styleId==="ugc") scene=d.manualScene||"ambiente doméstico brasileiro realista adequado ao produto, com luz natural, aparência de gravação de smartphone, sem cara de estúdio";
+
+  if(styleId==="fabrica")scene=d.manualScene||"bastidor brasileiro realista de fábrica, estoque ou pequena operação de e-commerce, com bancada de conferência, caixas simples, produtos separados, embalagem básica, etiquetas sem dados legíveis, luz natural misturada com iluminação interna simples";
+  if(styleId==="bras")scene=d.manualScene||"feira shop brasileira estilo Brás, box popular movimentado, araras, prateleiras, sacolas, vendedores ao fundo, produtos expostos, ambiente comercial realista, luz simples de loja popular";
+  if(styleId==="loja")scene=d.manualScene||"loja brasileira popular de varejo, prateleiras, balcão simples, cartazes promocionais sem textos legíveis, produto sendo mostrado por atendente ou cliente, iluminação interna realista";
+  if(styleId==="pov")scene=d.manualScene||"ambiente brasileiro realista adequado ao produto, mesa simples, bancada, quarto, loja ou superfície neutra, com foco total nas mãos e no produto";
+  if(styleId==="comparacao")scene=d.manualScene||"ambiente brasileiro realista de comparação, podendo ser loja popular, bancada simples, mesa doméstica ou cenário neutro, mostrando alternativa comum e o produto principal lado a lado";
+  if(styleId==="ugc")scene=d.manualScene||"ambiente doméstico brasileiro realista adequado ao produto, com luz natural, aparência de gravação de smartphone, sem cara de estúdio";
 
   let subject=p.subject;
-  if(styleId==="pov") subject=`POV hands only, no face, two realistic adult hands showing the ${d.name}.`;
-  if(styleId==="fabrica") subject=`two realistic adult hands working in a warehouse/factory-style packing table, checking, handling and preparing the ${d.name}. No face required.`;
-  if(styleId==="bras") subject=`Brazilian seller or adult hands showing the ${d.name} in a busy popular feira shop environment, natural sales gesture, realistic movement.`;
-  if(styleId==="loja") subject=`Brazilian retail attendant or customer hands showing the ${d.name} in a simple store environment, natural product demonstration.`;
-  if(styleId==="comparacao") subject=`one Brazilian adult person or two realistic hands comparing the ${d.name} with a common alternative, simple and clear demonstration.`;
+  if(styleId==="pov")subject=`POV hands only, no face, two realistic adult hands showing the ${d.name}.`;
+  if(styleId==="fabrica")subject=`two realistic adult hands working in a warehouse/factory-style packing table, checking, handling and preparing the ${d.name}. No face required.`;
+  if(styleId==="bras")subject=`Brazilian seller or adult hands showing the ${d.name} in a busy popular feira shop environment, natural sales gesture, realistic movement.`;
+  if(styleId==="loja")subject=`Brazilian retail attendant or customer hands showing the ${d.name} in a simple store environment, natural product demonstration.`;
+  if(styleId==="comparacao")subject=`one Brazilian adult person or two realistic hands comparing the ${d.name} with a common alternative, simple and clear demonstration.`;
 
   const wardrobe=d.wardrobe?`Wardrobe: ${d.wardrobe}.`:getDefaultWardrobe(styleId);
   const props=d.secondary?`Secondary products / props: ${d.secondary}.`:getDefaultProps(styleId);
@@ -705,4 +1054,277 @@ ${props}
 Main product: ${d.name}.
 Category: ${p.label}.
 Description/specs: ${d.desc}.
-Key
+Key details to show: ${p.details}.
+Reference images: ${d.refImages}.
+The product must remain faithful to the uploaded images, title and description.
+
+[CAMERA]:
+smartphone camera, vertical 9:16, realistic handheld recording, stable framing, natural autofocus shift, close-ups on product details, subtle sensor noise.
+
+[LIGHTING]:
+natural daylight mixed with simple indoor lighting, realistic Brazilian environment, no studio look.
+
+[STYLE]:
+authentic UGC / Brazilian commerce video, realistic, not cinematic, not polished advertising.
+
+[DURATION]:
+${d.duration}
+
+[STYLE LOCK]:
+Selected style: ${STYLE_LIBRARY[styleId].title} / ${STYLE_LIBRARY[styleId].subtitle}.
+Variation: ${variation}.
+Follow the scene structure exactly.
+Do not mix this style with another environment.
+
+[PRODUCT LOCK]:
+Do not replace the product.
+Do not redesign the product.
+Do not change color, category, shape, material, size, finish, quantity or function.
+No invented features.
+
+[ANATOMY LOCK]:
+If humans or hands appear: one person only when applicable, exactly two arms, two hands, five fingers per hand, natural wrists, no duplicated limbs, no extra fingers.
+
+[MOTION LOCK]:
+One simple action per scene.
+Slow controlled movement.
+No fast hand switching.
+No overlapping arms.
+No abrupt camera shake.
+
+[NEGATIVE PROMPT]:
+beauty filter, skin smoothing, studio lighting, cinematic lighting, cellphone interface, recording UI, TikTok interface, battery icon, notification icons, extra arms, extra hands, extra fingers, missing fingers, fused fingers, malformed hands, distorted anatomy, product redesign, wrong product, wrong color, wrong material, fake labels, unreadable brand invention, professional studio background, luxury showroom, cartoon style.`;
+}
+
+function getDefaultWardrobe(styleId){
+  if(styleId==="fabrica")return"Wardrobe: simple warehouse/packing worker outfit, neutral t-shirt or apron, realistic and not branded.";
+  if(styleId==="bras")return"Wardrobe: popular Brazilian seller outfit, casual clothes or simple store uniform, realistic feira shop style.";
+  if(styleId==="loja")return"Wardrobe: simple Brazilian retail store uniform or casual attendant outfit, realistic and not branded.";
+  if(styleId==="pov")return"Wardrobe: not visible, hands only.";
+  if(styleId==="comparacao")return"Wardrobe: simple realistic UGC outfit suitable for comparing products.";
+  return"Wardrobe: simple realistic UGC outfit suitable for the scene.";
+}
+
+function getDefaultProps(styleId){
+  if(styleId==="fabrica")return"Secondary products / props: packing table, cardboard boxes, simple plastic packaging, product units, shipping bags, labels without readable personal data.";
+  if(styleId==="bras")return"Secondary products / props: feira shop box, simple racks, shelves, bags, product stacks, popular commerce background, no readable brand signs.";
+  if(styleId==="loja")return"Secondary products / props: retail shelves, counter, simple promotional signs without readable text, product display, shopping bag.";
+  if(styleId==="pov")return"Secondary products / props: simple table, neutral surface, product packaging if useful, no distracting objects.";
+  if(styleId==="comparacao")return"Secondary products / props: common alternative product, simple table or store shelf, side-by-side comparison setup.";
+  return"Secondary products / props: simple packaging, table, shelf or neutral realistic items only when useful.";
+}
+
+function renderOutput(){
+  renderPromptTabs();
+  renderSceneTabs();
+  renderViewer();
+  document.getElementById("copyBar").style.display=generatedPrompts.length?"block":"none";
+  updateAnalytics();
+}
+
+function renderPromptTabs(){
+  const tabs=document.getElementById("promptTabs");
+  tabs.innerHTML="";
+  generatedPrompts.forEach((p,i)=>{
+    const wrap=document.createElement("div");
+    wrap.className="prompt-tab-wrap";
+    const btn=document.createElement("button");
+    btn.className="tab"+(i===currentPromptIndex?" active":"");
+    btn.innerHTML=`${p.styleTitle} ${p.id}${p.approved?'<span class="approved">OK</span>':''}`;
+    btn.onclick=()=>{currentPromptIndex=i;currentSceneKey="full";renderOutput();};
+    const copy=document.createElement("button");
+    copy.className="copy-mini";
+    copy.textContent="Copiar";
+    copy.onclick=(e)=>{e.stopPropagation();copyText(p.scenes.full,`Prompt ${p.id} copiado!`);};
+    wrap.appendChild(btn);
+    wrap.appendChild(copy);
+    tabs.appendChild(wrap);
+  });
+}
+
+function renderSceneTabs(){
+  const tabs=document.getElementById("sceneTabs");
+  tabs.innerHTML="";
+  if(!generatedPrompts.length)return;
+  const p=generatedPrompts[currentPromptIndex];
+  const keys=[["scene1","Cena 1"],["scene2","Cena 2"],["scene3","Cena 3"],["scene4","Cena 4"]];
+  if(p.scenes.scene5)keys.push(["scene5","Cena 5"]);
+  keys.push(["technical","Técnico"],["full","Prompt Completo"]);
+  keys.forEach(([key,label])=>{
+    const btn=document.createElement("button");
+    btn.className="tab"+(key===currentSceneKey?" active":"");
+    btn.textContent=label;
+    btn.onclick=()=>{currentSceneKey=key;renderSceneTabs();renderViewer();};
+    tabs.appendChild(btn);
+  });
+}
+
+function renderViewer(){
+  const viewer=document.getElementById("viewer");
+  if(!generatedPrompts.length){
+    viewer.className="empty";
+    viewer.textContent="Preencha os dados e gere um prompt exclusivo ou uma campanha.";
+    document.getElementById("copyBar").style.display="none";
+    return;
+  }
+  viewer.className="viewer";
+  const p=generatedPrompts[currentPromptIndex];
+  viewer.textContent=p.scenes[currentSceneKey]||p.scenes.full;
+}
+
+function getCurrentPrompt(){return generatedPrompts[currentPromptIndex]||null;}
+
+function copyText(text,msg){
+  if(!text){showMessage("Nada para copiar.");return;}
+  navigator.clipboard.writeText(text).then(()=>showMessage(msg||"Copiado!")).catch(()=>showMessage("Não foi possível copiar."));
+}
+
+function copyCurrentPromptFull(){const p=getCurrentPrompt();if(!p)return showMessage("Gere um prompt primeiro.");copyText(p.scenes.full,"Prompt completo copiado!");}
+function copyCurrentSceneOnly(){const p=getCurrentPrompt();if(!p)return showMessage("Gere um prompt primeiro.");copyText(p.scenes[currentSceneKey]||p.scenes.full,"Cena atual copiada!");}
+function copySceneWithTechnical(){
+  const p=getCurrentPrompt();
+  if(!p)return showMessage("Gere um prompt primeiro.");
+  let text="";
+  if(currentSceneKey==="full")text=p.scenes.full;
+  else if(currentSceneKey==="technical")text=p.scenes.technical;
+  else text=(p.scenes[currentSceneKey]||"")+"\n\n"+p.scenes.technical;
+  copyText(text,"Cena + técnico copiado!");
+}
+function copyCurrentView(){const p=getCurrentPrompt();if(!p)return showMessage("Gere um prompt primeiro.");copyText(p.scenes[currentSceneKey]||p.scenes.full,"Aba atual copiada!");}
+function copyAll(){if(!generatedPrompts.length)return showMessage("Gere uma campanha primeiro.");copyText(generatedPrompts.map(p=>p.scenes.full).join("\n\n"),"Tudo copiado!");}
+
+function approveCurrent(){
+  const p=getCurrentPrompt();
+  if(!p)return showMessage("Gere um prompt primeiro.");
+  p.approved=true;
+  renderOutput();
+  showMessage("Prompt aprovado!");
+}
+
+function favoriteCurrent(){
+  const p=getCurrentPrompt();
+  if(!p)return showMessage("Gere um prompt primeiro.");
+  const favs=JSON.parse(localStorage.getItem("promptflow_v52_favorites")||"[]");
+  favs.unshift({title:`${p.styleTitle} · ${p.variation}`,date:new Date().toLocaleString("pt-BR"),prompt:p});
+  localStorage.setItem("promptflow_v52_favorites",JSON.stringify(favs.slice(0,30)));
+  renderFavorites();
+  updateAnalytics();
+  showMessage("Adicionado aos favoritos!");
+}
+
+function downloadTxt(){
+  if(!generatedPrompts.length)return showMessage("Gere uma campanha primeiro.");
+  const title=document.getElementById("productTitle").value.trim()||"promptflow";
+  const safe=title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+  const blob=new Blob([generatedPrompts.map(p=>p.scenes.full).join("\n\n")],{type:"text/plain;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download=safe+"-promptflow-v5-2.txt";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showMessage("Arquivo baixado.");
+}
+
+function saveHistory(title,prompts){
+  const history=JSON.parse(localStorage.getItem("promptflow_v52_history")||"[]");
+  history.unshift({title,date:new Date().toLocaleString("pt-BR"),prompts});
+  localStorage.setItem("promptflow_v52_history",JSON.stringify(history.slice(0,20)));
+  renderHistory();
+}
+
+function renderHistory(){
+  const list=document.getElementById("historyList");
+  const history=JSON.parse(localStorage.getItem("promptflow_v52_history")||"[]");
+  if(!history.length){list.innerHTML="Nenhuma campanha salva ainda.";return;}
+  list.innerHTML="";
+  history.forEach(item=>{
+    const div=document.createElement("div");
+    div.className="history-item";
+    div.innerHTML=`<strong>${item.title}</strong><br>${item.date} · ${item.prompts.length} prompt(s)`;
+    div.onclick=()=>{
+      generatedPrompts=item.prompts;
+      currentPromptIndex=0;
+      currentSceneKey="full";
+      setRightTab("results");
+      renderOutput();
+      showMessage("Histórico carregado.");
+    };
+    list.appendChild(div);
+  });
+}
+
+function renderFavorites(){
+  const list=document.getElementById("favoritesList");
+  const favs=JSON.parse(localStorage.getItem("promptflow_v52_favorites")||"[]");
+  if(!favs.length){list.innerHTML="Nenhum favorito ainda.";return;}
+  list.innerHTML="";
+  favs.forEach(item=>{
+    const div=document.createElement("div");
+    div.className="history-item";
+    div.innerHTML=`<strong>${item.title}</strong><br>${item.date}`;
+    div.onclick=()=>{
+      generatedPrompts=[item.prompt];
+      currentPromptIndex=0;
+      currentSceneKey="full";
+      setRightTab("results");
+      renderOutput();
+      showMessage("Favorito carregado.");
+    };
+    list.appendChild(div);
+  });
+}
+
+function updateAnalytics(){
+  document.getElementById("metricGenerated").textContent=generatedPrompts.length;
+  document.getElementById("metricApproved").textContent=generatedPrompts.filter(p=>p.approved).length;
+  const favs=JSON.parse(localStorage.getItem("promptflow_v52_favorites")||"[]");
+  document.getElementById("metricFavorites").textContent=favs.length;
+  const styleCount={};
+  generatedPrompts.forEach(p=>styleCount[p.styleTitle]=(styleCount[p.styleTitle]||0)+1);
+  const top=Object.entries(styleCount).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById("metricTopStyle").textContent=top?top[0]:"--";
+}
+
+function setRightTab(tab){
+  ["results","variations","favorites","history"].forEach(t=>{
+    document.getElementById("panel-"+t).style.display=t===tab?"block":"none";
+    document.getElementById("tab-"+t).classList.toggle("active",t===tab);
+  });
+  if(tab==="favorites")renderFavorites();
+  if(tab==="history")renderHistory();
+}
+
+function clearResults(){
+  generatedPrompts=[];
+  currentPromptIndex=0;
+  currentSceneKey="full";
+  document.getElementById("promptTabs").innerHTML="";
+  document.getElementById("sceneTabs").innerHTML="";
+  renderViewer();
+  updateAnalytics();
+  showMessage("Resultado limpo.");
+}
+
+function showMessage(msg){
+  const toast=document.getElementById("toast");
+  toast.textContent=msg;
+  toast.style.display="block";
+  setTimeout(()=>toast.style.display="none",1800);
+}
+
+window.addEventListener("load",()=>{
+  renderStyles();
+  renderRefs();
+  renderVariationPreview();
+  renderHistory();
+  renderFavorites();
+  updateAnalytics();
+  renderViewer();
+});
+</script>
+
+</body>
+</html>
